@@ -1,78 +1,9 @@
-import { Link } from 'react-router-dom'
-import '../../App.css'
-import logo from '../../assets/img/logo.png'
+import React from "react";
 
-const Header = () => {
+const AboutPage = () => {
   return (
     <div>
-      <header>
-        <div className="header-area">
-          <div className="header-top_area">
-            <div className="container-fluid">
-              <div className="row">
-                <div className="col-xl-6 col-md-12 col-lg-8">
-                  <div className="short_contact_list">
-                    <ul>
-                      <li><Link to="#"><i className="fa fa-phone"></i> +1 (454) 556-5656</Link></li>
-                      <li><Link to="#"><i className="fa fa-envelope"></i>Yourmail@gmail.com</Link></li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-xl-6 col-md-6 col-lg-4">
-                  <div className="social_media_links d-none d-lg-block">
-                    <Link to="#"><i className="fa fa-facebook"></i></Link>
-                    <Link to="#"><i className="fa fa-pinterest-p"></i></Link>
-                    <Link to="#"><i className="fa fa-linkedin"></i></Link>
-                    <Link to="#"><i className="fa fa-twitter"></i></Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="sticky-header" className="main-header-area">
-            <div className="container-fluid">
-              <div className="row align-items-center">
-                <div className="col-xl-3 col-lg-3">
-                  <div className="logo">
-                    <Link to="index.html"><img src="img/logo.png" alt="logo" /></Link>
-                  </div>
-                </div>
-                <div className="col-xl-9 col-lg-9">
-                  <div className="main-menu">
-                    <nav>
-                      <ul id="navigation">
-                        <li><Link to="/">home</Link></li>
-                        <li><Link to="/about-page">About</Link></li>
-                        <li><Link to="#">blog <i className="ti-angle-down"></i></Link>
-                          <ul className="submenu">
-                            <li><Link to="blog.html">blog</Link></li>
-                            <li><Link to="single-blog.html">single-blog</Link></li>
-                          </ul>
-                        </li>
-                        <li><Link to="#">pages <i className="ti-angle-down"></i></Link>
-                          <ul className="submenu">
-                            <li><Link to="elements.html">elements</Link></li>
-                            <li><Link to="Cause.html">Cause</Link></li>
-                          </ul>
-                        </li>
-                        <li><Link to="contact.html">Contact</Link></li>
-                      </ul>
-                    </nav>
-                    <div className="Appointment">
-                      <div className="book_btn d-none d-lg-block">
-                        <Link data-scroll-nav='1' to="#">Make Link Donate</Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12">
-                  <div className="mobile_menu d-block d-lg-none"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      
 
       <div className="bradcam_area breadcam_bg overlay d-flex align-items-center justify-content-center">
         <div className="container">
@@ -107,7 +38,7 @@ const Header = () => {
                   <div className="help_content">
                     <h4>Collecting Fund</h4>
                     <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.</p>
-                    <Link to="#" className="read_more">Read More</Link>
+                    <a href="#" className="read_more">Read More</a>
                   </div>
                 </div>
               </div>
@@ -118,9 +49,9 @@ const Header = () => {
 
       <div className="latest_activites_area">
         <div className="video_bg_1 video_activite d-flex align-items-center justify-content-center">
-          <Link className="popup-video" to="https://www.youtube.com/watch?v=MG3jGHnBVQs">
+          <a className="popup-video" href="https://www.youtube.com/watch?v=MG3jGHnBVQs">
             <i className="flaticon-ui"></i>
-          </Link>
+          </a>
         </div>
         <div className="container">
           <div className="row justify-content-end">
@@ -131,7 +62,7 @@ const Header = () => {
                 </div>
                 <p className="para_1">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation.</p>
                 <p className="para_2">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation. tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation.</p>
-                <Link to="#" data-scroll-nav="1" className="boxed-btn4">Donate Now</Link>
+                <a href="#" data-scroll-nav="1" className="boxed-btn4">Donate Now</a>
               </div>
             </div>
           </div>
@@ -183,10 +114,10 @@ const Header = () => {
                   <div className="voolenteer_info d-flex align-items-end">
                     <div className="social_links">
                       <ul>
-                        <li><Link to="#"><i className="fa fa-facebook"></i></Link></li>
-                        <li><Link to="#"><i className="fa fa-pinterest"></i></Link></li>
-                        <li><Link to="#"><i className="fa fa-linkedin"></i></Link></li>
-                        <li><Link to="#"><i className="fa fa-twitter"></i></Link></li>
+                        <li><a href="#"><i className="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i className="fa fa-pinterest"></i></a></li>
+                        <li><a href="#"><i className="fa fa-linkedin"></i></a></li>
+                        <li><a href="#"><i className="fa fa-twitter"></i></a></li>
                       </ul>
                     </div>
                     <div className="info_inner">
@@ -206,7 +137,7 @@ const Header = () => {
           <div className="row justify-content-center">
             <div className="col-lg-6">
               <div className="section_title text-center mb-55">
-                <h3><span>Make Link Donation</span></h3>
+                <h3><span>Make a Donation</span></h3>
               </div>
             </div>
           </div>
@@ -246,25 +177,16 @@ const Header = () => {
           <div className="row">
             <div className="col-12">
               <div className="donate_now_btn text-center">
-                <Link to="#" className="boxed-btn4">Donate Now</Link>
+                <a href="#" className="boxed-btn4">Donate Now</a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <footer className="footer">
-        <div className="footer_top">
-          <div className="container">
-            <div className="row">
-              <div className="col-xl-4 col-md-6 col-lg-4 ">...</div>
-              {/* You can continue footer rendering exactly like above */}
-            </div>
-          </div>
-        </div>
-      </footer>
+      
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default AboutPage;
