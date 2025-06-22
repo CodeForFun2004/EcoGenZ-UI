@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 import footer_logo from "../../assets/img/footer_logo.png";
 import news_1 from "../../assets/img/news/news_1.png";
