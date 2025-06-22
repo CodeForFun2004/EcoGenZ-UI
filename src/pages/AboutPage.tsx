@@ -2,9 +2,7 @@ import React from "react";
 
 const AboutPage = () => {
   return (
-    <div>
-      
-
+    <>
       <div className="bradcam_area breadcam_bg overlay d-flex align-items-center justify-content-center">
         <div className="container">
           <div className="row">
@@ -49,7 +47,7 @@ const AboutPage = () => {
 
       <div className="latest_activites_area">
         <div className="video_bg_1 video_activite d-flex align-items-center justify-content-center">
-          <a className="popup-video" href="https://www.youtube.com/watch?v=MG3jGHnBVQs">
+          <a className="popup-video" href="https://www.youtube.com/watch?v=MG3jGHnBVQs" target="_blank" rel="noopener noreferrer">
             <i className="flaticon-ui"></i>
           </a>
         </div>
@@ -62,7 +60,7 @@ const AboutPage = () => {
                 </div>
                 <p className="para_1">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation.</p>
                 <p className="para_2">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation. tempor incididunt ut labore dolore magna aliqua. enim minim veniam, quis nostrud exercitation.</p>
-                <a href="#" data-scroll-nav="1" className="boxed-btn4">Donate Now</a>
+                <a href="#" className="boxed-btn4">Donate Now</a>
               </div>
             </div>
           </div>
@@ -183,9 +181,7 @@ const AboutPage = () => {
           </div>
         </div>
       </div>
-
-      
-    </div>
+    </>
   );
 };
 
