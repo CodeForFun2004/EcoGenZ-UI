@@ -1,6 +1,21 @@
 
 import { Link } from 'react-router-dom';
 
+
+import NewsSection from '../component/home/NewsSection';
+import './Home.css'
+import imgHelp1 from '../assets/img/help/1.png';
+import imgHelp2 from '../assets/img/help/2.png';
+import imgHelp3 from '../assets/img/help/3.png';
+
+
+
+import LastestActivities from '../component/home/LastestActivities';
+import PopularCauses from '../component/home/PopularCauses';
+import OurVolunteer from '../component/home/OurVolunteer';
+import Counter from '../component/home/Counter';
+
+
 const HomePage = () => {
   return (
     <>
@@ -41,7 +56,7 @@ const HomePage = () => {
               <div className="single_reson">
                 <div className="thum">
                   <div className="thum_1">
-                    <img src="/img/help/1.png" alt="" />
+                    <img src={imgHelp1} alt="" />
                   </div>
                 </div>
                 <div className="help_content">
@@ -55,7 +70,7 @@ const HomePage = () => {
               <div className="single_reson">
                 <div className="thum">
                   <div className="thum_1">
-                    <img src="/img/help/2.png" alt="" />
+                    <img src={imgHelp2} alt="" />
                   </div>
                 </div>
                 <div className="help_content">
@@ -69,7 +84,7 @@ const HomePage = () => {
               <div className="single_reson">
                 <div className="thum">
                   <div className="thum_1">
-                    <img src="/img/help/3.png" alt="" />
+                    <img src={imgHelp3} alt="" />
                   </div>
                 </div>
                 <div className="help_content">
@@ -84,8 +99,10 @@ const HomePage = () => {
       </div>
       {/* Reason Area End */}
 
+      <LastestActivities/>
+
       {/* Latest Activities Area Start */}
-      <div className="latest_activites_area">
+      {/* <div className="latest_activites_area">
         <div className="video_bg_1 video_activite d-flex align-items-center justify-content-center">
           <a className="popup-video" href="https://www.youtube.com/watch?v=MG3jGHnBVQs">
             <i className="flaticon-ui"></i>
@@ -105,11 +122,13 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Latest Activities Area End */}
 
+      <PopularCauses/>
+
       {/* Popular Causes Area Start */}
-      <div className="popular_causes_area section_padding">
+      {/* <div className="popular_causes_area section_padding">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -123,7 +142,7 @@ const HomePage = () => {
               <div key={item} className="col-lg-4">
                 <div className="single_cause">
                   <div className="thumb">
-                    <img src={`/img/causes/${item}.png`} alt="" />
+                    <img src={`../assets/img/causes/${item}.png`} alt="" />
                   </div>
                   <div className="causes_content">
                     <div className="custom_progress_bar">
@@ -146,11 +165,13 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Popular Causes Area End */}
 
+
+      <Counter/>
       {/* Counter Area Start */}
-      <div className="counter_area">
+      {/* <div className="counter_area">
         <div className="container">
           <div className="counter_bg overlay">
             <div className="row">
@@ -170,11 +191,13 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Counter Area End */}
 
+      <OurVolunteer/>
+      
       {/* Volunteers Area Start */}
-      <div className="our_volunteer_area section_padding">
+      {/* <div className="our_volunteer_area section_padding">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -210,8 +233,14 @@ const HomePage = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Volunteers Area End */}
+
+      {/* <!-- news__area_start  --> */}
+      <NewsSection/>
+    {/* <!-- news__area_end  --> */}
+
+   
 
       {/* Donation Area Start */}
       <div className="make_donation_area section_padding">

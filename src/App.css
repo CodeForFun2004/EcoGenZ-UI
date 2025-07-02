@@ -2959,7 +2959,7 @@ h3 {
 
 /* line 1, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_latest_activites.scss */
 .video_bg_1 {
-  background-image: url(../img/banner/man.png);
+  background-image: url(../src/assets/img/banner/man.png);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -3286,7 +3286,7 @@ h3 {
 
 /* line 2, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_counter.scss */
 .counter_area .counter_bg {
-  background-image: url(../img/banner/counter_bg.png);
+  background-image: url(./assets/img//banner/counter_bg.png);
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-border-radius: 7px;

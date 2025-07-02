@@ -1,0 +1,10 @@
+/* Tạo khoảng cách giữa các slide */
+.news-slider .slick-slide {
+    padding: 0 15px;
+  }
+  
+  /* Đảm bảo không tràn container */
+  .news-slider .slick-list {
+    margin: 0 -15px;
+  }
+  

@@ -8,6 +8,9 @@ import "owl.carousel/dist/assets/owl.theme.default.css";
 import "magnific-popup/dist/magnific-popup.css";
 import "font-awesome/css/font-awesome.min.css";
 import "animate.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 // DO NOT import bootstrap.bundle.min.js here anymore
 import { BrowserRouter } from "react-router-dom";
 
