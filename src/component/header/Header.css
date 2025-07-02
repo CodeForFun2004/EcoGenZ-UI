@@ -1,0 +1,26 @@
+@media (max-width: 991px) {
+    .main-menu {
+      display: none;
+    }
+  
+    .main-menu.active {
+      display: block;
+      background-color: white; /* hoặc màu bạn muốn */
+      padding: 10px 15px;
+      position: absolute;
+      top: 100%; /* dưới header */
+      left: 0;
+      width: 100%;
+      z-index: 999;
+    }
+  
+    .main-menu ul li {
+      display: block;
+      margin: 10px 0;
+    }
+  
+    .main-menu ul li a {
+      color: #000; /* màu text */
+    }
+  }
+  

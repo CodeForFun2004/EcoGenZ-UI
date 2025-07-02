@@ -3,7 +3,7 @@ import newsImage1 from "../../assets/img/news/1.png";
 import newsImage2 from "../../assets/img/news/2.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./NewsSection.css"; // 👈 Custom CSS để fix layout
+import "./NewsSection.css"; // 
 
 const sliderSettings = {
   dots: false,

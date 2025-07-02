@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 
 import NewsSection from '../component/home/NewsSection';
 import './Home.css'
-import imgHelp1 from '../assets/img/help/1.png';
-import imgHelp2 from '../assets/img/help/2.png';
-import imgHelp3 from '../assets/img/help/3.png';
+
 
 
 
@@ -14,13 +12,16 @@ import LastestActivities from '../component/home/LastestActivities';
 import PopularCauses from '../component/home/PopularCauses';
 import OurVolunteer from '../component/home/OurVolunteer';
 import Counter from '../component/home/Counter';
+import SliderSection from '../component/home/SliderSection';
+import ReasonSection from '../component/home/ReasonSection';
 
 
 const HomePage = () => {
   return (
     <>
+      <SliderSection/>
       {/* Slider Area Start */}
-      <div className="slider_area">
+      {/* <div className="slider_area">
         <div className="single_slider d-flex align-items-center slider_bg_1 overlay2">
           <div className="container">
             <div className="row">
@@ -32,17 +33,18 @@ const HomePage = () => {
                     With so much to consume and such little time, coming up <br />
                     with relevant title ideas is essential
                   </p>
-                  <Link to="/about" className="boxed-btn3">Learn More</Link>
+                  <Link to="/about-page" className="boxed-btn3">Learn More</Link>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Slider Area End */}
 
+      <ReasonSection/>
       {/* Reason Area Start */}
-      <div className="reson_area section_padding">
+      {/* <div className="reson_area section_padding">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-6">
@@ -96,7 +98,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* Reason Area End */}
 
       <LastestActivities/>
