@@ -1,28 +1,36 @@
+// src/App.jsx
+import { Routes, Route } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import MinimalLayout from './layouts/MinimalLayout';
 
-
-import { Route, Routes } from 'react-router-dom'
-import Footer from './component/footer/Footer'
-import Header from './component/header/Header'
-import AboutPage from './pages/AboutPage'
-
-import BlogPage from './pages/BlogPage'
-import SingleBlogPage from './pages/SingleBlogPage'
-import ContactPage from './pages/ContactPage'
-import HomePage from './pages/HomePage'
+import HomePage from './pages/home/HomePage';
+import AboutPage from './pages/about/AboutPage';
+import BlogPage from './pages/blog/BlogPage';
+import SingleBlogPage from './pages/single-blog/SingleBlogPage';
+import ContactPage from './pages/contact/ContactPage';
+import LoginPage from './pages/login/LoginPage';
+import './App.css'
+import SignupPage from './pages/signup/SignupPage';
 
 function App() {
   return (
-    <>
-      <Header />
-      <Routes>
+    <Routes>
+      {/* Layout chính có Header/Footer */}
+      <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/about-page" element={<AboutPage />} />
         <Route path="/blog-page" element={<BlogPage />} />
         <Route path="/single-blog-page" element={<SingleBlogPage />} />
         <Route path="/contact-page" element={<ContactPage />} />
-      </Routes>
-      <Footer />
-    </>
+        {/* Thêm các trang public khác vào đây */}
+      </Route>
+
+      {/* Layout tối giản không Header/Footer */}
+      <Route element={<MinimalLayout />}>
+        <Route path="/login-page" element={<LoginPage />} />
+        <Route path="/signup-page" element={<SignupPage/>}/>
+      </Route>
+    </Routes>
   );
 }
 

@@ -14,10 +14,14 @@ import "slick-carousel/slick/slick-theme.css";
 // DO NOT import bootstrap.bundle.min.js here anymore
 import { BrowserRouter } from "react-router-dom";
 
+
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+     
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    
   </StrictMode>
 );

@@ -84,3 +84,12 @@ button:focus-visible {
 main {
   flex: 1;
 }
+
+a {
+  color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+  text-decoration: none !important ;
+}
+
+
+
+/* mobile menu */
