@@ -1,0 +1,32 @@
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .btn-create1 {
+    background-color: #3CC78F;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-login1 {
+    background-color: white;
+    border: 2px solid #3CC78F;
+    color: #3CC78F;
+    font-weight: 500; /* bình thường là trung bình */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-login1:hover,
+  .btn-login1:focus {
+    border: 3px solid #3CC78F; /* viền đậm hơn */
+    font-weight: 700; /* chữ in đậm */
+  }

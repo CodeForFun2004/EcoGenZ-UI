@@ -1,26 +1,43 @@
+/* Mobile menu */
 @media (max-width: 991px) {
-    .main-menu {
-      display: none;
-    }
-  
-    .main-menu.active {
-      display: block;
-      background-color: white; /* hoặc màu bạn muốn */
-      padding: 10px 15px;
-      position: absolute;
-      top: 100%; /* dưới header */
-      left: 0;
-      width: 100%;
-      z-index: 999;
-    }
-  
-    .main-menu ul li {
-      display: block;
-      margin: 10px 0;
-    }
-  
-    .main-menu ul li a {
-      color: #000; /* màu text */
-    }
+  .main-menu {
+    display: none;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 1rem;
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    z-index: 999;
   }
-  
+
+  .main-menu.open {
+    display: flex;
+  }
+
+  .menu-toggle-btn {
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+
+  .main-menu nav ul {
+    flex-direction: column;
+  }
+
+  .main-menu nav ul li {
+    margin: 10px 0;
+  }
+
+  .submenu {
+    display: none;
+  }
+
+  .main-menu nav ul li:hover .submenu {
+    display: block;
+  }
+}

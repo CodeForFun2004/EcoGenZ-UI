@@ -449,7 +449,7 @@ h3 {
 }
 
 /* line 1, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_btn.scss */
-.boxed-btn {
+.button.boxed-btn {
   background: #fff;
   color: #3CC78F !important;
   display: inline-block;
@@ -1473,13 +1473,17 @@ h3 {
 }
 
 /* line 1, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_slider.scss */
-.slider_bg_1 {
+/* .slider_bg_1 {
   background-image: url(../img/banner/banner.png);
+} */
+
+.slider_bg_1 {
+  background-image: url(../src/assets/img/banner/banner.png);
 }
 
 /* line 4, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_slider.scss */
 .slider_bg_2 {
-  background-image: url(../img/banner/banner2.png);
+  background-image: url(../src/assets/img/banner/banner2.png);
 }
 
 /* line 8, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_slider.scss */
@@ -2532,8 +2536,12 @@ h3 {
 }
 
 /* line 1, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_bradcam.scss */
-.breadcam_bg {
+/* .breadcam_bg {
   background-image: url(../img/banner/bradcam.png);
+} */
+
+.breadcam_bg {
+  background-image: url(../src/assets/img/banner//bradcam.png);
 }
 
 /* line 4, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_bradcam.scss */
@@ -3693,6 +3701,17 @@ h3 {
   font-size: 27px;
 }
 
+
+/* FIX CODE ẨN 1 */
+.media {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex
+;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
 /* line 24, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_contact.scss */
 .contact-info .media-body h3 {
   font-size: 16px;
@@ -3709,6 +3728,14 @@ h3 {
 /* line 36, ../../Arafath/CL/january 2020/242. charity/HTML/scss/_contact.scss */
 .contact-info .media-body p {
   color: #8a8a8a;
+}
+
+
+/* FIX CODE ẨN 2 */
+.media-body {
+  -webkit-box-flex: 1 !important;
+  -ms-flex: 1 !important;
+  flex: 1 !important;
 }
 
 /*=================== contact banner end ====================*/

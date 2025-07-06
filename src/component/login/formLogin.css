@@ -1,0 +1,172 @@
+.form-login {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    padding-right: 15px;
+  }
+  
+  .logo .icon {
+    font-size: 24px;
+    margin-right: 8px;
+    color: #3CC78F;
+  }
+  
+  .logo .brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #3CC78F;
+  }
+  
+  h2 {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  strong {
+    color: #3CC78F;
+  }
+  
+  p {
+    color: #666;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  
+  .btn-login {
+    background-color: #3CC78F;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-create {
+    background-color: white;
+    border: 2px solid #3CC78F;
+    color: #3CC78F;
+    font-weight: 500; /* bình thường là trung bình */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-create:hover,
+  .btn-create:focus {
+    border: 3px solid #3CC78F; /* viền đậm hơn */
+    font-weight: 700; /* chữ in đậm */
+  }
+  
+  
+  .login-alt {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+  
+  .icon {
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .icon:hover {
+    transform: scale(1.2);
+  }
+  
+  .facebook { color: #3b5998; }
+  .google { color: #db4437; }
+  .linkedin { color: #0077b5; }
+  
+
+  /* Responsive */
+  /* Responsive: tablet */
+@media (max-width: 768px) {
+  .form-login {
+    max-width: 90%;
+    padding: 16px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  form input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .btn-login,
+  .btn-create {
+    padding: 9px 16px;
+    font-size: 14px;
+  }
+
+  .logo .icon,
+  .logo .brand {
+    font-size: 20px;
+  }
+}
+
+/* Responsive: mobile */
+@media (max-width: 480px) {
+  .form-login {
+    padding: 12px;
+  }
+
+  h2 {
+    font-size: 16px;
+  }
+
+  form input {
+    font-size: 13px;
+  }
+
+  .btn-login,
+  .btn-create {
+    width: 100%;
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .social-icons {
+    gap: 12px;
+  }
+}

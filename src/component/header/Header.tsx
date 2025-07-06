@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from '../../assets/img/logo.png';
-import './Header.css'
-
-
+import logo from "../../assets/img/logo.png";
+import "./Header.css";
 
 const Header = () => {
   useEffect(() => {
@@ -36,17 +34,33 @@ const Header = () => {
               <div className="col-xl-6 col-md-12 col-lg-8">
                 <div className="short_contact_list">
                   <ul>
-                    <li><a href="#"><i className="fa fa-phone"></i> +1 (454) 556-5656</a></li>
-                    <li><a href="#"><i className="fa fa-envelope"></i> Yourmail@gmail.com</a></li>
+                    <li>
+                      <a href="#">
+                        <i className="fa fa-phone"></i> +1 (454) 556-5656
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i className="fa fa-envelope"></i> Yourmail@gmail.com
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
               <div className="col-xl-6 col-md-6 col-lg-4">
                 <div className="social_media_links d-none d-lg-block">
-                  <a href="#"><i className="fa fa-facebook"></i></a>
-                  <a href="#"><i className="fa fa-pinterest-p"></i></a>
-                  <a href="#"><i className="fa fa-linkedin"></i></a>
-                  <a href="#"><i className="fa fa-twitter"></i></a>
+                  <a href="#">
+                    <i className="fa fa-facebook"></i>
+                  </a>
+                  <a href="#">
+                    <i className="fa fa-pinterest-p"></i>
+                  </a>
+                  <a href="#">
+                    <i className="fa fa-linkedin"></i>
+                  </a>
+                  <a href="#">
+                    <i className="fa fa-twitter"></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -57,28 +71,47 @@ const Header = () => {
             <div className="row align-items-center">
               <div className="col-xl-3 col-lg-3">
                 <div className="logo">
-                  <Link to="/"><img src={logo} alt="Logo" /></Link>
+                  <Link to="/">
+                    <img src={logo} alt="Logo" />
+                  </Link>
                 </div>
               </div>
               <div className="col-xl-9 col-lg-9">
                 <div className="main-menu">
                   <nav>
                     <ul id="navigation">
-                      <li><Link to="/">home</Link></li>
-                      <li><Link to="/about-page">About</Link></li>
                       <li>
-                        <Link to="/">blog <i className="ti-angle-down"></i></Link>
+                        <Link to="/">home</Link>
+                      </li>
+                      <li>
+                        <Link to="/about-page">About</Link>
+                      </li>
+                      <li>
+                        <Link to="/">
+                          blog <i className="ti-angle-down"></i>
+                        </Link>
                         <ul className="submenu">
-                          <li><Link to="/blog-page">blog</Link></li>
-                          <li><Link to="/single-blog-page">single-blog</Link></li>
+                          <li>
+                            <Link to="/blog-page">blog</Link>
+                          </li>
+                          <li>
+                            <Link to="/single-blog-page">single-blog</Link>
+                          </li>
                         </ul>
                       </li>
-                      <li><Link to="/contact-page">Contact</Link></li>
+                      <li>
+                        <Link to="/contact-page">Contact</Link>
+                      </li>
                     </ul>
                   </nav>
                   <div className="Appointment">
-                    <div className="book_btn d-none d-lg-block">
-                      <a data-scroll-nav='1' href="#">Make a Donate</a>
+                    <div className="book_btn d-none d-lg-block mb-3">
+                      <Link to="/login-page">Login</Link>
+                    </div>
+
+                    <div className="book_btn d-none d-lg-block mb-3">
+                      {/* <a data-scroll-nav="1" href="#"> Signup  </a>*/}
+                      <Link to="/signup-page">Signup</Link>
                     </div>
                   </div>
                 </div>
