@@ -13,15 +13,17 @@ import "slick-carousel/slick/slick-theme.css";
 
 // DO NOT import bootstrap.bundle.min.js here anymore
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from './redux/store.ts';
 
 
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-     
+     <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
-    
+    </Provider>
   </StrictMode>
 );
