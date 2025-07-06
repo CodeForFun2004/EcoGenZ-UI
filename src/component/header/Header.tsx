@@ -3,7 +3,18 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import "./Header.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
+import { logout } from "../../redux/features/auth/authSlice";
+
 const Header = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const stickyHeader = document.getElementById("sticky-header");
@@ -104,15 +115,38 @@ const Header = () => {
                       </li>
                     </ul>
                   </nav>
-                  <div className="Appointment">
-                    <div className="book_btn d-none d-lg-block mb-3">
-                      <Link to="/login-page">Login</Link>
-                    </div>
-
-                    <div className="book_btn d-none d-lg-block mb-3">
-                      {/* <a data-scroll-nav="1" href="#"> Signup  </a>*/}
-                      <Link to="/signup-page">Signup</Link>
-                    </div>
+                  <div className="Appointment d-flex align-items-center gap-1">
+                    {user ? (
+                      <>
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <img
+                            src={user.avatar || "https://i.pravatar.cc/40"} // ảnh fallback nếu không có
+                            alt="avatar"
+                            style={{
+                              width: 36,
+                              height: 36,
+                              borderRadius: "50%",
+                            }}
+                          />
+                          <span>{user.name}</span>
+                        </div>
+                        <button
+                          onClick={handleLogout}
+                          className="book_btn d-none d-lg-block mb-3"
+                        >
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <div className="book_btn d-none d-lg-block mb-3">
+                          <Link to="/login-page">Login</Link>
+                        </div>
+                        <div className="book_btn d-none d-lg-block mb-3">
+                          <Link to="/signup-page">Signup</Link>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
