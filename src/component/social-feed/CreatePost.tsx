@@ -1,11 +1,14 @@
-import React from 'react';
-import './CreatePost.css';
+import "./CreatePost.css";
 
 const CreatePost = () => {
   return (
     <div className="create-post-container">
       <div className="create-post-header">
-        <img src="https://i.imgur.com/jCVN75w.jpeg" alt="Your Avatar" className="user-avatar" />
+        <img
+          src="https://i.imgur.com/jCVN75w.jpeg"
+          alt="Your Avatar"
+          className="user-avatar"
+        />
         <textarea placeholder="What are you thinking dumbass?" />
       </div>
       <div className="create-post-actions">
