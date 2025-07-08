@@ -113,6 +113,9 @@ const Header = () => {
                       <li>
                         <Link to="/contact-page">Contact</Link>
                       </li>
+                      <li>
+                        <Link to="/social-feed-page">Community</Link>
+                      </li>
                     </ul>
                   </nav>
                   <div className="Appointment d-flex align-items-center gap-1">
