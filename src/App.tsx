@@ -11,6 +11,7 @@ import ContactPage from './pages/contact/ContactPage';
 import LoginPage from './pages/login/LoginPage';
 import './App.css'
 import SignupPage from './pages/signup/SignupPage';
+import SocialFeedPage from './pages/community/SocialFeedPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/blog-page" element={<BlogPage />} />
         <Route path="/single-blog-page" element={<SingleBlogPage />} />
         <Route path="/contact-page" element={<ContactPage />} />
+        <Route path="/social-feed-page" element={<SocialFeedPage />} />
         {/* Thêm các trang public khác vào đây */}
       </Route>
 

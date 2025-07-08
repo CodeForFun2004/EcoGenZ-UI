@@ -1,0 +1,43 @@
+.social-feed-wrapper {
+  max-width: 960px;
+  margin: 2rem auto;
+  display: flex;
+  gap: 2rem;
+  padding: 0 1rem;
+  margin-top: 5rem;
+}
+
+.feed-column {
+  flex: 2; 
+}
+
+.widgets-column {
+  flex: 1;
+}
+
+.widget {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.widget h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.widget li {
+  padding: 0.5rem 0;
+  font-weight: 500;
+  color: #2e8a69;
+  cursor: pointer;
+}
