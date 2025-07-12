@@ -1,4 +1,4 @@
-import React from 'react';
+
 import CreatePost from '../../component/social-feed/CreatePost';  
 import Post from '../../component/social-feed/Post';
 import { dummyPosts } from '../../data/dummy-posts';

@@ -98,6 +98,9 @@ const Header = () => {
                         <Link to="/about-page">About</Link>
                       </li>
                       <li>
+                        <Link to="/ranking-page">Ranking</Link>
+                      </li>
+                      <li>
                         <Link to="/">
                           blog <i className="ti-angle-down"></i>
                         </Link>
