@@ -12,6 +12,8 @@ import LoginPage from './pages/login/LoginPage';
 import './App.css'
 import SignupPage from './pages/signup/SignupPage';
 import SocialFeedPage from './pages/community/SocialFeedPage';
+import NotFound from './pages/NotFound';
+import RankingPage from './pages/ranking/RankingPage';
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
         <Route path="/single-blog-page" element={<SingleBlogPage />} />
         <Route path="/contact-page" element={<ContactPage />} />
         <Route path="/social-feed-page" element={<SocialFeedPage />} />
+        <Route path="/ranking-page" element={<RankingPage/>}/>
         {/* Thêm các trang public khác vào đây */}
       </Route>
 
@@ -31,6 +34,7 @@ function App() {
       <Route element={<MinimalLayout />}>
         <Route path="/login-page" element={<LoginPage />} />
         <Route path="/signup-page" element={<SignupPage/>}/>
+        <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
   );
