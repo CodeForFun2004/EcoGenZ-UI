@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
-      dispatch(getUserById(storedUserId));
+      dispatch(getUserByIdThunk(storedUserId));
     }
   }, [dispatch]);
   useEffect(() => {
