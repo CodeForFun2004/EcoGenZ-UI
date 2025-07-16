@@ -6,18 +6,19 @@ import {
   //   updateActivity,
   //   deleteActivity,
 } from "./activitiesThunk";
+import type { ActivityState } from "./activitiesTypes";
 
+const initialState: ActivityState = {
+  activities: [],
+  loading: false,
+  error: null,
+};
 const activitiesSlice = createSlice({
   name: "activities",
-  initialState: {
-    activities: [],
-    loading: false,
-    error: null as string | null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Fetch Activities
       .addCase(fetchAllActivities.pending, (state) => {
         state.loading = true;
         state.error = null;
