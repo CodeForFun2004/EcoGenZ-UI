@@ -12,3 +12,15 @@ export const fetchAllActivites = async () => {
   const json = await res.json();
   return json.result;
 };
+
+export const fetchActivityById = async (activityId: string) => {
+  const res = await fetch(`${ACTIVITY_URL}/get-activity/${activityId}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch activity");
+
+  const json = await res.json();
+  return json.result;
+};
