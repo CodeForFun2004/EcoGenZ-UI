@@ -14,9 +14,12 @@ import SignupPage from './pages/signup/SignupPage';
 import SocialFeedPage from './pages/community/SocialFeedPage';
 import NotFound from './pages/NotFound';
 import RankingPage from './pages/ranking/RankingPage';
+import MediaTextPage from './pages/media-text/MediaTextPage';
+import FloatingChatButton from './component/chatbot/FloatingChatButton'
 
 function App() {
   return (
+    <>
     <Routes>
       {/* Layout chính có Header/Footer */}
       <Route element={<MainLayout />}>
@@ -27,6 +30,7 @@ function App() {
         <Route path="/contact-page" element={<ContactPage />} />
         <Route path="/social-feed-page" element={<SocialFeedPage />} />
         <Route path="/ranking-page" element={<RankingPage/>}/>
+        <Route path="/media-text-page" element={<MediaTextPage />} />
         {/* Thêm các trang public khác vào đây */}
       </Route>
 
@@ -37,6 +41,8 @@ function App() {
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
+    <FloatingChatButton />
+    </>
   );
 }
 

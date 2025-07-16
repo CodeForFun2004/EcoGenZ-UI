@@ -9,7 +9,7 @@ import type { RootState } from "../../redux/store"; // đường dẫn tới sto
 import { logout } from "../../redux/features/auth/authSlice";
 import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
   const handleLogout = () => {
@@ -17,9 +17,13 @@ const Header = () => {
   };
 
   useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      dispatch(getUserById(storedUserId));
+    }
+  }, [dispatch]);
+  useEffect(() => {
     const handleScroll = () => {
-      const dispatch = useAppDispatch();
-
       const stickyHeader = document.getElementById("sticky-header");
       const backTop = document.getElementById("back-top");
       const { user } = useAppSelector((state) => state.auth);
@@ -38,14 +42,12 @@ const Header = () => {
         backTop?.classList.add("show");
       }
     };
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
   return (
     <header>
       <div className="header-area">
@@ -105,23 +107,10 @@ const Header = () => {
                         <Link to="/">home</Link>
                       </li>
                       <li>
-                        <Link to="/about-page">About</Link>
-                      </li>
-                      <li>
                         <Link to="/ranking-page">Ranking</Link>
                       </li>
                       <li>
-                        <Link to="/">
-                          blog <i className="ti-angle-down"></i>
-                        </Link>
-                        <ul className="submenu">
-                          <li>
-                            <Link to="/blog-page">blog</Link>
-                          </li>
-                          <li>
-                            <Link to="/single-blog-page">single-blog</Link>
-                          </li>
-                        </ul>
+                        <Link to="/blog-page">Activities</Link>
                       </li>
                       <li>
                         <Link to="/contact-page">Contact</Link>
