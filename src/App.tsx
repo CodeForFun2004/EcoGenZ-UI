@@ -15,9 +15,11 @@ import SocialFeedPage from './pages/community/SocialFeedPage';
 import NotFound from './pages/NotFound';
 import RankingPage from './pages/ranking/RankingPage';
 import MediaTextPage from './pages/media-text/MediaTextPage';
+import FloatingChatButton from './component/chatbot/FloatingChatButton'
 
 function App() {
   return (
+    <>
     <Routes>
       {/* Layout chính có Header/Footer */}
       <Route element={<MainLayout />}>
@@ -39,6 +41,8 @@ function App() {
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
+    <FloatingChatButton />
+    </>
   );
 }
 
