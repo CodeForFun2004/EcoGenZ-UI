@@ -13,4 +13,5 @@ export interface ActivityState {
   activities: Activity[];
   loading: boolean;
   error: string | null;
+  selectedActivity: Activity | null;
 }

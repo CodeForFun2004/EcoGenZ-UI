@@ -7,8 +7,6 @@ import type { RootState } from "../../redux/store";
 import "../../App.css";
 import type { Activity } from "../../redux/features/activities/activitiesTypes";
 
-
-
 const PopularCauses = () => {
   const dispatch = useDispatch();
 
@@ -73,7 +71,11 @@ const PopularCauses = () => {
                   </div>
                   <h4>{activity.title}</h4>
                   <p>{activity.description}</p>
-                  <Link to="/cause_details" className="read_more">
+                  {/* <Route path="/activities/:id" element={<SingleBlogPage />} /> */}
+                  <Link
+                    to={`/activities/${activity.activityId}`}
+                    className="read_more"
+                  >
                     Read More
                   </Link>
                 </div>
