@@ -12,13 +12,8 @@ const CreatePost = () => {
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) {
-      dispatch(getUserByIdThunk(storedUserId));
-    }
-    console.log("User fetched:", user);
-  }, [dispatch]);
+  const storedUserId = localStorage.getItem("userId");
+  // const userId = storedUserId ? JSON.parse(storedUserId) : null;
 
   const handleSubmit = () => {
     if (!content) {
@@ -26,14 +21,14 @@ const CreatePost = () => {
       return;
     }
 
-    if (!user?.userId) {
+    if (!storedUserId) {
       alert("User not logged in.");
       return;
     }
 
     const formData = new FormData();
     formData.append("content", content);
-    formData.append("userId", user.userId);
+    formData.append("userId", storedUserId); // Must be a plain string, not null
     if (imageFile) {
       formData.append("imageFile", imageFile);
     }
@@ -47,7 +42,7 @@ const CreatePost = () => {
     <div className="create-post-container">
       <div className="create-post-header">
         <img
-          src={user?.profilePhotoUrl || "default-avatar.png"}
+          src={user?.profilePhotoUrl || "https://i.pravatar.cc/40"}
           alt="Your Avatar"
           className="user-avatar"
         />

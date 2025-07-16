@@ -2,6 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllActivities,
+  fetchActivityById,
   //   createActivity,
   //   updateActivity,
   //   deleteActivity,
@@ -12,6 +13,7 @@ const initialState: ActivityState = {
   activities: [],
   loading: false,
   error: null,
+  selectedActivity: null,
 };
 const activitiesSlice = createSlice({
   name: "activities",
@@ -30,7 +32,19 @@ const activitiesSlice = createSlice({
       .addCase(fetchAllActivities.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Fetch activities failed";
+      })
+      .addCase(fetchActivityById.pending, (state) => {
+        state.loading = true;
+        state.selectedActivity = null;
       });
+    builder.addCase(fetchActivityById.fulfilled, (state, action) => {
+      state.loading = false;
+      state.selectedActivity = action.payload;
+    });
+    builder.addCase(fetchActivityById.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || "Failed to fetch activity";
+    });
 
     // // Create Activity
     // .addCase(createActivity.fulfilled, (state, action) => {

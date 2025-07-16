@@ -36,8 +36,9 @@ const authSlice = createSlice({
       .addCase(loginThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("token", JSON.stringify(action.payload.token));
         localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("userId", action.payload.userId);
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
@@ -52,8 +53,9 @@ const authSlice = createSlice({
       .addCase(registerThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        localStorage.setItem("token", action.payload.token);
+        localStorage.setItem("token", JSON.stringify(action.payload.token));
         localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("userId", action.payload.result.userId);
       })
       .addCase(registerThunk.rejected, (state, action) => {
         state.loading = false;
@@ -68,13 +70,19 @@ const authSlice = createSlice({
       .addCase(googleLoginThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
-        localStorage.setItem("token", action.payload.token);
+
+        // Save to localStorage
+        localStorage.setItem("token", JSON.stringify(action.payload.token));
         localStorage.setItem("user", JSON.stringify(action.payload));
+        localStorage.setItem("userId", action.payload.result.userId);
       })
+
       .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Google login failed";
       })
+
+      // Get User by ID
       .addCase(getUserByIdThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
