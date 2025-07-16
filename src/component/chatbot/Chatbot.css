@@ -47,7 +47,7 @@
 }
 
 .user-row .message-bubble {
-  background-color: #0084ff;
+  background-color: #097969;
   color: white;
   border-bottom-right-radius: 5px;
 }
@@ -60,6 +60,10 @@
 
 .user-row .message-author {
   color: rgba(255, 255, 255, 0.9);
+}
+
+.user-row .message-bubble .message-text p {
+  color: white;
 }
 
 .bot-row .message-author {
