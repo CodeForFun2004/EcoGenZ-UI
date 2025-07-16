@@ -5,12 +5,12 @@ import "./MediaTextPage.css";
 const MediaTextPage: React.FC = () => {
   const handleImageUpload = (file: File) => {
     console.log("Image uploaded:", file.name);
-    // Xử lý upload ảnh ở đây
+    // Image processing will be handled by MediaTextLayout component
   };
 
   const handleTextChange = (text: string) => {
     console.log("Text changed:", text);
-    // Xử lý thay đổi text ở đây
+    // Handle text changes if needed for additional processing
   };
 
   return (
@@ -18,7 +18,7 @@ const MediaTextPage: React.FC = () => {
       <MediaTextLayout
         onImageUpload={handleImageUpload}
         onTextChange={handleTextChange}
-        initialText="Nhập nội dung văn bản của bạn ở đây để bắt đầu..."
+        initialText="AI suggestions will be displayed here..."
       />
     </div>
   );

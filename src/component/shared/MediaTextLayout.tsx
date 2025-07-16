@@ -1,5 +1,9 @@
 import React, { useState, useRef } from "react";
 import "./MediaTextLayout.css";
+import {
+  aichatAPI,
+  type RecycleImageResponse,
+} from "../../redux/features/aichat/aichatAPI";
 
 interface MediaTextLayoutProps {
   onImageUpload?: (file: File) => void;
@@ -15,9 +19,10 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [text, setText] = useState(initialText);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = async (file: File) => {
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -25,6 +30,29 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
       };
       reader.readAsDataURL(file);
       onImageUpload?.(file);
+
+      // Call API to get recycle information
+      try {
+        setIsProcessing(true);
+        setText("Analyzing image...");
+
+        const response: RecycleImageResponse = await aichatAPI.recycleImage(
+          file
+        );
+
+        const recycleText = `🔍 Item: ${response.detectedItem}\n\n♻️ Recycling Guide:\n${response.recycleTip}`;
+        setText(recycleText);
+        onTextChange?.(recycleText);
+      } catch (error) {
+        console.error("Error processing image:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : "Unknown error";
+        setText(
+          `❌ Error: ${errorMessage}\n\n🔧 Please check:\n- Backend is running?\n- Network connection\n- Console log for more details`
+        );
+      } finally {
+        setIsProcessing(false);
+      }
     }
   };
 
@@ -67,7 +95,7 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
       <div className="media-text-container">
         {/* Left side - Image Upload */}
         <div className="upload-section">
-          <div className="section-title">Phần giao diện up ảnh</div>
+          <div className="section-title">Uploads Image</div>
           <div
             className={`upload-area ${isDragOver ? "drag-over" : ""} ${
               uploadedImage ? "has-image" : ""
@@ -85,7 +113,7 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
                   className="uploaded-image"
                 />
                 <div className="image-overlay">
-                  <button className="change-image-btn">Thay đổi ảnh</button>
+                  <button className="change-image-btn">Change Image</button>
                 </div>
               </div>
             ) : (
@@ -93,14 +121,16 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
                 <div className="upload-icon">📷</div>
                 <div className="upload-text">
                   <p>
-                    <strong>Kéo thả ảnh vào đây</strong>
+                    <strong>Drag and drop image here</strong>
                   </p>
                   <p>
-                    hoặc{" "}
-                    <span className="upload-link">chọn file từ máy tính</span>
+                    or{" "}
+                    <span className="upload-link">
+                      select file from computer
+                    </span>
                   </p>
                   <p className="upload-hint">
-                    Hỗ trợ: JPG, PNG, GIF (tối đa 10MB)
+                    Support: JPG, PNG, GIF (max 10MB)
                   </p>
                 </div>
               </div>
@@ -115,24 +145,21 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
           />
         </div>
 
-        {/* Right side - Text Display */}
+        {/* Right side - Recycling suggestions */}
         <div className="text-section">
-          <div className="section-title">
-            Phần giao diện hiển thị một đoạn text
-          </div>
+          <div className="section-title">Recycling suggestions</div>
           <div className="text-area-container">
             <textarea
               className="text-display"
               value={text}
               onChange={handleTextChange}
-              placeholder="Nhập nội dung văn bản của bạn ở đây..."
+              placeholder="Upload an image to get recycling information..."
               rows={12}
+              disabled={isProcessing}
             />
-            <div className="text-controls">
-              <button className="text-control-btn">📝 Định dạng</button>
-              <button className="text-control-btn">💾 Lưu</button>
-              <button className="text-control-btn">🔄 Làm mới</button>
-            </div>
+            {isProcessing && (
+              <div className="processing-indicator">⏳ Analyzing image...</div>
+            )}
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import newsImage1 from "../../assets/img/news/1.png";
 import newsImage2 from "../../assets/img/news/2.png";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./NewsSection.css"; // 
+import "./NewsSection.css"; //
 
 const sliderSettings = {
   dots: false,
@@ -50,7 +50,9 @@ const NewsSection = () => {
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="section_title text-center mb-55">
-              <h3><span>News & Updates</span></h3>
+              <h3>
+                <span>News & Updates</span>
+              </h3>
             </div>
           </div>
         </div>
@@ -59,7 +61,10 @@ const NewsSection = () => {
           <div className="col-lg-12">
             <Slider {...sliderSettings} className="news-slider">
               {newsData.map((item, index) => (
-                <div className="single__blog d-flex align-items-center news-slide" key={index}>
+                <div
+                  className="single__blog d-flex align-items-center news-slide"
+                  key={index}
+                >
                   <div className="thum">
                     <img src={item.image} alt="news" />
                   </div>
@@ -69,7 +74,9 @@ const NewsSection = () => {
                       <h3>{item.title}</h3>
                     </a>
                     <p>{item.description}</p>
-                    <a className="read_more" href={item.link}>Read More</a>
+                    <a className="read_more" href={item.link}>
+                      Read More
+                    </a>
                   </div>
                 </div>
               ))}
