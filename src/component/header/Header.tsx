@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import "./Header.css";
 
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
 import { logout } from "../../redux/features/auth/authSlice";
-
+import { getUserById } from "../../redux/features/auth/authThunk";
 const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -17,8 +18,17 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      const dispatch = useAppDispatch();
+
       const stickyHeader = document.getElementById("sticky-header");
       const backTop = document.getElementById("back-top");
+      const { user } = useAppSelector((state) => state.auth);
+      useEffect(() => {
+        const storedUserId = localStorage.getItem("userId");
+        if (storedUserId) {
+          dispatch(getUserById(storedUserId));
+        }
+      }, [dispatch]);
 
       if (window.scrollY < 400) {
         stickyHeader?.classList.remove("sticky");
@@ -126,7 +136,9 @@ const Header = () => {
                       <>
                         <div className="d-flex align-items-center gap-2 mb-3">
                           <img
-                            src={user.avatar || "https://i.pravatar.cc/40"} // ảnh fallback nếu không có
+                            src={
+                              user.profilePhotoUrl || "https://i.pravatar.cc/40"
+                            } // ảnh fallback nếu không có
                             alt="avatar"
                             style={{
                               width: 36,
@@ -134,7 +146,7 @@ const Header = () => {
                               borderRadius: "50%",
                             }}
                           />
-                          <span>{user.name}</span>
+                          <span>{user.Username}</span>
                         </div>
                         <button
                           onClick={handleLogout}

@@ -22,13 +22,23 @@ const FormLogin = () => {
       const resultAction = await dispatch(
         loginThunk({ email, password }) as any
       );
+
       if (loginThunk.fulfilled.match(resultAction)) {
-        navigate("/"); // hoặc redirect trang thành công
+        const userData = resultAction.payload;
+        if (userData) {
+          localStorage.setItem("user", JSON.stringify(userData));
+          localStorage.setItem("userId", userData.userId);
+          console.log(userData);
+          navigate("/");
+        } else {
+          alert("Login response missing user data.");
+        }
       } else {
         alert("Login failed");
       }
     } catch (err) {
       console.error("Login error:", err);
+      alert("An unexpected error occurred.");
     }
   };
 
@@ -85,7 +95,9 @@ const FormLogin = () => {
           onSuccess={async (credentialResponse) => {
             if (credentialResponse.credential) {
               const resultAction = await dispatch(
-                googleLoginThunk({ tokenId: credentialResponse.credential }) as any
+                googleLoginThunk({
+                  tokenId: credentialResponse.credential,
+                }) as any
               );
               if (googleLoginThunk.fulfilled.match(resultAction)) {
                 navigate("/");

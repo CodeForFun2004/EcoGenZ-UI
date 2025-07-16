@@ -38,6 +38,19 @@ export const googleLogin = async (tokenId: string) => {
   if (!res.ok) throw new Error("Google login failed");
   return res.json();
 };
+export const getUserById = async (id: string) => {
+  const res = await fetch(`${AUTH_URL}/get-user/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user by ID");
+  }
+  const data = await res.json();
+  return data.result;
+};
 
 // TEST DÙNG SERVER ẢO
 // const AUTH_URL = "http://localhost:5000/users";
