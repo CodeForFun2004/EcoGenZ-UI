@@ -20,10 +20,15 @@ export const register = async (userInfo: {
   email: string;
   password: string;
 }) => {
+  // Tạo FormData thay vì JSON
+  const formData = new FormData();
+  formData.append("name", userInfo.name);
+  formData.append("email", userInfo.email);
+  formData.append("password", userInfo.password);
+
   const res = await fetch(`${AUTH_URL}/register`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(userInfo),
+    body: formData,
   });
   if (!res.ok) throw new Error("Register failed");
   return res.json();
