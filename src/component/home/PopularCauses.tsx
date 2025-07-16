@@ -1,30 +1,60 @@
-import { Link } from 'react-router-dom';
-import img1 from '../../assets/img/causes/1.png';
-import img2 from '../../assets/img/causes/2.png';
-import img3 from '../../assets/img/causes/3.png';
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllActivities } from "../../redux/features/activities/activitiesThunk";
+import type { RootState } from "../../redux/store";
 
-import "../../App.css"; 
+import "../../App.css";
 
-
-const imageList = [img1, img2, img3];
+type Activity = {
+  activityId: string;
+  mediaUrl: string;
+  title: string;
+  description: string;
+};
 
 const PopularCauses = () => {
+  const dispatch = useDispatch();
+
+  const {
+    activities = [],
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.activities);
+
+  useEffect(() => {
+    dispatch(fetchAllActivities() as any);
+  }, [dispatch]);
+
   return (
     <div className="popular_causes_area section_padding">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="section_title text-center mb-55">
-              <h3><span>Popular Causes</span></h3>
+              <h3>
+                <span>Popular Activities</span>
+              </h3>
             </div>
           </div>
         </div>
+        {loading && <p className="text-center">Loading activities...</p>}
+        {error && <p className="text-center text-danger">Error: {error}</p>}
         <div className="row">
-          {imageList.map((img, index) => (
-            <div key={index} className="col-lg-4">
+          {activities.map((activity: Activity, index: number) => (
+            <div key={activity.activityId || index} className="col-lg-4">
               <div className="single_cause">
                 <div className="thumb">
-                  <img src={img} alt={`Cause ${index + 1}`} />
+                  <img
+                    src={activity.mediaUrl}
+                    alt={`Cause ${index + 1}`}
+                    style={{
+                      width: "100%",
+                      height: "250px",
+                      objectFit: "cover",
+                      borderRadius: "8px",
+                    }}
+                  />
                 </div>
                 <div className="causes_content">
                   <div className="custom_progress_bar">
@@ -32,7 +62,7 @@ const PopularCauses = () => {
                       <div
                         className="progress-bar"
                         role="progressbar"
-                        style={{ width: '30%' }}
+                        style={{ width: "30%" }}
                         aria-valuenow={30}
                         aria-valuemin={0}
                         aria-valuemax={100}
@@ -45,9 +75,11 @@ const PopularCauses = () => {
                     <span>Raised: $5000.00</span>
                     <span>Goal: $9000.00</span>
                   </div>
-                  <h4>Cause Title {index + 1}</h4>
-                  <p>The passage is attributed to an unknown typesetter in the century who is thought</p>
-                  <Link to="/cause_details" className="read_more">Read More</Link>
+                  <h4>{activity.title}</h4>
+                  <p>{activity.description}</p>
+                  <Link to="/cause_details" className="read_more">
+                    Read More
+                  </Link>
                 </div>
               </div>
             </div>

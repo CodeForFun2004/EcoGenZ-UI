@@ -1,7 +1,6 @@
-
-import v1 from '../../assets/img/volenteer/1.png';
-import v2 from '../../assets/img/volenteer/2.png';
-import v3 from '../../assets/img/volenteer/3.png';
+import v1 from "../../assets/img/volenteer/1.png";
+import v2 from "../../assets/img/volenteer/2.png";
+import v3 from "../../assets/img/volenteer/3.png";
 
 const volunteerImages = [v1, v2, v3];
 
@@ -12,7 +11,9 @@ const OurVolunteer = () => {
         <div className="row justify-content-center">
           <div className="col-lg-6">
             <div className="section_title text-center mb-55">
-              <h3><span>Our Volunteer</span></h3>
+              <h3>
+                <span>Our Volunteer</span>
+              </h3>
             </div>
           </div>
         </div>
@@ -26,11 +27,15 @@ const OurVolunteer = () => {
                 <div className="voolenteer_info d-flex align-items-end">
                   <div className="social_links">
                     <ul>
-                      {['facebook', 'pinterest', 'linkedin', 'twitter'].map((platform, idx) => (
-                        <li key={idx}>
-                          <a href="#"><i className={`fa fa-${platform}`}></i></a>
-                        </li>
-                      ))}
+                      {["facebook", "pinterest", "linkedin", "twitter"].map(
+                        (platform, idx) => (
+                          <li key={idx}>
+                            <a href="#">
+                              <i className={`fa fa-${platform}`}></i>
+                            </a>
+                          </li>
+                        )
+                      )}
                     </ul>
                   </div>
                   <div className="info_inner">
