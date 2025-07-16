@@ -1,23 +1,12 @@
 import React, { useState, useRef } from "react";
 import "./MediaTextLayout.css";
-import {
-  aichatAPI,
-  type RecycleImageResponse,
-} from "../../redux/features/aichat/aichatAPI";
+import { aiRecycleImageThunk } from "../../redux/features/aichat/aiThunk";
+import { useAppDispatch } from "../../redux/hook";
 
-interface MediaTextLayoutProps {
-  onImageUpload?: (file: File) => void;
-  onTextChange?: (text: string) => void;
-  initialText?: string;
-}
-
-const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
-  onImageUpload,
-  onTextChange,
-  initialText = "",
-}) => {
+const MediaTextLayout = () => {
+  const dispatch = useAppDispatch();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [text, setText] = useState(initialText);
+  const [text, setText] = useState("AI suggestions will be displayed here...");
   const [isDragOver, setIsDragOver] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -25,34 +14,29 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
   const handleFileUpload = async (file: File) => {
     if (file && file.type.startsWith("image/")) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setUploadedImage(e.target?.result as string);
-      };
+      reader.onload = (e) => setUploadedImage(e.target?.result as string);
       reader.readAsDataURL(file);
-      onImageUpload?.(file);
 
       // Call API to get recycle information
-      try {
-        setIsProcessing(true);
-        setText("Analyzing image...");
+      setIsProcessing(true);
+      setText("Analyzing image...");
 
-        const response: RecycleImageResponse = await aichatAPI.recycleImage(
-          file
-        );
+      const resultAction = await dispatch(aiRecycleImageThunk(file));
 
+      // Kiểm tra xem thunk có thành công không
+      if (aiRecycleImageThunk.fulfilled.match(resultAction)) {
+        const response = resultAction.payload;
         const recycleText = `🔍 Item: ${response.detectedItem}\n\n♻️ Recycling Guide:\n${response.recycleTip}`;
         setText(recycleText);
-        onTextChange?.(recycleText);
-      } catch (error) {
-        console.error("Error processing image:", error);
-        const errorMessage =
-          error instanceof Error ? error.message : "Unknown error";
+      } else {
+        // Thunk bị rejected
+        const errorMessage = resultAction.error?.message || "Unknown error";
         setText(
           `❌ Error: ${errorMessage}\n\n🔧 Please check:\n- Backend is running?\n- Network connection\n- Console log for more details`
         );
-      } finally {
-        setIsProcessing(false);
       }
+
+      setIsProcessing(false);
     }
   };
 
@@ -83,7 +67,6 @@ const MediaTextLayout: React.FC<MediaTextLayoutProps> = ({
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
-    onTextChange?.(e.target.value);
   };
 
   const openFileDialog = () => {

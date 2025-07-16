@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
 import { logout } from "../../redux/features/auth/authSlice";
-import { getUserById } from "../../redux/features/auth/authThunk";
+import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 const Header = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -26,7 +26,7 @@ const Header = () => {
       useEffect(() => {
         const storedUserId = localStorage.getItem("userId");
         if (storedUserId) {
-          dispatch(getUserById(storedUserId));
+          dispatch(getUserByIdThunk(storedUserId));
         }
       }, [dispatch]);
 
