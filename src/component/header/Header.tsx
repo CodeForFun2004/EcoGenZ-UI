@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
-      dispatch(getUserById(storedUserId));
+      dispatch(getUserByIdThunk(storedUserId));
     }
   }, [dispatch]);
   useEffect(() => {
@@ -119,7 +119,7 @@ const Header = () => {
                         <Link to="/social-feed-page">Community</Link>
                       </li>
                       <li>
-                        <Link to="//media-text-page">Media </Link>
+                        <Link to="/media-text-page">Media </Link>
                       </li>
                     </ul>
                   </nav>
