@@ -25,7 +25,7 @@ export const googleLoginThunk = createAsyncThunk<User, { tokenId: string }>(
     return data;
   }
 );
-export const getUserById = createAsyncThunk<User, string>(
+export const getUserByIdThunk = createAsyncThunk<User, string>(
   "auth/fetchUserById",
   async (userId) => {
     const response = await authAPI.getUserById(userId);
