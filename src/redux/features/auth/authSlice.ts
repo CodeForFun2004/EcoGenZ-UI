@@ -4,7 +4,7 @@ import {
   loginThunk,
   registerThunk,
   googleLoginThunk,
-  getUserById,
+  getUserByIdThunk,
 } from "./authThunk";
 
 // Lấy lại user từ localStorage nếu có
@@ -75,15 +75,17 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Google login failed";
       })
-      .addCase(getUserById.pending, (state) => {
+
+      // Get User by ID
+      .addCase(getUserByIdThunk.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getUserById.fulfilled, (state, action) => {
+      .addCase(getUserByIdThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload;
       })
-      .addCase(getUserById.rejected, (state, action) => {
+      .addCase(getUserByIdThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load user";
       });

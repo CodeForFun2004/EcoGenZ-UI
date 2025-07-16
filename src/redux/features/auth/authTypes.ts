@@ -1,5 +1,5 @@
 export interface User {
-  userId: string;
+  id: string;
   Username: string;
   email: string;
   profilePhotoUrl?: string;
@@ -10,4 +10,11 @@ export interface AuthState {
   user: User | null;
   loading: boolean;
   error: string | null;
+}
+
+export interface FormSignupValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
