@@ -105,23 +105,10 @@ const Header = () => {
                         <Link to="/">home</Link>
                       </li>
                       <li>
-                        <Link to="/about-page">About</Link>
-                      </li>
-                      <li>
                         <Link to="/ranking-page">Ranking</Link>
                       </li>
                       <li>
-                        <Link to="/">
-                          blog <i className="ti-angle-down"></i>
-                        </Link>
-                        <ul className="submenu">
-                          <li>
-                            <Link to="/blog-page">blog</Link>
-                          </li>
-                          <li>
-                            <Link to="/single-blog-page">single-blog</Link>
-                          </li>
-                        </ul>
+                        <Link to="/blog-page">Activities</Link>
                       </li>
                       <li>
                         <Link to="/contact-page">Contact</Link>

@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AuthState } from "./authTypes";
-import { loginThunk, registerThunk, googleLoginThunk, getUserById } from "./authThunk";
+import {
+  loginThunk,
+  registerThunk,
+  googleLoginThunk,
+  getUserById,
+} from "./authThunk";
 
 // Lấy lại user từ localStorage nếu có
 const savedUser = localStorage.getItem("user");
@@ -70,13 +75,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || "Google login failed";
       })
-       .addCase(getUserById.pending, (state) => {
+      .addCase(getUserById.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(getUserById.fulfilled, (state, action) => {
         state.loading = false;
-        state.currentUser = action.payload;
+        state.user = action.payload;
       })
       .addCase(getUserById.rejected, (state, action) => {
         state.loading = false;
