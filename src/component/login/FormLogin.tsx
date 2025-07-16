@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { loginThunk } from "../../redux/features/auth/authThunk"; // cập nhật đúng path
-import { FaFacebookF, FaGoogle, FaLinkedinIn } from "react-icons/fa";
+import {
+  loginThunk,
+  googleLoginThunk,
+} from "../../redux/features/auth/authThunk"; // cập nhật đúng path
+import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
 import "./formLogin.css";
 
 const FormLogin = () => {
@@ -15,7 +19,9 @@ const FormLogin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const resultAction = await dispatch(loginThunk({ email, password }) as any);
+      const resultAction = await dispatch(
+        loginThunk({ email, password }) as any
+      );
       if (loginThunk.fulfilled.match(resultAction)) {
         navigate("/"); // hoặc redirect trang thành công
       } else {
@@ -60,8 +66,14 @@ const FormLogin = () => {
           required
         />
         <div className="button-group">
-          <button type="submit" className="btn-login">Login</button>
-          <button type="button" className="btn-create" onClick={handleCreateAccount}>
+          <button type="submit" className="btn-login">
+            Login
+          </button>
+          <button
+            type="button"
+            className="btn-create"
+            onClick={handleCreateAccount}
+          >
             Create account
           </button>
         </div>
@@ -69,7 +81,23 @@ const FormLogin = () => {
       <p className="login-alt">Or login with</p>
       <div className="social-icons">
         <FaFacebookF className="icon facebook" />
-        <FaGoogle className="icon google" />
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            if (credentialResponse.credential) {
+              const resultAction = await dispatch(
+                googleLoginThunk({ tokenId: credentialResponse.credential }) as any
+              );
+              if (googleLoginThunk.fulfilled.match(resultAction)) {
+                navigate("/");
+              } else {
+                alert("Google login failed");
+              }
+            } else {
+              alert("Google credential is missing!");
+            }
+          }}
+          onError={() => alert("Google login failed")}
+        />
         <FaLinkedinIn className="icon linkedin" />
       </div>
     </div>
