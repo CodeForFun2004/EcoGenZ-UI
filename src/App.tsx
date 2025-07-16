@@ -14,6 +14,7 @@ import SignupPage from './pages/signup/SignupPage';
 import SocialFeedPage from './pages/community/SocialFeedPage';
 import NotFound from './pages/NotFound';
 import RankingPage from './pages/ranking/RankingPage';
+import MediaTextPage from './pages/media-text/MediaTextPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/contact-page" element={<ContactPage />} />
         <Route path="/social-feed-page" element={<SocialFeedPage />} />
         <Route path="/ranking-page" element={<RankingPage/>}/>
+        <Route path="/media-text-page" element={<MediaTextPage />} />
         {/* Thêm các trang public khác vào đây */}
       </Route>
 

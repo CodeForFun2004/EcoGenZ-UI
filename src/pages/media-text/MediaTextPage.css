@@ -1,0 +1,12 @@
+.media-text-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  padding-top: 80px; /* Account for header */
+}
+
+/* Additional responsive adjustments if needed */
+@media (max-width: 768px) {
+  .media-text-page {
+    padding-top: 60px;
+  }
+}
