@@ -14,8 +14,11 @@ import SignupPage from './pages/signup/SignupPage';
 import SocialFeedPage from './pages/community/SocialFeedPage';
 import NotFound from './pages/NotFound';
 import RankingPage from './pages/ranking/RankingPage';
+
 import MediaTextPage from './pages/media-text/MediaTextPage';
 import FloatingChatButton from './component/chatbot/FloatingChatButton'
+import OrganizationPage from './pages/organizer/OrganizerPage';
+
 
 function App() {
   return (
@@ -38,6 +41,7 @@ function App() {
       <Route element={<MinimalLayout />}>
         <Route path="/login-page" element={<LoginPage />} />
         <Route path="/signup-page" element={<SignupPage/>}/>
+        <Route path="/organizer-post" element={<OrganizationPage/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Route>
     </Routes>
