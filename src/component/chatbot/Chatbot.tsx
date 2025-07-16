@@ -3,30 +3,33 @@ import React, {
   useCallback,
   useRef,
   useEffect,
-  FC, 
-  ChangeEvent, 
-  KeyboardEvent, 
+  type FC,
+  type ChangeEvent,
+  type KeyboardEvent,
 } from "react";
 import { Input, Button, Avatar } from "antd";
 import { SendOutlined, RobotOutlined, UserOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
+import {
+  aichatAPI,
+  type ChatMessage as APIChatMessage,
+} from "../../redux/features/aichat/aichataskAPI";
 import "./Chatbot.css";
 
-
 interface ChatMessage {
-  role: "user" | "model"; 
+  role: "user" | "model";
   text: string;
 }
 
 const Chatbot: FC = () => {
-  // 2. Gán kiểu cho các state
   const [inputValue, setInputValue] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
       role: "model",
-      text: "Hi this is 911, what's your emergency",
+      text: "Hi, I'm EcoGenZ Bot, how can I help you?",
     },
   ]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -38,24 +41,53 @@ const Chatbot: FC = () => {
     scrollToBottom();
   }, [chatHistory, scrollToBottom]);
 
-  // 4. Gán kiểu cho tham số của event handler
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
   };
 
-  const handleSendMessage = useCallback(() => {
+  const handleSendMessage = useCallback(async () => {
     const userMessageText = inputValue.trim();
-    if (!userMessageText) return;
+    if (!userMessageText || isLoading) return;
 
     const newUserMessage: ChatMessage = { role: "user", text: userMessageText };
-    const botMessage: ChatMessage = {
-      role: "model",
-      text: "Hỏi cc",
-    };
 
-    setChatHistory((prevHistory) => [...prevHistory, newUserMessage, botMessage]);
+    // Add user message immediately
+    setChatHistory((prevHistory) => [...prevHistory, newUserMessage]);
     setInputValue("");
-  }, [inputValue]);
+    setIsLoading(true);
+
+    try {
+      // Convert chat history to API format
+      const previousMessages: APIChatMessage[] = chatHistory.map((msg) => ({
+        role: msg.role === "model" ? "assistant" : msg.role,
+        content: msg.text,
+      }));
+
+      const response = await aichatAPI.chatAsk({
+        message: userMessageText,
+        previousMessages,
+      });
+
+      const botMessage: ChatMessage = {
+        role: "model",
+        text: response.response,
+      };
+
+      setChatHistory((prevHistory) => [...prevHistory, botMessage]);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Đã xảy ra lỗi khi kết nối đến server.";
+      const errorBotMessage: ChatMessage = {
+        role: "model",
+        text: `❌ Lỗi: ${errorMessage}\n\nVui lòng thử lại sau hoặc kiểm tra kết nối mạng.`,
+      };
+      setChatHistory((prevHistory) => [...prevHistory, errorBotMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [inputValue, isLoading, chatHistory]);
 
   const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -89,7 +121,7 @@ const Chatbot: FC = () => {
               <div className="message-text">
                 <ReactMarkdown
                   components={{
-                    a: ({ node, ...props }) => (
+                    a: ({ ...props }) => (
                       <a {...props} target="_blank" rel="noopener noreferrer" />
                     ),
                   }}
@@ -99,7 +131,11 @@ const Chatbot: FC = () => {
               </div>
             </div>
             {item.role === "user" && (
-              <Avatar size={32} icon={<UserOutlined />} className="chat-avatar" />
+              <Avatar
+                size={32}
+                icon={<UserOutlined />}
+                className="chat-avatar"
+              />
             )}
           </div>
         ))}
