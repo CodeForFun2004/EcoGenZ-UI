@@ -19,20 +19,14 @@ const Header = () => {
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
-      dispatch(getUserById(storedUserId));
+      dispatch(getUserByIdThunk(storedUserId));
     }
   }, [dispatch]);
+
   useEffect(() => {
     const handleScroll = () => {
       const stickyHeader = document.getElementById("sticky-header");
       const backTop = document.getElementById("back-top");
-      const { user } = useAppSelector((state) => state.auth);
-      useEffect(() => {
-        const storedUserId = localStorage.getItem("userId");
-        if (storedUserId) {
-          dispatch(getUserByIdThunk(storedUserId));
-        }
-      }, [dispatch]);
 
       if (window.scrollY < 400) {
         stickyHeader?.classList.remove("sticky");
@@ -42,11 +36,9 @@ const Header = () => {
         backTop?.classList.add("show");
       }
     };
-    window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
   return (
     <header>
