@@ -14,6 +14,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
+    console.log("Stored User ID:", storedUserId);
     if (storedUserId) {
       dispatch(getUserById(storedUserId));
     }
@@ -26,14 +27,14 @@ const CreatePost = () => {
       return;
     }
 
-    if (!user?.userId) {
+    if (!user?.id) {
       alert("User not logged in.");
       return;
     }
 
     const formData = new FormData();
     formData.append("content", content);
-    formData.append("userId", user.userId);
+    formData.append("userId", user.id);
     if (imageFile) {
       formData.append("imageFile", imageFile);
     }
@@ -47,7 +48,7 @@ const CreatePost = () => {
     <div className="create-post-container">
       <div className="create-post-header">
         <img
-          src={user?.profilePhotoUrl || "default-avatar.png"}
+          src={user?.profilePhotoUrl || "https://i.pravatar.cc/40"}
           alt="Your Avatar"
           className="user-avatar"
         />
