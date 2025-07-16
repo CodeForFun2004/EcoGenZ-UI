@@ -12,14 +12,8 @@ const CreatePost = () => {
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    console.log("Stored User ID:", storedUserId);
-    if (storedUserId) {
-      dispatch(getUserByIdThunk(storedUserId));
-    }
-    console.log("User fetched:", user);
-  }, [dispatch]);
+  const storedUserId = localStorage.getItem("userId");
+  // const userId = storedUserId ? JSON.parse(storedUserId) : null;
 
   const handleSubmit = () => {
     if (!content) {
@@ -27,14 +21,14 @@ const CreatePost = () => {
       return;
     }
 
-    if (!user?.id) {
+    if (!storedUserId) {
       alert("User not logged in.");
       return;
     }
 
     const formData = new FormData();
     formData.append("content", content);
-    formData.append("userId", user.id);
+    formData.append("userId", storedUserId); // Must be a plain string, not null
     if (imageFile) {
       formData.append("imageFile", imageFile);
     }

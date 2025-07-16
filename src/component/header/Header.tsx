@@ -13,6 +13,9 @@ const Header = () => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     dispatch(logout());
   };
 
@@ -20,6 +23,7 @@ const Header = () => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
       dispatch(getUserByIdThunk(storedUserId));
+      console.log("User fetched:", user);
     }
   }, [dispatch]);
 

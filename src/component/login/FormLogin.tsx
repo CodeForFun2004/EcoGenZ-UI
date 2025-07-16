@@ -26,9 +26,9 @@ const FormLogin = () => {
       if (loginThunk.fulfilled.match(resultAction)) {
         const userData = resultAction.payload;
         if (userData) {
-          localStorage.setItem("user", JSON.stringify(userData));
-          localStorage.setItem("userId", userData.userId);
-          console.log(userData);
+          // localStorage.setItem("user", JSON.stringify(userData));
+          // localStorage.setItem("userId", userData.id);
+          // console.log(userData);
           navigate("/");
         } else {
           alert("Login response missing user data.");
