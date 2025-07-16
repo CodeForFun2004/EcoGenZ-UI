@@ -5,7 +5,7 @@ import {
   loginThunk,
   googleLoginThunk,
 } from "../../redux/features/auth/authThunk"; // cập nhật đúng path
-import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
+// import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import "./formLogin.css";
 
@@ -22,13 +22,40 @@ const FormLogin = () => {
       const resultAction = await dispatch(
         loginThunk({ email, password }) as any
       );
+
       if (loginThunk.fulfilled.match(resultAction)) {
-        navigate("/"); // hoặc redirect trang thành công
+        const userData = resultAction.payload;
+        if (userData) {
+          // localStorage.setItem("user", JSON.stringify(userData));
+          // localStorage.setItem("userId", userData.id);
+          // console.log(userData);
+          navigate("/");
+        } else {
+          alert("Login response missing user data.");
+        }
       } else {
         alert("Login failed");
       }
     } catch (err) {
       console.error("Login error:", err);
+      alert("An unexpected error occurred.");
+    }
+  };
+
+  const handleGoogleLogin = async (credentialResponse: any) => {
+    if (credentialResponse.credential) {
+      const resultAction = await dispatch(
+        googleLoginThunk({
+          tokenId: credentialResponse.credential,
+        }) as any
+      );
+      if (googleLoginThunk.fulfilled.match(resultAction)) {
+        navigate("/");
+      } else {
+        alert("Google login failed");
+      }
+    } else {
+      alert("Google credential is missing!");
     }
   };
 
@@ -80,25 +107,12 @@ const FormLogin = () => {
       </form>
       <p className="login-alt">Or login with</p>
       <div className="social-icons">
-        <FaFacebookF className="icon facebook" />
+        {/* <FaFacebookF className="icon facebook" /> */}
         <GoogleLogin
-          onSuccess={async (credentialResponse) => {
-            if (credentialResponse.credential) {
-              const resultAction = await dispatch(
-                googleLoginThunk({ tokenId: credentialResponse.credential }) as any
-              );
-              if (googleLoginThunk.fulfilled.match(resultAction)) {
-                navigate("/");
-              } else {
-                alert("Google login failed");
-              }
-            } else {
-              alert("Google credential is missing!");
-            }
-          }}
+          onSuccess={handleGoogleLogin}
           onError={() => alert("Google login failed")}
         />
-        <FaLinkedinIn className="icon linkedin" />
+        {/* <FaLinkedinIn className="icon linkedin" /> */}
       </div>
     </div>
   );

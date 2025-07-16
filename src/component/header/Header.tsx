@@ -3,17 +3,29 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import "./Header.css";
 
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
 import { logout } from "../../redux/features/auth/authSlice";
-
+import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
 
   const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     dispatch(logout());
   };
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+    if (storedUserId) {
+      dispatch(getUserByIdThunk(storedUserId));
+      console.log("User fetched:", user);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,12 +42,8 @@ const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   return (
     <header>
       <div className="header-area">
@@ -95,29 +103,19 @@ const Header = () => {
                         <Link to="/">home</Link>
                       </li>
                       <li>
-                        <Link to="/about-page">About</Link>
-                      </li>
-                      <li>
                         <Link to="/ranking-page">Ranking</Link>
                       </li>
                       <li>
-                        <Link to="/">
-                          blog <i className="ti-angle-down"></i>
-                        </Link>
-                        <ul className="submenu">
-                          <li>
-                            <Link to="/blog-page">blog</Link>
-                          </li>
-                          <li>
-                            <Link to="/single-blog-page">single-blog</Link>
-                          </li>
-                        </ul>
+                        <Link to="/blog-page">Activities</Link>
                       </li>
                       <li>
                         <Link to="/contact-page">Contact</Link>
                       </li>
                       <li>
                         <Link to="/social-feed-page">Community</Link>
+                      </li>
+                      <li>
+                        <Link to="/media-text-page">Media </Link>
                       </li>
                     </ul>
                   </nav>
@@ -126,7 +124,9 @@ const Header = () => {
                       <>
                         <div className="d-flex align-items-center gap-2 mb-3">
                           <img
-                            src={user.avatar || "https://i.pravatar.cc/40"} // ảnh fallback nếu không có
+                            src={
+                              user.profilePhotoUrl || "https://i.pravatar.cc/40"
+                            } // ảnh fallback nếu không có
                             alt="avatar"
                             style={{
                               width: 36,
@@ -134,7 +134,7 @@ const Header = () => {
                               borderRadius: "50%",
                             }}
                           />
-                          <span>{user.name}</span>
+                          <span>{user.Username}</span>
                         </div>
                         <button
                           onClick={handleLogout}

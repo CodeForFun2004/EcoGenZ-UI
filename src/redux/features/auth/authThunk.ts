@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as authAPI from "./authAPI";
-import type { User } from "./types";
+import type { User } from "./authTypes";
 
 export const loginThunk = createAsyncThunk<
   User,
   { email: string; password: string }
 >("auth/login", async (credentials) => {
   const data = await authAPI.login(credentials);
-  return data;
+  return data.result;
 });
 
 export const registerThunk = createAsyncThunk<
@@ -23,5 +23,12 @@ export const googleLoginThunk = createAsyncThunk<User, { tokenId: string }>(
   async ({ tokenId }) => {
     const data = await authAPI.googleLogin(tokenId);
     return data;
+  }
+);
+export const getUserByIdThunk = createAsyncThunk<User, string>(
+  "auth/fetchUserById",
+  async (userId) => {
+    const response = await authAPI.getUserById(userId);
+    return response;
   }
 );

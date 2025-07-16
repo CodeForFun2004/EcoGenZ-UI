@@ -5,13 +5,9 @@ import { fetchAllActivities } from "../../redux/features/activities/activitiesTh
 import type { RootState } from "../../redux/store";
 
 import "../../App.css";
+import type { Activity } from "../../redux/features/activities/activitiesTypes";
 
-type Activity = {
-  activityId: string;
-  mediaUrl: string;
-  title: string;
-  description: string;
-};
+
 
 const PopularCauses = () => {
   const dispatch = useDispatch();

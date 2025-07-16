@@ -62,6 +62,10 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.user-row .message-bubble .message-text p {
+  color: white;
+}
+
 .bot-row .message-author {
   color: #65676b;
 }
