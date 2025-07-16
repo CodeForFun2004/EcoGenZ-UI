@@ -23,9 +23,8 @@ const ReasonSection = () => {
                   </div>
                 </div>
                 <div className="help_content">
-                  <h4>Collecting Fund</h4>
-                  <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.</p>
-                  <Link to="#" className="read_more">Read More</Link>
+                  <h4>Join Hands. Clean Lands</h4>
+                  <p>Be part of environmental actions that matter</p>
                 </div>
               </div>
             </div>
@@ -37,9 +36,8 @@ const ReasonSection = () => {
                   </div>
                 </div>
                 <div className="help_content">
-                  <h4>Blood Camp</h4>
-                  <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.</p>
-                  <Link to="#" className="read_more">Read More</Link>
+                  <h4>Act Local, Impact Global</h4>
+                  <p>Sign up, show up, and make Earth greener</p>             
                 </div>
               </div>
             </div>
@@ -51,9 +49,8 @@ const ReasonSection = () => {
                   </div>
                 </div>
                 <div className="help_content">
-                  <h4>Friendly Volunteer</h4>
-                  <p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print.</p>
-                  <Link to="#" className="read_more">Read More</Link>
+                  <h4>Green Moves Start with You</h4>
+                  <p>Discover and join eco-friendly activities today</p>
                 </div>
               </div>
             </div>
