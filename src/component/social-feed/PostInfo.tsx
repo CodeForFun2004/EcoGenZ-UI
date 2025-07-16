@@ -31,8 +31,13 @@ const Post = ({ post }: PostProps) => {
     setLikesCount((prev) => (isLiked ? prev - 1 : prev + 1));
 
     try {
-      await toggleLike(user.id, post.id);
-      console.log("Like toggled successfully with+",user.id, "and post.id", post.id);
+      await toggleLike(user.userId, post.id);
+      console.log(
+        "Like toggled successfully with+",
+        user.userId,
+        "and post.id",
+        post.id
+      );
     } catch (error) {
       console.error("Failed to toggle like:", error);
       // Rollback UI
@@ -62,13 +67,13 @@ const Post = ({ post }: PostProps) => {
         )}
       </div>
 
-      <div className="post-stats">
+      {/* <div className="post-stats">
         <span>{likesCount} Likes</span>
         <span>{post?.comments?.length} Comments</span>
         <span>{post?.shares?.length} Shares</span>
-      </div>
+      </div> */}
 
-      <div className="post-actions">
+      {/* <div className="post-actions">
         <button
           onClick={handleLike}
           className={`action-button ${isLiked ? "liked" : ""}`}
@@ -81,7 +86,7 @@ const Post = ({ post }: PostProps) => {
         <button className="action-button">
           <FaShare /> Share
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
