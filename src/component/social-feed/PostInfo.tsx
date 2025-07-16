@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import type { Post } from "../../redux/features/social_posts/postTypes";
 import { FaThumbsUp, FaCommentAlt, FaShare } from "react-icons/fa";
-import { getUserById } from "../../redux/features/auth/authThunk";
+import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 
 import "./Post.css";
 import { toggleLike } from "../../redux/features/social_posts/postAPI";
@@ -20,7 +20,7 @@ const Post = ({ post }: PostProps) => {
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {
-      dispatch(getUserById(storedUserId));
+      dispatch(getUserByIdThunk(storedUserId));
     }
   }, [dispatch]);
   const handleLike = async () => {

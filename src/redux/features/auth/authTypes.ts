@@ -11,3 +11,10 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
 }
+
+export interface FormSignupValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}

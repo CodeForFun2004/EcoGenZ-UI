@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
 import { logout } from "../../redux/features/auth/authSlice";
-import { getUserById } from "../../redux/features/auth/authThunk";
+import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -26,6 +26,13 @@ const Header = () => {
     const handleScroll = () => {
       const stickyHeader = document.getElementById("sticky-header");
       const backTop = document.getElementById("back-top");
+      const { user } = useAppSelector((state) => state.auth);
+      useEffect(() => {
+        const storedUserId = localStorage.getItem("userId");
+        if (storedUserId) {
+          dispatch(getUserByIdThunk(storedUserId));
+        }
+      }, [dispatch]);
 
       if (window.scrollY < 400) {
         stickyHeader?.classList.remove("sticky");
