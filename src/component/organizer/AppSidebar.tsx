@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Home, LayoutGrid, MessageCircle, Bell, Search, Plus } from "lucide-react"
 import { Nav, Button } from "react-bootstrap"
 import { ModalUpPost } from "./modal/UpPostModal"
+import { Link } from "react-router-dom"
 
 export function AppSidebar() {
   const [showModal, setShowModal] = useState(false)
@@ -13,14 +14,14 @@ export function AppSidebar() {
         style={{ width: "80px", height: "100vh", zIndex: 1050 }}
       >
         <Nav className="flex-grow-1 d-flex flex-column align-items-center mt-4">
-          <Nav.Link className="d-flex flex-column align-items-center text-muted mb-4">
+          <Link className="d-flex flex-column align-items-center text-muted mb-4" to='/organizer-post'>
             <Home size={24} />
             <span className="sr-only">Home</span>
-          </Nav.Link>
-          <Nav.Link className="d-flex flex-column align-items-center text-muted mb-4">
+          </Link>
+          <Link className="d-flex flex-column align-items-center text-muted mb-4" to='/approve-participant'>
             <LayoutGrid size={24} />
             <span className="sr-only">Dashboard</span>
-          </Nav.Link>
+          </Link>
           <Nav.Link className="d-flex flex-column align-items-center text-muted mb-4">
             <MessageCircle size={24} />
             <span className="sr-only">Messages</span>

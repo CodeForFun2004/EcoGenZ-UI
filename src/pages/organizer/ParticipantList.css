@@ -1,0 +1,64 @@
+/* src/pages/ParticipantList.css (hoặc file CSS chung) */
+
+/* ... (các style khác của bạn) ... */
+
+.table-header-bg th {
+  background-color: #e9ecef; /* Màu xám nhạt cho nền header, giống Bootstrap gray-200 */
+  color: #495057; /* Màu chữ hơi đậm hơn */
+  vertical-align: middle; /* Căn giữa theo chiều dọc */
+  font-weight: 600; /* Đậm hơn một chút */
+}
+
+/* Tab styling (để đảm bảo màu sắc và căn giữa tốt hơn) */
+.tabs {
+  margin-bottom: 1.5rem; /* Khoảng cách dưới các tab */
+}
+
+.tabs .tab-button {
+  min-width: 120px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid transparent; /* Border trong suốt để tránh nhảy khi active */
+}
+
+/* Định nghĩa lại màu cho nút active (btn-danger) và inactive (btn-light) */
+.tabs .tab-button.btn-danger {
+  background-color: #dc3545; /* Màu đỏ của Danger */
+  border-color: #dc3545;
+  color: white;
+}
+
+.tabs .tab-button.btn-danger:hover { /* Hover state cho nút active (màu đỏ) */
+  background-color: #c82333; /* Đậm hơn một chút khi hover */
+  border-color: #bd2130;
+}
+
+
+.tabs .tab-button.btn-light.text-secondary {
+  background-color: #f8f9fa; /* Light gray */
+  border-color: #f8f9fa; /* Match background */
+  color: #6c757d; /* Secondary text color */
+}
+
+.tabs .tab-button.btn-light.text-secondary:hover {
+  background-color: #e2e6ea; /* Slightly darker on hover */
+  border-color: #e2e6ea;
+  color: #333;
+}
+
+/* Đảm bảo badge vẫn giữ màu riêng (không thay đổi) */
+.badge.bg-warning {
+  background-color: #ffc107 !important; /* Vàng của Bootstrap */
+  color: #212529 !important; /* Text đen cho màu vàng */
+}
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+.badge.bg-danger {
+  background-color: #dc3545 !important;
+}
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}

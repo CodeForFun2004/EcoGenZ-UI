@@ -18,6 +18,8 @@ import RankingPage from "./pages/ranking/RankingPage";
 import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
+import ParticipantPage from "./pages/organizer/ParticipantPage";
+
 
 function App() {
   return (
@@ -41,6 +43,7 @@ function App() {
           <Route path="/login-page" element={<LoginPage />} />
           <Route path="/signup-page" element={<SignupPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
+          <Route path="/approve-participant" element={<ParticipantPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

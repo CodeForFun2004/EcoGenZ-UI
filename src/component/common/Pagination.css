@@ -1,0 +1,77 @@
+/* src/styles/common/pagination.css */
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.pagination-button {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  /* GIẢM KÍCH THƯỚC Ở ĐÂY */
+  padding: 0.5rem 1rem; /* Giảm padding */
+  font-size: 0.875rem; /* Giảm kích thước chữ */
+  /* --- */
+  margin: 0 2px;
+  cursor: pointer;
+  border-radius: 4px; /* Giữ bo tròn nhỏ hơn cho nút số trang */
+  transition: all 0.2s ease-in-out;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.pagination-button:hover:not(.disabled) {
+  background-color: #e0e0e0;
+}
+
+/* Style cho nút số trang đang active */
+.pagination-button.active {
+  background-color: #dc3545; /* Màu đỏ của Danger */
+  color: white;
+  border-color: #dc3545;
+}
+
+.pagination-button.active:hover {
+  background-color: #c82333; /* Đậm hơn một chút khi hover */
+  border-color: #bd2130;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.page-numbers-group {
+  display: flex;
+  gap: 2px;
+}
+
+/* ======================================================= */
+/* STYLE MỚI CHO NÚT PREV/NEXT */
+/* ======================================================= */
+.pagination-button.pagination-prev-next {
+  background-color: #f53e6a; /* Màu đỏ hồng yêu cầu */
+  border-color: #f53e6a;
+  color: white;
+  /* GIẢM KÍCH THƯỚC Ở ĐÂY */
+  min-width: 90px; /* Giảm min-width */
+  /* --- */
+}
+
+.pagination-button.pagination-prev-next:hover:not(:disabled) {
+  background-color: #e0325f; /* Màu đậm hơn khi hover */
+  border-color: #d12e5a;
+}
+
+.pagination-button.pagination-prev-next:disabled {
+  background-color: #f0f0f0; /* Màu nền khi disabled */
+  border-color: #ddd;
+  color: #999; /* Màu chữ khi disabled */
+  cursor: not-allowed;
+  opacity: 1;
+}

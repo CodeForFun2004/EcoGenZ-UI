@@ -1,9 +1,10 @@
+// PostCard.tsx
 import { Heart, MessageCircle, Upload, Users } from "lucide-react"
 import { Card, Image, Dropdown } from "react-bootstrap"
 import { FaEdit, FaTrash } from "react-icons/fa"
 import { DeleteConfirmModal } from './modal/DeleteConfirmModal' // Đảm bảo đường dẫn đúng đến file modal
+import { ParticipantModal } from './modal/ParticipantModal'; // <--- IMPORT ParticipantModal
 import { useState } from "react"
-// import { Button } from "@mui/material" // Không cần thiết nếu chỉ dùng react-bootstrap Button
 
 interface PostCardProps {
   organizationName: string
@@ -17,6 +18,16 @@ interface PostCardProps {
   comments: number
   shares: number
   members: number
+  // <--- THÊM participants VÀO PROPS NẾU DỮ LIỆU ĐƯỢC TRUYỀN TỪ NGOÀI VÀO
+  // Nếu không, bạn có thể fetch dữ liệu này bên trong PostCard hoặc ParticipantModal
+  participants?: { // Thêm kiểu dữ liệu cho participants
+    id: number;
+    name: string;
+    role: string;
+    email: string;
+    phone: string;
+    avatar: string;
+  }[];
 }
 
 export function PostCard(
@@ -32,37 +43,54 @@ export function PostCard(
     comments,
     shares,
     members,
+    participants, // <--- Nhận participants từ props
   }: PostCardProps) {
 
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false); // State mới để quản lý hiển thị full description
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showParticipantModal, setShowParticipantModal] = useState(false); // <--- State mới cho ParticipantModal
 
-  const DESCRIPTION_LIMIT = 150; // Giới hạn số ký tự hiển thị ban đầu
+  const DESCRIPTION_LIMIT = 150;
 
-  // Hàm xử lý khi người dùng click vào "Delete" trong dropdown
   const handleDeleteClick = () => {
-    setShowDeleteConfirmModal(true); // Mở modal xác nhận
+    setShowDeleteConfirmModal(true);
   };
 
-  // Hàm xử lý khi người dùng xác nhận xóa trong modal
   const handleConfirmDelete = () => {
     console.log("Đã xác nhận xóa bài viết!");
-    // TODO: Thực hiện logic xóa bài viết ở đây (ví dụ: gọi API)
-
-    // Đóng modal sau khi xóa thành công
     setShowDeleteConfirmModal(false);
   };
 
-  // Hàm xử lý khi người dùng đóng modal (hủy hoặc click nút X)
   const handleCloseDeleteConfirmModal = () => {
     setShowDeleteConfirmModal(false);
   };
 
-  // Kiểm tra xem mô tả có cần cắt bớt hay không
+  // <--- Hàm xử lý hiển thị ParticipantModal
+  const handleShowParticipantModal = () => {
+    setShowParticipantModal(true);
+  };
+
+  // <--- Hàm xử lý đóng ParticipantModal
+  const handleCloseParticipantModal = () => {
+    setShowParticipantModal(false);
+  };
+
   const isDescriptionTooLong = description.length > DESCRIPTION_LIMIT;
   const displayedDescription = showFullDescription
     ? description
     : description.substring(0, DESCRIPTION_LIMIT);
+
+  // Dữ liệu mock cho participants nếu không có từ props
+  const defaultParticipants = participants || [
+    { id: 1, name: "Nicholas Gordon", role: "Developer", email: "ernest.mason@gmail.com", phone: "561-303-6106", avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Brians" },
+    { id: 2, name: "Bradley Malone", role: "Manager", email: "bradley.m@gmail.com", phone: "242-576-7666", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
+    { id: 3, name: "Janie Todd", role: "Designer", email: "stroman.hanna@yahoo.com", phone: "467-624-8505", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
+    { id: 4, name: "Marvin Lambert", role: "Developer", email: "micaela.okuneva@zemlak.biz", phone: "716-937-5782", avatar: "https://randomuser.me/api/portraits/men/76.jpg" },
+    { id: 5, name: "Teresa Lloyd", role: "Designer", email: "carlee_erdman@gmail.com", phone: "496-144-8261", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
+  ];
+
+  // Lưu ý: Avatar của Nicholas Gordon đang trỏ đến ảnh bạn đã cung cấp.
+  // Các avatar khác là ảnh placeholder từ randomuser.me.
 
   return (
     <Card className="w-100 mx-auto shadow-sm rounded-lg overflow-hidden border-0 mb-5" style={{ maxWidth: '800px' }}>
@@ -89,14 +117,13 @@ export function PostCard(
           className="mb-3 rounded"
         />
         <h3>{title}</h3>
-        <p className="text-muted">{hashtag}</p> {/* Đã thêm class text-muted vào đây */}
+        <p className="text-muted">{hashtag}</p>
 
-        {/* Logic hiển thị description */}
-        <p className="mb-2"> {/* Thêm mb-2 để tạo khoảng cách với nút hide nếu có */}
+        <p className="mb-2">
           {displayedDescription}
           {isDescriptionTooLong && !showFullDescription && (
             <span
-              className="text-primary" // Màu xanh để dễ nhận biết là link
+              className="text-primary"
               style={{ cursor: 'pointer', marginLeft: '5px' }}
               onClick={() => setShowFullDescription(true)}
             >
@@ -106,7 +133,7 @@ export function PostCard(
         </p>
         {isDescriptionTooLong && showFullDescription && (
           <small
-            className="text-primary d-block mt-1" // d-block để xuống dòng, mt-1 tạo khoảng cách
+            className="text-primary d-block mt-1"
             style={{ cursor: 'pointer' }}
             onClick={() => setShowFullDescription(false)}
           >
@@ -127,7 +154,8 @@ export function PostCard(
             <Upload size={16} className="me-1" />
             <span>{shares}</span>
           </div>
-          <div className="d-flex align-items-center me-2">
+          {/* <--- CẬP NHẬT Users ICON ĐỂ MỞ MODAL */}
+          <div className="d-flex align-items-center me-2" style={{ cursor: 'pointer' }} onClick={handleShowParticipantModal}>
             <Users size={16} className="me-1" />
             <span>{members}</span>
           </div>
@@ -139,7 +167,6 @@ export function PostCard(
               size="sm"
               className="p-0 border-0 bg-transparent d-flex align-items-center"
             >
-              {/* <MoreHorizontal size={20} /> */}
               <div>Other</div>
             </Dropdown.Toggle>
 
@@ -148,10 +175,9 @@ export function PostCard(
                 <FaEdit className="me-2" />
                 Edit
               </Dropdown.Item>
-              {/* Thay đổi cách gọi hàm xóa tại đây */}
               <Dropdown.Item
                 className="d-flex align-items-center text-danger"
-                onClick={handleDeleteClick} // Gọi hàm để mở modal
+                onClick={handleDeleteClick}
               >
                 <FaTrash className="me-2" />
                 Delete
@@ -168,6 +194,13 @@ export function PostCard(
         onConfirm={handleConfirmDelete}
         title="Confirm Deletion"
         message={`Are you sure you want to delete "${title}"? This action cannot be undone.`}
+      />
+
+      {/* <--- Tích hợp ParticipantModal */}
+      <ParticipantModal
+        show={showParticipantModal}
+        onHide={handleCloseParticipantModal}
+        participants={defaultParticipants} // Truyền dữ liệu participants vào modal
       />
     </Card>
   )

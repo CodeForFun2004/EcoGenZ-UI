@@ -1,5 +1,3 @@
-"use client"
-
 import { AppSidebar } from "../../component/organizer/AppSidebar"
 import { PageHeader } from "../../component/organizer/PageHeader"
 import { CategorySearch } from "../../component/organizer/CategorySearch"
