@@ -8,6 +8,20 @@
   min-height: calc(100vh - 200px);
 }
 
+.location-dropdown {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+select.location-dropdown {
+  max-height: 40px;
+  overflow-y: auto;
+}
+
 .create-activity-header {
   text-align: center;
   margin-bottom: 2rem;
