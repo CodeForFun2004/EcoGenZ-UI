@@ -5,6 +5,7 @@ import {
   registerThunk,
   googleLoginThunk,
   getUserByIdThunk,
+  getuserWithPoint,
 } from "./authThunk";
 
 // Lấy lại user từ localStorage nếu có
@@ -15,6 +16,7 @@ const initialState: AuthState = {
   loading: false,
   error: null,
   usersById: {},
+  userList: [],
 };
 
 const authSlice = createSlice({
@@ -93,10 +95,28 @@ const authSlice = createSlice({
         state.loading = false;
         state.usersById[user.userId] = user;
       })
-
       .addCase(getUserByIdThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load user";
+      })
+      .addCase(getuserWithPoint.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getuserWithPoint.fulfilled, (state, action) => {
+        state.loading = false;
+        // Map to expected User format
+        state.userList = action.payload.map((user: any) => ({
+          userId: user.id,
+          userName: user.userName,
+          email: user.email,
+          profilePhotoUrl: user.profilePhotoUrl,
+          impactPoints: user.impactPoints,
+        }));
+      })
+      .addCase(getuserWithPoint.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? "Failed to load list user";
       });
   },
 });

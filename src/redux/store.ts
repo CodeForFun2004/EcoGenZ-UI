@@ -4,6 +4,7 @@ import activitiesReducer from "./features/activities/activitiesSlice";
 import activityCreateReducer from "./features/activities/activityCreateSlice";
 import postReducer from "./features/social_posts/postSlice";
 import commentReducer from "./features/comment/commentSlice";
+import achievementsReducer from "./features/achivements/achivementSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -11,6 +12,7 @@ export const store = configureStore({
     activityCreate: activityCreateReducer,
     posts: postReducer,
     comments: commentReducer,
+    achievements: achievementsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

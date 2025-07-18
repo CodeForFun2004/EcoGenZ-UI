@@ -274,7 +274,6 @@
 //   )
 // }
 
-
 import "./RankingPage.css";
 import RankingHeader from "../../component/ranking/RankingHeader";
 import Podium from "../../component/ranking/Podium";
@@ -285,6 +284,7 @@ import Achievements from "../../component/ranking/Achievements";
 import LevelProgress from "../../component/ranking/LevelProgress";
 
 import { topThreeData, allRankingsData, achievementsData } from "../../data";
+import RankingsListContainer from "../../component/ranking/RankingListContainer";
 
 export default function RankingPage() {
   return (
@@ -297,10 +297,10 @@ export default function RankingPage() {
           {/* Left Column */}
           <div className="left-column">
             {/* Podium */}
-            <Podium topThree={topThreeData} />
+            <Podium />
 
             {/* Rankings List */}
-            <RankingsList rankings={allRankingsData} />
+            <RankingsListContainer />
           </div>
 
           {/* Right Column */}
@@ -308,11 +308,11 @@ export default function RankingPage() {
             {/* Profile Card */}
             <ProfileCard />
 
-            {/* Categories */}
-            <Categories />
+            {/* Categories
+            <Categories /> */}
 
             {/* Achievements */}
-            <Achievements achievements={achievementsData} />
+            <Achievements />
 
             {/* Level Progress */}
             <LevelProgress />
