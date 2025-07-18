@@ -53,12 +53,12 @@ const Header = () => {
                 <div className="short_contact_list">
                   <ul>
                     <li>
-                      <a href="#">
+                      <a>
                         <i className="fa fa-phone"></i> 0828006916
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a>
                         <i className="fa fa-envelope"></i> EcoGenz@gmail.com
                       </a>
                     </li>

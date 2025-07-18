@@ -2,7 +2,6 @@
 
 
 
-import NewsSection from '../../component/home/NewsSection';
 import './Home.css'
 
 
@@ -25,7 +24,6 @@ const HomePage = () => {
       <PopularCauses/>
       <Counter/>
       <OurVolunteer/>
-      <NewsSection/>
     </>
   );
 };

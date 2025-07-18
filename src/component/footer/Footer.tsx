@@ -35,7 +35,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-xl-2 col-md-6 col-lg-2">
+            <div className="col-xl-4 col-md-6 col-lg-4">
               <div className="footer_widget">
                 <h3 className="footer_title">Services</h3>
                 <ul className="links">
@@ -47,7 +47,7 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="col-xl-3 col-md-6 col-lg-3">
+            <div className="col-xl-4 col-md-6 col-lg-4">
               <div className="footer_widget">
                 <h3 className="footer_title">Contacts</h3>
                 <div className="contacts">
@@ -59,33 +59,6 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-
-            <div className="col-xl-3 col-md-6 col-lg-3">
-              <div className="footer_widget">
-                <h3 className="footer_title">Top News</h3>
-                <ul className="news_links">
-                  <li>
-                    <div className="thumb">
-                      <a href="#"><img src={news_1} alt="News 1" /></a>
-                    </div>
-                    <div className="info">
-                      <a href="#"><h4>School for African Childrens</h4></a>
-                      <span>Jun 12, 2019</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="thumb">
-                      <a href="#"><img src={news_2} alt="News 2" /></a>
-                    </div>
-                    <div className="info">
-                      <a href="#"><h4>School for African Childrens</h4></a>
-                      <span>Jun 12, 2019</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
