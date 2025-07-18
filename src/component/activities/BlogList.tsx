@@ -30,7 +30,7 @@ const BlogList = () => {
                 src={activity.mediaUrl}
                 alt={`Blog ${index + 1}`}
               />
-              <a href="#" className="blog_item_date">
+              <a className="blog_item_date">
                 <h3>{new Date(activity.date).getDate()}</h3>
                 <p>
                   {new Date(activity.date).toLocaleString("en-US", {
@@ -39,28 +39,40 @@ const BlogList = () => {
                 </p>
               </a>
             </div>
-            <div className="blog_details">
+            <div className="blog_details d-flex justify-content-between align-items-start">
+              <div style={{ flex: 1 }}>
+                <h2>{activity.title}</h2>
+                <p>{activity.description}</p>
+                <ul className="blog-info-link">
+                  <li>
+                    <a href="#">
+                      <i className="fa fa-user"></i> {activity.amountOfPeople}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <i className="fa-regular fa-location-dot"></i>
+                      {activity.location}
+                    </a>
+                  </li>
+                </ul>
+              </div>
               <Link
                 to={`/activities/${activity.activityId}`}
                 className="d-inline-block"
               >
-                <h2>{activity.title}</h2>
+                <button
+                  className="btn ms-3"
+                  style={{
+                    backgroundColor: "#3CC78F",
+                    whiteSpace: "nowrap",
+                    height: "fit-content",
+                    color: "#fff",
+                  }}
+                >
+                  View Detail Activity
+                </button>
               </Link>
-
-              <p>{activity.description}</p>
-              <ul className="blog-info-link">
-                <li>
-                  <a href="#">
-                    <i className="fa fa-user"></i> {activity.amountOfPeople}
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i className="fa-regular fa-location-dot"></i>
-                    {activity.location}
-                  </a>
-                </li>
-              </ul>
             </div>
           </article>
         ))}

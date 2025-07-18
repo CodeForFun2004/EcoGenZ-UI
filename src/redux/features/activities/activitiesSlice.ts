@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   fetchAllActivities,
   fetchActivityById,
+  registerActivities,
   //   createActivity,
   //   updateActivity,
   //   deleteActivity,
@@ -14,6 +15,7 @@ const initialState: ActivityState = {
   loading: false,
   error: null,
   selectedActivity: null,
+  message: "",
 };
 const activitiesSlice = createSlice({
   name: "activities",
@@ -36,15 +38,27 @@ const activitiesSlice = createSlice({
       .addCase(fetchActivityById.pending, (state) => {
         state.loading = true;
         state.selectedActivity = null;
+      })
+      .addCase(fetchActivityById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedActivity = action.payload;
+      })
+      .addCase(fetchActivityById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch activity";
+      })
+      .addCase(registerActivities.pending, (state) => {
+        state.loading = true;
+        state.selectedActivity = null;
+      })
+      .addCase(registerActivities.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload;
+      })
+      .addCase(registerActivities.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to register activity";
       });
-    builder.addCase(fetchActivityById.fulfilled, (state, action) => {
-      state.loading = false;
-      state.selectedActivity = action.payload;
-    });
-    builder.addCase(fetchActivityById.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || "Failed to fetch activity";
-    });
 
     // // Create Activity
     // .addCase(createActivity.fulfilled, (state, action) => {

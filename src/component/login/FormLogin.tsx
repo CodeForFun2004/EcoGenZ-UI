@@ -8,8 +8,17 @@ import {
 // import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import "./formLogin.css";
+import { toast } from "react-toastify";
 
-const FormLogin = () => {
+interface FormLoginProps {
+  loginType: "User" | "Company" | null;
+  setShowTypeSelector: (show: boolean) => void;
+}
+
+const FormLogin: React.FC<FormLoginProps> = ({
+  loginType,
+  setShowTypeSelector,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,16 +38,20 @@ const FormLogin = () => {
           // localStorage.setItem("user", JSON.stringify(userData));
           // localStorage.setItem("userId", userData.id);
           // console.log(userData);
+          toast.success("Login successful!");
           navigate("/");
         } else {
-          alert("Login response missing user data.");
+          toast.error("Login response missing user data.");
+          setShowTypeSelector(true);
         }
       } else {
-        alert("Login failed");
+        toast.error(resultAction.error.message || "Login failed1234");
+        toast.info("select your type to login again!");
+        setShowTypeSelector(true);
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("An unexpected error occurred.");
+    } catch {
+      toast.error("An unexpected error occurred.");
+      setShowTypeSelector(true);
     }
   };
 
@@ -47,15 +60,19 @@ const FormLogin = () => {
       const resultAction = await dispatch(
         googleLoginThunk({
           tokenId: credentialResponse.credential,
+          role: loginType as "User" | "Company" | null,
         }) as any
       );
       if (googleLoginThunk.fulfilled.match(resultAction)) {
+        toast.success("Login successful!");
         navigate("/");
       } else {
-        alert("Google login failed");
+        toast.error(resultAction.error.message || "Login failed1234");
+        setShowTypeSelector(true);
       }
     } else {
-      alert("Google credential is missing!");
+      toast.error("Google credential is missing!");
+      setShowTypeSelector(true);
     }
   };
 
@@ -110,7 +127,7 @@ const FormLogin = () => {
         {/* <FaFacebookF className="icon facebook" /> */}
         <GoogleLogin
           onSuccess={handleGoogleLogin}
-          onError={() => alert("Google login failed")}
+          onError={() => alert("Google login failedkkkk")}
         />
         {/* <FaLinkedinIn className="icon linkedin" /> */}
       </div>

@@ -40,6 +40,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.5",
     "react-youtube": "^10.1.0",
     "slick-carousel": "^1.8.1",
     "slicknav": "^1.0.8",

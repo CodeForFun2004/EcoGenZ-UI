@@ -8,8 +8,17 @@ import {
 import { useAppDispatch } from "../../redux/hook";
 import { useForm } from "react-hook-form";
 import type { FormSignupValues } from "../../redux/features/auth/authTypes";
+import { toast } from "react-toastify";
 
-const FormSignup = () => {
+interface FormSignupProps {
+  registerType: "User" | "Company" | null;
+  setShowTypeSelector: (show: boolean) => void;
+}
+
+const FormSignup: React.FC<FormSignupProps> = ({
+  registerType,
+  setShowTypeSelector,
+}) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -26,17 +35,19 @@ const FormSignup = () => {
     const { email, password, name } = data;
     try {
       const resultAction = await dispatch(
-        registerThunk({ name, email, password }) as any
+        registerThunk({ name, email, password, role: registerType }) as any
       );
 
       if (registerThunk.fulfilled.match(resultAction)) {
+        toast.success("Registration successful!");
         navigate("/login-page");
       } else {
-        alert("Register failed");
+        toast.error(resultAction.error.message || "Register failed");
+        setShowTypeSelector(true);
       }
-    } catch (err) {
-      console.error("Register error:", err);
-      alert("An unexpected error occurred.");
+    } catch {
+      toast.error("An unexpected error occurred.");
+      setShowTypeSelector(true);
     }
   };
 
@@ -45,15 +56,18 @@ const FormSignup = () => {
       const resultAction = await dispatch(
         googleLoginThunk({
           tokenId: credentialResponse.credential,
+          role: registerType as "User" | "Company" | null,
         }) as any
       );
       if (googleLoginThunk.fulfilled.match(resultAction)) {
         navigate("/");
       } else {
-        alert("Google login failed");
+        toast.error(resultAction.error.message || "Login failed1234");
+        setShowTypeSelector(true);
       }
     } else {
-      alert("Google credential is missing!");
+      toast.error("Google credential is missing!");
+      setShowTypeSelector(true);
     }
   };
 

@@ -80,7 +80,7 @@ const authSlice = createSlice({
 
       .addCase(googleLoginThunk.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Google login failed";
+        state.error = action.error.message || "Google login failed123";
       })
 
       // Get User by ID
