@@ -30,6 +30,9 @@ const CreateActivity: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [userError, setUserError] = useState<string>("");
+  const [provinces, setProvinces] = useState<string[]>([]);
+  const [provinceLoading, setProvinceLoading] = useState(false);
+  const [provinceError, setProvinceError] = useState("");
 
   // Clear errors khi component mount
   useEffect(() => {
@@ -42,6 +45,28 @@ const CreateActivity: React.FC = () => {
       dispatch(clearErrors());
     };
   }, [dispatch]);
+
+  // Fetch provinces on mount
+  useEffect(() => {
+    const fetchProvinces = async () => {
+      setProvinceLoading(true);
+      setProvinceError("");
+      try {
+        const res = await fetch("https://vietnamlabs.com/api/vietnamprovince");
+        if (!res.ok) throw new Error("Failed to fetch provinces");
+        const data = await res.json();
+        console.log("VietnamLabs province data:", data);
+        setProvinces(
+          Array.isArray(data.data) ? data.data.map((p: any) => p.province) : []
+        );
+      } catch (err: any) {
+        setProvinceError(err.message || "Failed to fetch provinces");
+      } finally {
+        setProvinceLoading(false);
+      }
+    };
+    fetchProvinces();
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -217,16 +242,31 @@ const CreateActivity: React.FC = () => {
         {/* Location */}
         <div className="form-group">
           <label htmlFor="location">Location *</label>
-          <input
-            type="text"
+          <select
             id="location"
             name="location"
             value={formData.location}
-            onChange={handleInputChange}
-            className={formErrors.location ? "error" : ""}
-            placeholder="Enter location..."
-            maxLength={200}
-          />
+            onChange={(e) =>
+              handleInputChange({
+                target: { name: "location", value: e.target.value },
+              } as any)
+            }
+            className={`location-dropdown ${
+              formErrors.location ? "error" : ""
+            }`}
+            disabled={provinceLoading}
+          >
+            <option value="">-- Select province --</option>
+            {provinces.map((province) => (
+              <option key={province} value={province}>
+                {province}
+              </option>
+            ))}
+          </select>
+          {provinceLoading && <span>Loading provinces...</span>}
+          {provinceError && (
+            <span className="error-message">{provinceError}</span>
+          )}
           {formErrors.location && (
             <span className="error-message">{formErrors.location}</span>
           )}
