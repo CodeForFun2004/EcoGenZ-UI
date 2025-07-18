@@ -18,6 +18,7 @@ import RankingPage from "./pages/ranking/RankingPage";
 import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
+import CreateActivity from "./component/activity/CreateActivity";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,6 +36,7 @@ function App() {
           <Route path="/social-feed-page" element={<SocialFeedPage />} />
           <Route path="/ranking-page" element={<RankingPage />} />
           <Route path="/media-text-page" element={<MediaTextPage />} />
+          <Route path="/create-activity" element={<CreateActivity />} />
           {/* Thêm các trang public khác vào đây */}
         </Route>
 
