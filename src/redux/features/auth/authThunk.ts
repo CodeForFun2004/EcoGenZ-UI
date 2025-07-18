@@ -22,12 +22,12 @@ export const googleLoginThunk = createAsyncThunk<User, { tokenId: string }>(
   "auth/googleLogin",
   async ({ tokenId }) => {
     const data = await authAPI.googleLogin(tokenId);
-    return data;
+    return data.result;
   }
 );
-export const getUserByIdThunk = createAsyncThunk<User, string>(
+export const getUserByIdThunk = createAsyncThunk<User, { userId: string }>(
   "auth/fetchUserById",
-  async (userId) => {
+  async ({ userId }) => {
     const response = await authAPI.getUserById(userId);
     return response;
   }
