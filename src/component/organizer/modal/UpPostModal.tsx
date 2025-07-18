@@ -1,6 +1,7 @@
 import { Modal, Button, Form, Image, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { FaImage } from "react-icons/fa";
+import './UpPostModal.css'; // Dùng file CSS thường
 
 interface ModalUpPostProps {
   show: boolean;
@@ -29,13 +30,17 @@ export function ModalUpPost({ show, handleClose }: ModalUpPostProps) {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} centered size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Writing a Post</Modal.Title>
-      </Modal.Header>
+    <Modal
+      show={show}
+      onHide={handleClose}
+      centered
+      size="lg"
+      contentClassName="custom-modal"
+      dialogClassName="custom-dialog"
+    >
       <Modal.Body>
+        <h5 className="fw-bold mb-3 text-center">Writing a Post</h5>
         <Form>
-          {/* Title input */}
           <Form.Control
             type="text"
             placeholder="Title"
@@ -44,7 +49,6 @@ export function ModalUpPost({ show, handleClose }: ModalUpPostProps) {
             className="mb-3"
           />
 
-          {/* Hashtag + Upload */}
           <Row className="align-items-center">
             <Col xs={9}>
               <Form.Control
@@ -52,50 +56,53 @@ export function ModalUpPost({ show, handleClose }: ModalUpPostProps) {
                 placeholder="#hashtag"
                 value={hashtag}
                 onChange={(e) => setHashtag(e.target.value)}
-                className="mb-4"
+                className="mb-3"
               />
             </Col>
             <Col xs={3}>
-              <Form.Group controlId="formFile" className="mb-3 text-center">
-                <Form.Label className="btn btn-outline-primary w-100 d-flex justify-content-center align-items-center">
-                  <FaImage size={24} />
-                  <Form.Control
-                    type="file"
-                    onChange={handleImageChange}
-                    hidden
-                  />
+              <Form.Group controlId="formFile" className="text-center">
+                <Form.Label className="btn btn-outline-success w-100 d-flex justify-content-center align-items-center">
+                  <FaImage size={20} />
+                  <Form.Control type="file" onChange={handleImageChange} hidden />
                 </Form.Label>
               </Form.Group>
             </Col>
           </Row>
 
-          {/* Textarea */}
           <Form.Control
             as="textarea"
-            rows={6}
+            rows={5}
             placeholder="What's on your mind?"
             value={postText}
             onChange={(e) => setPostText(e.target.value)}
-            style={{ resize: "vertical", minHeight: "190px" }}
+            style={{ resize: "vertical", minHeight: "150px" }}
             className="mb-3"
           />
 
-          {/* Image preview */}
           {image && (
             <div className="mb-3 text-center">
               <Image src={image} fluid rounded style={{ maxHeight: "200px" }} />
             </div>
           )}
         </Form>
+
+        <div className="d-flex justify-content-center gap-3 mt-4">
+          <Button
+            variant="light"
+            className="rounded-pill px-4 py-2 shadow-sm cancel-btn"
+            onClick={handleClose}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="success"
+            className="rounded-pill px-4 py-2 shadow-sm create-btn"
+            onClick={handleSubmit}
+          >
+            Create
+          </Button>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="danger" onClick={handleClose}>
-          Cancel
-        </Button>
-        <Button variant="primary" onClick={handleSubmit}>
-          Create
-        </Button>
-      </Modal.Footer>
     </Modal>
   );
 }
