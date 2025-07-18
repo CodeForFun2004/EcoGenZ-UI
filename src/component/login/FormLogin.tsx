@@ -9,7 +9,11 @@ import {
 import { GoogleLogin } from "@react-oauth/google";
 import "./formLogin.css";
 
-const FormLogin = () => {
+interface FormLoginProps {
+  loginType: "User" | "Company" | null;
+}
+
+const FormLogin: React.FC<FormLoginProps> = ({ loginType }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ const FormLogin = () => {
           alert("Login response missing user data.");
         }
       } else {
-        alert("Login failed");
+        alert(resultAction.error.message || "Login failed1234");
       }
     } catch (err) {
       console.error("Login error:", err);
@@ -47,12 +51,13 @@ const FormLogin = () => {
       const resultAction = await dispatch(
         googleLoginThunk({
           tokenId: credentialResponse.credential,
+          role: loginType as "User" | "Company" | null,
         }) as any
       );
       if (googleLoginThunk.fulfilled.match(resultAction)) {
         navigate("/");
       } else {
-        alert("Google login failed");
+        alert(resultAction.error.message || "Login failed1234");
       }
     } else {
       alert("Google credential is missing!");
@@ -110,7 +115,7 @@ const FormLogin = () => {
         {/* <FaFacebookF className="icon facebook" /> */}
         <GoogleLogin
           onSuccess={handleGoogleLogin}
-          onError={() => alert("Google login failed")}
+          onError={() => alert("Google login failedkkkk")}
         />
         {/* <FaLinkedinIn className="icon linkedin" /> */}
       </div>

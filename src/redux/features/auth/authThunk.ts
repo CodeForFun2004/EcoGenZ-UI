@@ -12,19 +12,24 @@ export const loginThunk = createAsyncThunk<
 
 export const registerThunk = createAsyncThunk<
   User,
-  { name: string; email: string; password: string }
+  {
+    name: string;
+    email: string;
+    password: string;
+    role: "User" | "Company" | null;
+  }
 >("auth/register", async (userInfo) => {
   const data = await authAPI.register(userInfo);
   return data;
 });
 
-export const googleLoginThunk = createAsyncThunk<User, { tokenId: string }>(
-  "auth/googleLogin",
-  async ({ tokenId }) => {
-    const data = await authAPI.googleLogin(tokenId);
-    return data;
-  }
-);
+export const googleLoginThunk = createAsyncThunk<
+  User,
+  { tokenId: string; role: "User" | "Company" | null }
+>("auth/googleLogin", async ({ tokenId, role }) => {
+  const data = await authAPI.googleLogin(tokenId, role);
+  return data;
+});
 export const getUserByIdThunk = createAsyncThunk<User, string>(
   "auth/fetchUserById",
   async (userId) => {

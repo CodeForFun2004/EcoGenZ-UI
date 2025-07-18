@@ -19,28 +19,49 @@ export const register = async (userInfo: {
   name: string;
   email: string;
   password: string;
+  role: "User" | "Company" | null;
 }) => {
   // Tạo FormData thay vì JSON
   const formData = new FormData();
   formData.append("name", userInfo.name);
   formData.append("email", userInfo.email);
   formData.append("password", userInfo.password);
+  formData.append("role", userInfo.role ?? "");
 
   const res = await fetch(`${AUTH_URL}/register`, {
     method: "POST",
     body: formData,
   });
-  if (!res.ok) throw new Error("Register failed");
+  if (!res.ok) {
+    const errorRes = await res.json();
+    // Nếu backend có trả về errorMessages
+    const messages =
+      errorRes.errorMessages?.join("\n") ||
+      "Register failed because of unknown error";
+    throw new Error(messages);
+  }
   return res.json();
 };
 
-export const googleLogin = async (tokenId: string) => {
+export const googleLogin = async (
+  tokenId: string,
+  role: "User" | "Company" | null
+) => {
   const res = await fetch(`${AUTH_URL}/google`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ tokenId }),
+    body: JSON.stringify({ tokenId, role }),
   });
-  if (!res.ok) throw new Error("Google login failed");
+  if (!res.ok) {
+    const errorRes = await res.json();
+    // Nếu backend có trả về errorMessages
+
+    const messages =
+      errorRes.errorMessages?.join("\n") ||
+      "Google login failed because of unknown error";
+    throw new Error(messages);
+  }
+
   return res.json();
 };
 export const getUserById = async (id: string) => {

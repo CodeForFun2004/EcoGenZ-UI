@@ -9,7 +9,11 @@ import { useAppDispatch } from "../../redux/hook";
 import { useForm } from "react-hook-form";
 import type { FormSignupValues } from "../../redux/features/auth/authTypes";
 
-const FormSignup = () => {
+interface FormSignupProps {
+  registerType: "User" | "Company" | null;
+}
+
+const FormSignup: React.FC<FormSignupProps> = ({ registerType }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -26,13 +30,13 @@ const FormSignup = () => {
     const { email, password, name } = data;
     try {
       const resultAction = await dispatch(
-        registerThunk({ name, email, password }) as any
+        registerThunk({ name, email, password, role: registerType }) as any
       );
 
       if (registerThunk.fulfilled.match(resultAction)) {
         navigate("/login-page");
       } else {
-        alert("Register failed");
+        alert(resultAction.error.message || "Register failed");
       }
     } catch (err) {
       console.error("Register error:", err);
@@ -45,12 +49,13 @@ const FormSignup = () => {
       const resultAction = await dispatch(
         googleLoginThunk({
           tokenId: credentialResponse.credential,
+          role: registerType as "User" | "Company" | null,
         }) as any
       );
       if (googleLoginThunk.fulfilled.match(resultAction)) {
         navigate("/");
       } else {
-        alert("Google login failed");
+        alert(resultAction.error.message || "Login failed1234");
       }
     } else {
       alert("Google credential is missing!");
