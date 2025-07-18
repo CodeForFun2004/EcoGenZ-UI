@@ -18,6 +18,8 @@ import RankingPage from "./pages/ranking/RankingPage";
 import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -45,6 +47,7 @@ function App() {
         </Route>
       </Routes>
       <FloatingChatButton />
+      <ToastContainer />
     </>
   );
 }

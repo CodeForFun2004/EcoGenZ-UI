@@ -18,7 +18,10 @@ const SignupPage = () => {
           <LoginBanner />
         </div>
         <div className="login-right">
-          <FormSignup registerType={RegisterType} />
+          <FormSignup
+            registerType={RegisterType}
+            setShowTypeSelector={setShowTypeSelector}
+          />
         </div>
       </div>
       {showTypeSelector && (

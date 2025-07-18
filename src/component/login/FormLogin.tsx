@@ -8,12 +8,17 @@ import {
 // import { FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import "./formLogin.css";
+import { toast } from "react-toastify";
 
 interface FormLoginProps {
   loginType: "User" | "Company" | null;
+  setShowTypeSelector: (show: boolean) => void;
 }
 
-const FormLogin: React.FC<FormLoginProps> = ({ loginType }) => {
+const FormLogin: React.FC<FormLoginProps> = ({
+  loginType,
+  setShowTypeSelector,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,16 +38,20 @@ const FormLogin: React.FC<FormLoginProps> = ({ loginType }) => {
           // localStorage.setItem("user", JSON.stringify(userData));
           // localStorage.setItem("userId", userData.id);
           // console.log(userData);
+          toast.success("Login successful!");
           navigate("/");
         } else {
-          alert("Login response missing user data.");
+          toast.error("Login response missing user data.");
+          setShowTypeSelector(true);
         }
       } else {
-        alert(resultAction.error.message || "Login failed1234");
+        toast.error(resultAction.error.message || "Login failed1234");
+        toast.info("select your type to login again!");
+        setShowTypeSelector(true);
       }
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("An unexpected error occurred.");
+    } catch {
+      toast.error("An unexpected error occurred.");
+      setShowTypeSelector(true);
     }
   };
 
@@ -55,12 +64,15 @@ const FormLogin: React.FC<FormLoginProps> = ({ loginType }) => {
         }) as any
       );
       if (googleLoginThunk.fulfilled.match(resultAction)) {
+        toast.success("Login successful!");
         navigate("/");
       } else {
-        alert(resultAction.error.message || "Login failed1234");
+        toast.error(resultAction.error.message || "Login failed1234");
+        setShowTypeSelector(true);
       }
     } else {
-      alert("Google credential is missing!");
+      toast.error("Google credential is missing!");
+      setShowTypeSelector(true);
     }
   };
 
