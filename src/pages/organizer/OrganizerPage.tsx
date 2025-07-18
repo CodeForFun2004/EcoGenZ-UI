@@ -1,9 +1,9 @@
 "use client"
 
-import { AppSidebar } from "../../component/organizer/app-sidebar"
-import { PageHeader } from "../../component/organizer/page-header"
-import { CategorySearch } from "../../component/organizer/category-search"
-import { PostCard } from "../../component/organizer/post-card"
+import { AppSidebar } from "../../component/organizer/AppSidebar"
+import { PageHeader } from "../../component/organizer/PageHeader"
+import { CategorySearch } from "../../component/organizer/CategorySearch"
+import { PostCard } from "../../component/organizer/PostCard"
 import { Container, Col } from "react-bootstrap"
 
 export default function OrganizationPage() {
@@ -11,9 +11,12 @@ export default function OrganizationPage() {
     {
       id: "1",
       organizationName: "وداد",
-      organizationAvatar: "/placeholder.svg?height=40&width=40", // Placeholder for avatar
+      organizationAvatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Emery.svg?height=40&width=40", // Placeholder for avatar
       timeAgo: "4 Jul",
-      postImage: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-8hpwzFwxtjPDLPmQKRoC6EcfQBgVfp.png", // The new image URL
+      postImage: "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1IsNDV.img?w=1080&h=607&m=4&q=91", // The new image URL
+      title: "Environment 1",
+      hashtag: "#123 #321 #999",
+      description: "Nhân kỷ niệm 78 năm ngày Thương binh - Liệt sỹ (27/7/1947 - 27/7/2025), Tổng Bí thư Tô Lâm chiều nay cùng đoàn công tác Trung ương tới thăm, tặng quà thương binh, bệnh binh tại Trung tâm Điều dưỡng thương binh Thuận Thành (phường Ninh Xá, tỉnh Bắc Ninh). Cùng đi có các ủy viên Bộ Chính trị: Bí thư Trung ương Đảng, Trưởng Ban Tổ chức Trung ương Lê Minh Hưng; Đại tướng Phan Văn Giang, Bộ trưởng Quốc phòng; Đại tướng Lương Tam Quang, Bộ trưởng Công an. Ngoài ra còn có Bí thư Trung ương Đảng, Chánh Văn phòng Trung ương Đảng Lê Hoài Trung; Phó Thủ tướng Lê Thành Long và một số ủy viên Trung ương Đảng, lãnh đạo ban, bộ, ngành, cơ quan Trung ương và tỉnh Bắc Ninh.",
       likes: "12.8K",
       comments: 41,
       reposts: "1.8K",
@@ -23,9 +26,12 @@ export default function OrganizationPage() {
     {
       id: "2",
       organizationName: "Sama Elkady",
-      organizationAvatar: "/placeholder.svg?height=40&width=40",
+      organizationAvatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Emeryvg?height=40&width=40",
       timeAgo: "18 Jun",
-      postImage: "/placeholder.svg?height=400&width=600", // Placeholder for other posts
+      postImage: "https://th.bing.com/th/id/R.181a9b0ba853650dececc0ee22643f49?rik=cyNrFFcjhyj92Q&pid=ImgRaw&r=0", 
+      title: "Environment 2",
+      hashtag: "#123 #321 #999",
+      description: "Nhân kỷ niệm 78 năm ngày Thương binh - Liệt sỹ (27/7/1947 - 27/7/2025), Tổng Bí thư Tô Lâm chiều nay cùng đoàn công tác Trung ương tới thăm, tặng quà thương binh, bệnh binh tại Trung tâm Điều dưỡng thương binh Thuận Thành (phường Ninh Xá, tỉnh Bắc Ninh). Cùng đi có các ủy viên Bộ Chính trị: Bí thư Trung ương Đảng, Trưởng Ban Tổ chức Trung ương Lê Minh Hưng; Đại tướng Phan Văn Giang, Bộ trưởng Quốc phòng; Đại tướng Lương Tam Quang, Bộ trưởng Công an. Ngoài ra còn có Bí thư Trung ương Đảng, Chánh Văn phòng Trung ương Đảng Lê Hoài Trung; Phó Thủ tướng Lê Thành Long và một số ủy viên Trung ương Đảng, lãnh đạo ban, bộ, ngành, cơ quan Trung ương và tỉnh Bắc Ninh.",
       likes: "5.2K",
       comments: 15,
       reposts: "0.5K",
@@ -35,9 +41,12 @@ export default function OrganizationPage() {
     {
       id: "3",
       organizationName: "Tech Insights",
-      organizationAvatar: "/placeholder.svg?height=40&width=40",
+      organizationAvatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Emery=40&width=40",
       timeAgo: "1w",
-      postImage: "/placeholder.svg?height=400&width=600",
+      postImage: "https://img.freepik.com/premium-photo/group-elementary-school-students-picking-up-trash-park_441990-9836.jpg",
+      title: "Environment 3",
+      hashtag: "#123 #321 #999",
+      description: "Nhân kỷ niệm 78 năm ngày Thương binh - Liệt sỹ (27/7/1947 - 27/7/2025), Tổng Bí thư Tô Lâm chiều nay cùng đoàn công tác Trung ương tới thăm, tặng quà thương binh, bệnh binh tại Trung tâm Điều dưỡng thương binh Thuận Thành (phường Ninh Xá, tỉnh Bắc Ninh). Cùng đi có các ủy viên Bộ Chính trị: Bí thư Trung ương Đảng, Trưởng Ban Tổ chức Trung ương Lê Minh Hưng; Đại tướng Phan Văn Giang, Bộ trưởng Quốc phòng; Đại tướng Lương Tam Quang, Bộ trưởng Công an. Ngoài ra còn có Bí thư Trung ương Đảng, Chánh Văn phòng Trung ương Đảng Lê Hoài Trung; Phó Thủ tướng Lê Thành Long và một số ủy viên Trung ương Đảng, lãnh đạo ban, bộ, ngành, cơ quan Trung ương và tỉnh Bắc Ninh.",
       likes: "850",
       comments: 12,
       reposts: "300",
@@ -63,6 +72,9 @@ export default function OrganizationPage() {
                 organizationAvatar={post.organizationAvatar}
                 timeAgo={post.timeAgo}
                 postImage={post.postImage}
+                title={post.title}
+                hashtag={post.hashtag}
+                description={post.description}
                 likes={post.likes}
                 comments={post.comments}
                 shares={post.shares}

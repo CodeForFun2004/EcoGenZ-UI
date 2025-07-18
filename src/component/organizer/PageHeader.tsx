@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Navbar, Button } from "react-bootstrap"
-import { ModalUpPost } from "./modal-up-post"
+import { ModalUpPost } from "./modal/UpPostModal"
 
 export function PageHeader() {
   const [showModal, setShowModal] = useState(false)

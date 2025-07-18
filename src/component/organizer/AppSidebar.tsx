@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Home, LayoutGrid, MessageCircle, Bell, Search, Plus } from "lucide-react"
 import { Nav, Button } from "react-bootstrap"
-import { ModalUpPost } from "./modal-up-post"
+import { ModalUpPost } from "./modal/UpPostModal"
 
 export function AppSidebar() {
   const [showModal, setShowModal] = useState(false)
