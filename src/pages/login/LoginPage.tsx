@@ -15,7 +15,10 @@ const LoginPage = () => {
     <AuthTransitionWrapper>
       <div className="login-page">
         <div className="login-right">
-          <FormLogin loginType={loginType} />
+          <FormLogin
+            loginType={loginType}
+            setShowTypeSelector={setShowTypeSelector}
+          />
         </div>
         <div className="login-left">
           <LoginBanner />

@@ -14,7 +14,7 @@ function OverlaySelectRole({
   return (
     <div className="login-type-overlay">
       <div className="overlay-content">
-        <h2 style={{ marginBottom: "1.5rem" }}>Sign in as</h2>
+        <h2 style={{ marginBottom: "1.5rem" }}>{page} as</h2>
         <button
           style={{
             margin: "0 1rem 1rem 0",
