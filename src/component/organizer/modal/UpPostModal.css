@@ -1,0 +1,29 @@
+.custom-modal {
+  border: 2px solid #20c997; /* xanh lá Bootstrap */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.custom-dialog {
+  max-width: 600px;
+}
+
+.cancel-btn {
+  background-color: #e9ecef;
+  color: #495057;
+  border: none;
+}
+
+.cancel-btn:hover {
+  background-color: #dee2e6;
+}
+
+.create-btn {
+  background-color: #198754;
+  border: none;
+}
+
+.create-btn:hover {
+  background-color: #157347;
+}

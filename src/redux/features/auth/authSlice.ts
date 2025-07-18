@@ -14,6 +14,7 @@ const initialState: AuthState = {
   user: savedUser ? JSON.parse(savedUser) : null,
   loading: false,
   error: null,
+  usersById: {},
 };
 
 const authSlice = createSlice({
@@ -55,7 +56,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         localStorage.setItem("token", JSON.stringify(action.payload.token));
         localStorage.setItem("user", JSON.stringify(action.payload));
-        localStorage.setItem("userId", action.payload.result.userId);
+        localStorage.setItem("userId", action.payload.userId);
       })
       .addCase(registerThunk.rejected, (state, action) => {
         state.loading = false;
@@ -74,7 +75,7 @@ const authSlice = createSlice({
         // Save to localStorage
         localStorage.setItem("token", JSON.stringify(action.payload.token));
         localStorage.setItem("user", JSON.stringify(action.payload));
-        localStorage.setItem("userId", action.payload.result.userId);
+        localStorage.setItem("userId", action.payload.userId);
       })
 
       .addCase(googleLoginThunk.rejected, (state, action) => {
@@ -88,9 +89,11 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(getUserByIdThunk.fulfilled, (state, action) => {
+        const user = action.payload;
         state.loading = false;
-        state.user = action.payload;
+        state.usersById[user.userId] = user;
       })
+
       .addCase(getUserByIdThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load user";

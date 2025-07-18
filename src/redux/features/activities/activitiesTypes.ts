@@ -14,4 +14,5 @@ export interface ActivityState {
   loading: boolean;
   error: string | null;
   selectedActivity: Activity | null;
+  message: string;
 }

@@ -28,11 +28,11 @@ export const googleLoginThunk = createAsyncThunk<
   { tokenId: string; role: "User" | "Company" | null }
 >("auth/googleLogin", async ({ tokenId, role }) => {
   const data = await authAPI.googleLogin(tokenId, role);
-  return data;
+  return data.result;
 });
-export const getUserByIdThunk = createAsyncThunk<User, string>(
+export const getUserByIdThunk = createAsyncThunk<User, { userId: string }>(
   "auth/fetchUserById",
-  async (userId) => {
+  async ({ userId }) => {
     const response = await authAPI.getUserById(userId);
     return response;
   }

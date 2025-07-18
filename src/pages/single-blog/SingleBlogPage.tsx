@@ -6,7 +6,6 @@ import Tag from "../../component/social-media/Tag";
 import Instagram from "../../component/social-media/Instagram";
 import NewsLetter from "../../component/social-media/NewsLetter";
 import SingleBlog from "../../component/activitty-detail/SingleBlog";
-import NavPost from "../../component/activitty-detail/NavPost";
 import BlogAuthor from "../../component/activitty-detail/BlogAuthor";
 import CommentsArea from "../../component/activitty-detail/CommentsArea";
 import CommentsForm from "../../component/activitty-detail/CommentsForm";

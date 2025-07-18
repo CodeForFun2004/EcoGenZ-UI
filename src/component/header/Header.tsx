@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import "./Header.css";
 
-import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../redux/store"; // đường dẫn tới store.ts
+import { useAppDispatch } from "../../redux/hook";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../redux/store";
 import { logout } from "../../redux/features/auth/authSlice";
 import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 const Header = () => {
@@ -20,10 +20,9 @@ const Header = () => {
   };
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) {
-      dispatch(getUserByIdThunk(storedUserId));
-      console.log("User fetched:", user);
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      dispatch(getUserByIdThunk({ userId }));
     }
   }, [dispatch]);
 
@@ -55,12 +54,12 @@ const Header = () => {
                   <ul>
                     <li>
                       <a href="#">
-                        <i className="fa fa-phone"></i> +1 (454) 556-5656
+                        <i className="fa fa-phone"></i> 0828006916
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i className="fa fa-envelope"></i> Yourmail@gmail.com
+                        <i className="fa fa-envelope"></i> EcoGenz@gmail.com
                       </a>
                     </li>
                   </ul>
@@ -109,9 +108,6 @@ const Header = () => {
                         <Link to="/blog-page">Activities</Link>
                       </li>
                       <li>
-                        <Link to="/contact-page">Contact</Link>
-                      </li>
-                      <li>
                         <Link to="/social-feed-page">Community</Link>
                       </li>
                       <li>
@@ -121,28 +117,34 @@ const Header = () => {
                   </nav>
                   <div className="Appointment d-flex align-items-center gap-1">
                     {user ? (
-                      <>
-                        <div className="d-flex align-items-center gap-2 mb-3">
-                          <img
-                            src={
-                              user.profilePhotoUrl || "https://i.pravatar.cc/40"
-                            } // ảnh fallback nếu không có
-                            alt="avatar"
-                            style={{
-                              width: 36,
-                              height: 36,
-                              borderRadius: "50%",
-                            }}
-                          />
-                          <span>{user.Username}</span>
-                        </div>
-                        <button
-                          onClick={handleLogout}
-                          className="book_btn d-none d-lg-block mb-3"
-                        >
-                          Logout
-                        </button>
-                      </>
+                      (console.log("User found:", user),
+                      (
+                        <>
+                          <div className="d-flex align-items-center gap-2 mb-3">
+                            <img
+                              src={
+                                user.profilePhotoUrl &&
+                                user.profilePhotoUrl.trim() !== ""
+                                  ? user.profilePhotoUrl
+                                  : "https://i.pravatar.cc/40"
+                              }
+                              alt="avatar"
+                              style={{
+                                width: 36,
+                                height: 36,
+                                borderRadius: "50%",
+                              }}
+                            />
+                            <span>{user.userName}</span>
+                          </div>
+                          <button
+                            onClick={handleLogout}
+                            className="book_btn d-none d-lg-block mb-3"
+                          >
+                            Logout
+                          </button>
+                        </>
+                      ))
                     ) : (
                       <>
                         <div className="book_btn d-none d-lg-block mb-3">

@@ -10,12 +10,11 @@ const SliderSection = () => {
               <div className="col-lg-9">
                 <div className="slider_text">
                   <span>Get Started Today.</span>
-                  <h3>Help the children When They Need</h3>
+                  <h3>Join the Global Green Movement.</h3>
                   <p>
                     With so much to consume and such little time, coming up <br />
                     with relevant title ideas is essential
                   </p>
-                  <Link to="/about-page" className="boxed-btn3">Learn More</Link>
                 </div>
               </div>
             </div>
