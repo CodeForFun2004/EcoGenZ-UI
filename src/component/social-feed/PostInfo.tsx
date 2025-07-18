@@ -18,9 +18,9 @@ const Post = ({ post }: PostProps) => {
   const { user } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    if (storedUserId) {
-      dispatch(getUserByIdThunk(storedUserId));
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      dispatch(getUserByIdThunk({ userId }));
     }
   }, [dispatch]);
   const handleLike = async () => {
@@ -53,7 +53,7 @@ const Post = ({ post }: PostProps) => {
           className="author-avatar"
         />
         <div className="author-info">
-          <span className="author-name">{user?.Username}</span>
+          <span className="author-name">{user?.userName}</span>
           <span className="post-timestamp">
             {new Date(post.createdAt).toLocaleString()}
           </span>
