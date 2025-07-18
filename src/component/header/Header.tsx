@@ -54,12 +54,12 @@ const Header = () => {
                   <ul>
                     <li>
                       <a href="#">
-                        <i className="fa fa-phone"></i> +1 (454) 556-5656
+                        <i className="fa fa-phone"></i> 0828006916
                       </a>
                     </li>
                     <li>
                       <a href="#">
-                        <i className="fa fa-envelope"></i> Yourmail@gmail.com
+                        <i className="fa fa-envelope"></i> EcoGenz@gmail.com
                       </a>
                     </li>
                   </ul>
@@ -106,9 +106,6 @@ const Header = () => {
                       </li>
                       <li>
                         <Link to="/blog-page">Activities</Link>
-                      </li>
-                      <li>
-                        <Link to="/contact-page">Contact</Link>
                       </li>
                       <li>
                         <Link to="/social-feed-page">Community</Link>

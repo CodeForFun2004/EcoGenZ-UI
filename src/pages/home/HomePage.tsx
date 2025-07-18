@@ -14,7 +14,6 @@ import OurVolunteer from '../../component/home/OurVolunteer';
 import Counter from '../../component/home/Counter';
 import SliderSection from '../../component/home/SliderSection';
 import ReasonSection from '../../component/home/ReasonSection';
-import DonationSection from '../../component/home/DonationSection';
 
 
 const HomePage = () => {
@@ -27,7 +26,6 @@ const HomePage = () => {
       <Counter/>
       <OurVolunteer/>
       <NewsSection/>
-      <DonationSection/>
     </>
   );
 };

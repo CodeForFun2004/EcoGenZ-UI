@@ -22,8 +22,7 @@ const Footer = () => {
                   </Link>
                 </div>
                 <p className="address_text">
-                  Lorem ipsum dolor sit amet, <br /> consectetur adipiscing
-                  elit, sed do <br /> eiusmod tempor incididunt ut labore.
+                  A global platform connecting young people <br /> to environmental projects. Join us to take on green <br /> challenges and build a sustainable future together.
                 </p>
                 <div className="socail_links">
                   <ul>
@@ -40,12 +39,10 @@ const Footer = () => {
               <div className="footer_widget">
                 <h3 className="footer_title">Services</h3>
                 <ul className="links">
-                  <li><a href="#">Donate</a></li>
-                  <li><a href="#">Sponsor</a></li>
-                  <li><a href="#">Fundraise</a></li>
-                  <li><a href="#">Volunteer</a></li>
-                  <li><a href="#">Partner</a></li>
-                  <li><a href="#">Jobs</a></li>
+                  <li><a href="#ranking-page">Ranking</a></li>
+                  <li><a href="#blog-page">Activities</a></li>
+                  <li><a href="#social-feed-page">Community</a></li>
+                  <li><a href="#media-text-page">Media</a></li>
                 </ul>
               </div>
             </div>
@@ -55,9 +52,9 @@ const Footer = () => {
                 <h3 className="footer_title">Contacts</h3>
                 <div className="contacts">
                   <p>
-                    +2(305) 587-3407 <br />
-                    info@loveuscharity.com <br />
-                    Flat 20, Reynolds Neck, North Helenaville, FV77 8WS
+                    0828006916 <br />
+                    ecogenzteam@gmail.com <br />
+                    FPT University Da Nang, Vietnam
                   </p>
                 </div>
               </div>
@@ -101,8 +98,7 @@ const Footer = () => {
               <div className="copy_right text-center">
                 <p>
                   Copyright &copy; {currentYear} All rights reserved |
-                  This template is made with <i className="ti-heart" aria-hidden="true"></i> by{" "}
-                  <a href="https://colorlib.com" target="_blank" rel="noopener noreferrer">Colorlib</a>
+                  EcoGenz Team
                 </p>
               </div>
             </div>
