@@ -1,5 +1,3 @@
-// DÙNG API THẬT
-
 const ACTIVITY_URL = import.meta.env.VITE_ACTIVITY_URL;
 
 export const fetchAllActivites = async () => {
