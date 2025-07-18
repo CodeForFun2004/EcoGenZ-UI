@@ -41,25 +41,19 @@ const LastestActivities = () => {
             <div className="activites_info">
               <div className="section_title">
                 <h3>
-                  <span>Watch Our Latest</span>
+                  <span>See Our Community in</span>
                   <br />
-                  Activities
+                  Action
                 </h3>
               </div>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do
-                eiusmod tempor incididunt ut labore dolore magna aliqua. enim
-                minim veniam, quis nostrud exercitation.
+                Discover the latest environmental projects and challenges completed by the EcoGenZ community around the world. 
               </p>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do
-                eiusmod tempor incididunt ut labore dolore magna aliqua. enim
-                minim veniam, quis nostrud exercitation. tempor incididunt ut
-                labore dolore magna aliqua. enim minim veniam, quis nostrud
-                exercitation.
+               Press play to see the difference we're making together.
               </p>
               <Link to="#" className="boxed-btn4">
-                Donate Now
+                Watch Now
               </Link>
             </div>
           </div>
