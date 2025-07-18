@@ -77,3 +77,17 @@ export const getUserById = async (id: string) => {
   const data = await res.json();
   return data.result;
 };
+
+export const getuserWithPoint = async () => {
+  const res = await fetch(`${AUTH_URL}/userWithPoint`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user with point");
+  }
+  const data = await res.json();
+  return data.result;
+};
