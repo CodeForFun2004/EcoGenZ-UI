@@ -4,6 +4,7 @@ export interface User {
   email: string;
   profilePhotoUrl?: string;
   token: string;
+  role?: string;
 }
 
 export interface AuthState {

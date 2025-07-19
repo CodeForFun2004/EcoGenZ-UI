@@ -20,11 +20,11 @@ import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
+import ApproveParticipantPage from "./pages/organizer/ApproveParticipantPage";
 
 import CreateActivity from "./component/activity/CreateActivity";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 
 function App() {
   return (
@@ -50,6 +50,10 @@ function App() {
           <Route path="/signup-page" element={<SignupPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
           <Route path="/approve-participant" element={<ParticipantPage />} />
+          <Route
+            path="/approve-participant/:activityId"
+            element={<ApproveParticipantPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
