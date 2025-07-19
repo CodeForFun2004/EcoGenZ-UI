@@ -27,15 +27,17 @@ const PopularCauses = () => {
   }, [dispatch]);
 
   const handleImageError = (activityId: string) => {
-    setImageErrors(prev => new Set([...prev, activityId]));
+    setImageErrors((prev) => new Set([...prev, activityId]));
   };
 
   const shouldShowImage = (activity: Activity) => {
     return (
-      activity.mediaUrl && 
-      activity.mediaUrl.trim() !== "" && 
+      activity.mediaUrl &&
+      activity.mediaUrl.trim() !== "" &&
       !imageErrors.has(activity.activityId) &&
-      (activity.mediaUrl.startsWith('http') || activity.mediaUrl.startsWith('/') || activity.mediaUrl.startsWith('data:'))
+      (activity.mediaUrl.startsWith("http") ||
+        activity.mediaUrl.startsWith("/") ||
+        activity.mediaUrl.startsWith("data:"))
     );
   };
 
@@ -55,16 +57,16 @@ const PopularCauses = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-        }
+        },
       },
       {
         breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-        }
-      }
-    ]
+        },
+      },
+    ],
   };
 
   return (
@@ -81,7 +83,7 @@ const PopularCauses = () => {
         </div>
         {loading && <p className="text-center">Loading activities...</p>}
         {error && <p className="text-center text-danger">Error: {error}</p>}
-        
+
         {activities.length > 0 && (
           <Slider {...settings}>
             {activities.map((activity: Activity, index: number) => (
@@ -94,7 +96,7 @@ const PopularCauses = () => {
                         alt={`Activity ${index + 1}`}
                         onError={() => handleImageError(activity.activityId)}
                         onLoad={() => {
-                          setImageErrors(prev => {
+                          setImageErrors((prev) => {
                             const newSet = new Set(prev);
                             newSet.delete(activity.activityId);
                             return newSet;
@@ -125,8 +127,26 @@ const PopularCauses = () => {
                       </div>
                     </div>
                     <div className="balance d-flex justify-content-between align-items-center">
-                      <span>Raised: $5000.00</span>
-                      <span>Goal: $9000.00</span>
+                      <div className="d-flex align-items-center gap-1">
+                        <span>
+                          <i className="fa fa-user me-1" aria-hidden="true"></i>
+                          {activity.amountOfPeople} |
+                        </span>
+                        <span>
+                          <i
+                            className="fa fa-map-marker-alt me-1"
+                            aria-hidden="true"
+                          ></i>
+                          {activity.location}
+                        </span>
+                      </div>
+                      <span>
+                        <i
+                          className="fa fa-calendar me-1"
+                          aria-hidden="true"
+                        ></i>
+                        {new Date(activity.date).toLocaleDateString()}
+                      </span>
                     </div>
                     <h4>{activity.title}</h4>
                     <p>{activity.description}</p>

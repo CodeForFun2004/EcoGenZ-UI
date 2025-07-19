@@ -18,7 +18,7 @@ const HomePage = () => {
       <div className="container">
         <ActivityMap />
       </div>
-      <Counter />
+      {/*    */}
       <OurVolunteer />
     </>
   );
