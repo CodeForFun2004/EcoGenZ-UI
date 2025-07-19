@@ -28,6 +28,7 @@ import ActivityMapPage from "./pages/map/ActivityMapPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashBoardPage from "./pages/organizer/DashBoardPage";
+import UserProfilePage from "./pages/user-profile/UserProfilePage";
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/media-text-page" element={<MediaTextPage />} />
           <Route path="/create-activity" element={<CreateActivity />} />
           <Route path="/activity-map" element={<ActivityMapPage />} />
+          <Route path="/user-profile" element={<UserProfilePage />} />"
           {/* Thêm các trang public khác vào đây */}
         </Route>
 
