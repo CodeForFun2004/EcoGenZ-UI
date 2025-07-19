@@ -1,4 +1,4 @@
-import './Pagination.css';
+import "./Pagination.css";
 
 interface PaginationProps {
   currentPage: number;
@@ -6,7 +6,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   const pageNumbers = [];
 
   const safeTotalPages = Math.max(0, totalPages);
@@ -29,9 +33,9 @@ function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) 
 
   return (
     <nav className="pagination-container">
-      <button 
-        onClick={goToPrevious} 
-        disabled={currentPage === 1} 
+      <button
+        onClick={goToPrevious}
+        disabled={currentPage === 1}
         className="pagination-button pagination-prev-next" // <--- THÊM CLASS MỚI
       >
         &laquo; Prev
@@ -40,17 +44,19 @@ function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) 
         {pageNumbers.map((number) => (
           <button
             key={number}
-            className={`pagination-button ${number === currentPage ? 'active' : ''}`}
+            className={`pagination-button ${
+              number === currentPage ? "active" : ""
+            }`}
             onClick={() => onPageChange(number)}
           >
             {number}
           </button>
         ))}
       </div>
-      <button 
-        onClick={goToNext} 
-        disabled={currentPage === safeTotalPages} 
-        className="pagination-button pagination-prev-next" // <--- THÊM CLASS MỚI
+      <button
+        onClick={goToNext}
+        disabled={currentPage === safeTotalPages}
+        className=" pagination-button pagination-prev-next"
       >
         Next &raquo;
       </button>
