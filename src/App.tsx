@@ -19,7 +19,7 @@ import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
 // import { StagewiseToolbar } from "@stagewise/toolbar-react";
-import ReactPlugin from "@stagewise-plugins/react";
+
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
 
