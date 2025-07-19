@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Col, Alert } from "react-bootstrap";
@@ -98,14 +99,21 @@ export default function OrganizationPage() {
     };
   };
 
+
   return (
     <Container fluid className="p-0 d-flex min-vh-100 bg-gray-50">
       <AppSidebar />
-      <Col className="d-flex flex-column ms-16">
-        <PageHeader />
-        <main className="flex-grow-1 p-4 p-md-6 p-lg-8 overflow-auto">
-          <CategorySearch userId={user?.userId} />
 
+      {/* Leave ms-16 for Col to create spacing with sidebar */}
+      <Col className="d-flex flex-column ms-16 flex-grow-1"> {/* Add flex-grow-1 for Col to take remaining space */}
+        
+        <main className="flex-grow-1 p-4 p-md-6 p-lg-8 overflow-auto">
+          {/* Wrap h3 and CategorySearch in a div for alignment */}
+          <div className="content-header-area"> {/* Add new class for styling */}
+            <h3 className="page-title mb-4">Manage Post</h3> {/* Add class and mb-4 */}
+            <CategorySearch userId={user?.userId} />
+          </div>
+          
           {error && (
             <Alert variant="danger" className="mb-4">
               {error}
@@ -136,6 +144,8 @@ export default function OrganizationPage() {
               })}
             </div>
           )}
+          
+
         </main>
       </Col>
     </Container>
