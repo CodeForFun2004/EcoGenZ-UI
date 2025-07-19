@@ -22,6 +22,7 @@ import OrganizationPage from "./pages/organizer/OrganizerPage";
 import ReactPlugin from "@stagewise-plugins/react";
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
+import ApproveParticipantPage from "./pages/organizer/ApproveParticipantPage";
 
 import CreateActivity from "./component/activity/CreateActivity";
 import ActivityMapPage from "./pages/map/ActivityMapPage";
@@ -29,7 +30,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashBoardPage from "./pages/organizer/DashBoardPage";
 import UserProfilePage from "./pages/user-profile/UserProfilePage";
-
 
 function App() {
   return (
@@ -58,6 +58,10 @@ function App() {
           <Route path="/organizer-dashboard" element={<DashBoardPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
           <Route path="/approve-participant" element={<ParticipantPage />} />
+          <Route
+            path="/approve-participant/:activityId"
+            element={<ApproveParticipantPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

@@ -1,26 +1,30 @@
 // PostCard.tsx
-import { Heart, MessageCircle, Upload, Users } from "lucide-react"
-import { Card, Image, Dropdown } from "react-bootstrap"
-import { FaEdit, FaTrash } from "react-icons/fa"
-import { DeleteConfirmModal } from './modal/DeleteConfirmModal' // Đảm bảo đường dẫn đúng đến file modal
-import { ParticipantModal } from './modal/ParticipantModal'; // <--- IMPORT ParticipantModal
-import { useState } from "react"
+import { Heart, MessageCircle, Upload, Users } from "lucide-react";
+import { Card, Image, Dropdown } from "react-bootstrap";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { DeleteConfirmModal } from "./modal/DeleteConfirmModal";
+import { ParticipantModal } from "./modal/ParticipantModal";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteActivity } from "../../redux/features/organizerActivities/organizerActivitiesThunk";
+import type { AppDispatch } from "../../redux/store";
 
 interface PostCardProps {
-  organizationName: string
-  organizationAvatar: string
-  timeAgo: string
-  postImage: string
-  title: string
-  hashtag: string
-  description: string
-  likes: string
-  comments: number
-  shares: number
-  members: number
-  // <--- THÊM participants VÀO PROPS NẾU DỮ LIỆU ĐƯỢC TRUYỀN TỪ NGOÀI VÀO
-  // Nếu không, bạn có thể fetch dữ liệu này bên trong PostCard hoặc ParticipantModal
-  participants?: { // Thêm kiểu dữ liệu cho participants
+  organizationName: string;
+  organizationAvatar: string;
+  timeAgo: string;
+  postImage: string;
+  title: string;
+  hashtag: string;
+  description: string;
+  likes: string;
+  comments: number;
+  shares: number;
+  members: number;
+  activityId?: string;
+  isApproved?: boolean;
+  activityDate?: string;
+  participants?: {
     id: number;
     name: string;
     role: string;
@@ -30,25 +34,25 @@ interface PostCardProps {
   }[];
 }
 
-export function PostCard(
-  {
-    organizationName,
-    organizationAvatar,
-    timeAgo,
-    postImage,
-    title,
-    hashtag,
-    description,
-    likes,
-    comments,
-    shares,
-    members,
-    participants, // <--- Nhận participants từ props
-  }: PostCardProps) {
-
+export function PostCard({
+  organizationName,
+  organizationAvatar,
+  timeAgo,
+  postImage,
+  title,
+  hashtag,
+  description,
+  likes,
+  comments,
+  shares,
+  members,
+  activityId,
+  activityDate,
+}: PostCardProps) {
+  const dispatch = useDispatch<AppDispatch>();
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const [showParticipantModal, setShowParticipantModal] = useState(false); // <--- State mới cho ParticipantModal
+  const [showParticipantModal, setShowParticipantModal] = useState(false);
 
   const DESCRIPTION_LIMIT = 150;
 
@@ -56,8 +60,15 @@ export function PostCard(
     setShowDeleteConfirmModal(true);
   };
 
-  const handleConfirmDelete = () => {
-    console.log("Đã xác nhận xóa bài viết!");
+  const handleConfirmDelete = async () => {
+    if (activityId) {
+      try {
+        await dispatch(deleteActivity(activityId)).unwrap();
+        console.log("Activity deleted successfully!");
+      } catch (error) {
+        console.error("Failed to delete activity:", error);
+      }
+    }
     setShowDeleteConfirmModal(false);
   };
 
@@ -65,14 +76,45 @@ export function PostCard(
     setShowDeleteConfirmModal(false);
   };
 
-  // <--- Hàm xử lý hiển thị ParticipantModal
   const handleShowParticipantModal = () => {
     setShowParticipantModal(true);
   };
 
-  // <--- Hàm xử lý đóng ParticipantModal
   const handleCloseParticipantModal = () => {
     setShowParticipantModal(false);
+  };
+
+  const handleEditClick = () => {
+    // TODO: Implement edit functionality
+    console.log("Edit activity:", activityId);
+  };
+
+  // Helper function để xác định trạng thái hoạt động
+  const getActivityStatus = () => {
+    if (!activityDate) return null;
+
+    const activityDateTime = new Date(activityDate);
+    const now = new Date();
+
+    // So sánh ngày (bỏ qua giờ phút giây)
+    const activityDateOnly = new Date(
+      activityDateTime.getFullYear(),
+      activityDateTime.getMonth(),
+      activityDateTime.getDate()
+    );
+    const todayOnly = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    if (activityDateOnly < todayOnly) {
+      return { status: "Finished", className: "bg-secondary" };
+    } else if (activityDateOnly.getTime() === todayOnly.getTime()) {
+      return { status: "Today", className: "bg-warning text-dark" };
+    } else {
+      return { status: "Upcoming", className: "bg-info text-dark" };
+    }
   };
 
   const isDescriptionTooLong = description.length > DESCRIPTION_LIMIT;
@@ -80,20 +122,11 @@ export function PostCard(
     ? description
     : description.substring(0, DESCRIPTION_LIMIT);
 
-  // Dữ liệu mock cho participants nếu không có từ props
-  const defaultParticipants = participants || [
-    { id: 1, name: "Nicholas Gordon", role: "Developer", email: "ernest.mason@gmail.com", phone: "561-303-6106", avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Brians" },
-    { id: 2, name: "Bradley Malone", role: "Manager", email: "bradley.m@gmail.com", phone: "242-576-7666", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-    { id: 3, name: "Janie Todd", role: "Designer", email: "stroman.hanna@yahoo.com", phone: "467-624-8505", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
-    { id: 4, name: "Marvin Lambert", role: "Developer", email: "micaela.okuneva@zemlak.biz", phone: "716-937-5782", avatar: "https://randomuser.me/api/portraits/men/76.jpg" },
-    { id: 5, name: "Teresa Lloyd", role: "Designer", email: "carlee_erdman@gmail.com", phone: "496-144-8261", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
-  ];
-
-  // Lưu ý: Avatar của Nicholas Gordon đang trỏ đến ảnh bạn đã cung cấp.
-  // Các avatar khác là ảnh placeholder từ randomuser.me.
-
   return (
-    <Card className="w-100 mx-auto shadow-sm rounded-lg overflow-hidden border-0 mb-5" style={{ maxWidth: '800px' }}>
+    <Card
+      className="w-100 mx-auto shadow-sm rounded-lg overflow-hidden border-0 mb-5"
+      style={{ maxWidth: "800px" }}
+    >
       <Card.Body className="px-4 pt-3 pb-4">
         {/* Avatar, Name, and Time Ago */}
         <div className="d-flex align-items-center mb-3">
@@ -109,10 +142,34 @@ export function PostCard(
             <h6 className="mb-0">{organizationName}</h6>
             <small className="text-muted">{timeAgo}</small>
           </div>
+          {/* {isApproved !== undefined && (
+            <div className="ms-auto">
+              <span
+              className={`badge ${
+                isApproved ? "bg-success" : "bg-warning text-dark"
+              }`}
+              >
+              {isApproved ? "Approved" : "Pending"}
+              </span>
+            </div>
+            )} */}
+          {/* Hiển thị trạng thái hoạt động */}
+          {activityId &&
+            (() => {
+              const status = getActivityStatus();
+              return status ? (
+                <div className="ms-auto">
+                  <span className={`badge ${status.className}`}>
+                    {status.status}
+                  </span>
+                </div>
+              ) : null;
+            })()}
         </div>
 
         <Image
-          src={postImage} style={{ width: '800px' }}
+          src={postImage}
+          style={{ width: "800px" }}
           fluid
           className="mb-3 rounded"
         />
@@ -124,7 +181,7 @@ export function PostCard(
           {isDescriptionTooLong && !showFullDescription && (
             <span
               className="text-primary"
-              style={{ cursor: 'pointer', marginLeft: '5px' }}
+              style={{ cursor: "pointer", marginLeft: "5px" }}
               onClick={() => setShowFullDescription(true)}
             >
               ...See more
@@ -134,7 +191,7 @@ export function PostCard(
         {isDescriptionTooLong && showFullDescription && (
           <small
             className="text-primary d-block mt-1"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
             onClick={() => setShowFullDescription(false)}
           >
             Hide
@@ -154,8 +211,11 @@ export function PostCard(
             <Upload size={16} className="me-1" />
             <span>{shares}</span>
           </div>
-          {/* <--- CẬP NHẬT Users ICON ĐỂ MỞ MODAL */}
-          <div className="d-flex align-items-center me-2" style={{ cursor: 'pointer' }} onClick={handleShowParticipantModal}>
+          <div
+            className="d-flex align-items-center me-2"
+            style={{ cursor: "pointer" }}
+            onClick={handleShowParticipantModal}
+          >
             <Users size={16} className="me-1" />
             <span>{members}</span>
           </div>
@@ -171,7 +231,10 @@ export function PostCard(
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item className="d-flex align-items-center">
+              <Dropdown.Item
+                className="d-flex align-items-center"
+                onClick={handleEditClick}
+              >
                 <FaEdit className="me-2" />
                 Edit
               </Dropdown.Item>
@@ -196,12 +259,13 @@ export function PostCard(
         message={`Are you sure you want to delete "${title}"? This action cannot be undone.`}
       />
 
-      {/* <--- Tích hợp ParticipantModal */}
+      {/* Tích hợp ParticipantModal */}
       <ParticipantModal
         show={showParticipantModal}
         onHide={handleCloseParticipantModal}
-        participants={defaultParticipants} // Truyền dữ liệu participants vào modal
+        activityId={activityId}
+        activityDate={activityDate}
       />
     </Card>
-  )
+  );
 }
