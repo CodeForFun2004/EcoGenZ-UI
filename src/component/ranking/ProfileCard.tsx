@@ -1,8 +1,8 @@
-// src/components/ProfileCard.tsx
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useMemo } from "react";
 import { truncateUsername } from "../../utils/textUtils";
+import { InfoIcon } from "./IconComponents";
 
 export default function ProfileCard() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -12,15 +12,29 @@ export default function ProfileCard() {
 
   const displayAchievements = user?.userId ? userAchievements : achievements;
 
-  const level = useMemo(() => {
-    const count = displayAchievements.length;
+  const { level, percentage } = useMemo(() => {
+    const totalCount = displayAchievements.length;
+    let level = 0;
+    let percentage = 0;
 
-    if (count >= 20) return 5;
-    if (count >= 15) return 4;
-    if (count >= 10) return 3;
-    if (count >= 5) return 2;
-    if (count >= 1) return 1;
-    return 0;
+    if (totalCount >= 20) {
+      level = 5;
+      percentage = 100;
+    } else if (totalCount >= 15) {
+      level = 4;
+      percentage = ((totalCount - 15) / 5) * 100;
+    } else if (totalCount >= 10) {
+      level = 3;
+      percentage = ((totalCount - 10) / 5) * 100;
+    } else if (totalCount >= 5) {
+      level = 2;
+      percentage = ((totalCount - 5) / 5) * 100;
+    } else if (totalCount >= 1) {
+      level = 1;
+      percentage = (totalCount / 5) * 100;
+    }
+
+    return { level, percentage: Math.min(percentage, 100) };
   }, [displayAchievements]);
 
   const renderStars = (level: number) =>
@@ -41,6 +55,25 @@ export default function ProfileCard() {
       </h3>
       <div className="level-badge">Level {level}</div>
       <div className="stars">{renderStars(level)}</div>
+      
+      {/* Level Progress */}
+      <div className="progress-section">
+        <div className="progress-header">
+          <h4 className="card-title">
+            Level {level} <InfoIcon />
+          </h4>
+        </div>
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${percentage}%` }}
+          ></div>
+        </div>
+        <div className="progress-text">
+          <span className="progress-percentage">{Math.round(percentage)}%</span>{" "}
+          completed to next level
+        </div>
+      </div>
     </div>
   );
 }

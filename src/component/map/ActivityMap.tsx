@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { MapContainer, TileLayer, Popup, Circle } from 'react-leaflet';
-import { Icon } from 'leaflet';
+import { MapContainer, TileLayer, Popup, Circle, useMap } from 'react-leaflet';
+import { Icon, LatLngBounds } from 'leaflet';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { fetchAllActivities } from '../../redux/features/activities/activitiesThunk';
@@ -14,6 +14,45 @@ Icon.Default.mergeOptions({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+// Vietnam bounds to restrict map panning
+const vietnamBounds = new LatLngBounds(
+  [8.0, 102.0], // Southwest corner (Ca Mau, Kien Giang)
+  [23.5, 110.0] // Northeast corner (Ha Giang, Quang Ninh)
+);
+
+// Component to set map bounds
+const MapBounds: React.FC = () => {
+  const map = useMap();
+  
+  useEffect(() => {
+    // Set max bounds to restrict panning
+    map.setMaxBounds(vietnamBounds);
+    
+    // Set min/max zoom levels
+    map.setMinZoom(5);
+    map.setMaxZoom(10);
+    
+    // Add event listener to ensure map stays within bounds
+    const handleMoveEnd = () => {
+      if (!vietnamBounds.contains(map.getCenter())) {
+        map.panInsideBounds(vietnamBounds, { animate: true });
+      }
+    };
+    
+    map.on('moveend', handleMoveEnd);
+    map.on('drag', () => {
+      map.panInsideBounds(vietnamBounds, { animate: false });
+    });
+    
+    // Cleanup
+    return () => {
+      map.off('moveend', handleMoveEnd);
+    };
+  }, [map]);
+  
+  return null;
+};
 
 // Coordinates for Vietnam provinces (some main provinces)
 const vietnamProvinces: Record<string, { lat: number; lng: number; name: string }> = {
@@ -174,8 +213,9 @@ const ActivityMap: React.FC = () => {
       <div className="map-header">
         <h2 className="map-title">Environmental Activities Map</h2>
         <p className="map-description">
-          Explore environmental protection activities across the country. 
+          Explore environmental protection activities across Vietnam. 
           Each circle on the map represents the number of activities in each province.
+          <span className="map-restriction-note">Map view is restricted to Vietnam territory.</span>
         </p>
       </div>
 
@@ -183,11 +223,21 @@ const ActivityMap: React.FC = () => {
         <MapContainer
           center={mapCenter}
           zoom={6}
+          minZoom={5}
+          maxZoom={10}
+          maxBounds={vietnamBounds}
+          maxBoundsViscosity={1.0}
+          zoomControl={true}
+          scrollWheelZoom={true}
+          doubleClickZoom={true}
+          dragging={true}
           style={{ height: '100%', width: '100%' }}
+          attributionControl={false}
         >
+          <MapBounds />
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution=""
           />
           
           {provinceStats.map((province: ProvinceCount) => {
