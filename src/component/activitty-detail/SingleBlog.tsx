@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../redux/store";
 import { useEffect, useState } from "react";
@@ -21,9 +21,28 @@ const SingleBlog = () => {
   const [applied, setApplied] = useState(false);
   const [showThanks, setShowThanks] = useState(false);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{
+    userId: string;
+    role: string;
+  } | null>(null);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setCurrentUser(parsedUser);
+    }
+  }, []);
   const handleApplyClick = () => {
-    setShowModal(true);
+    if (
+      currentUser?.role === "Company" &&
+      currentUser?.userId === activity?.createdByCompanyId
+    ) {
+      navigate(`/company/activity/${id}`);
+    } else {
+      setShowModal(true);
+    }
   };
 
   const handleConfirm = async () => {
@@ -99,10 +118,22 @@ const SingleBlog = () => {
               color: "#fff",
             }}
             onClick={handleApplyClick}
-            disabled={applied}
+            disabled={
+              applied &&
+              !(
+                currentUser?.role === "Company" &&
+                currentUser?.userId === activity.createdByCompanyId
+              )
+            }
           >
-            {applied ? "You have applied" : "Apply for Activity"}
+            {currentUser?.role === "Company" &&
+            currentUser?.userId === activity.createdByCompanyId
+              ? "View detail your activity"
+              : applied
+              ? "You have applied"
+              : "Apply for Activity"}
           </button>
+
           {showThanks && (
             <div className="popup-notification">
               {alreadyApplied

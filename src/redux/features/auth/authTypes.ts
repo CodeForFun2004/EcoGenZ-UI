@@ -5,6 +5,7 @@ export interface User {
   profilePhotoUrl?: string;
   token: string;
   impactPoints: number;
+  role: string;
 }
 
 export interface AuthState {

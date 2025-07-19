@@ -5,7 +5,10 @@ import { FaThumbsUp, FaCommentAlt, FaShare } from "react-icons/fa";
 import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
 
 import "./Post.css";
-import { toggleLike } from "../../redux/features/social_posts/postAPI";
+import {
+  deletePostById,
+  toggleLike,
+} from "../../redux/features/social_posts/postAPI";
 
 type PostProps = {
   post: Post;
@@ -13,38 +16,24 @@ type PostProps = {
 
 const Post = ({ post }: PostProps) => {
   const dispatch = useAppDispatch();
-  const [isLiked, setIsLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(post?.likes?.length || 0);
-  const { user } = useAppSelector((state) => state.auth);
+
+  // Get userId from localStorage
+  const loggedInUserId = localStorage.getItem("userId");
+
+  const handleDelete = async (postId: string) => {
+    if (confirm("Are you sure you want to delete this post?")) {
+      console.log("Deleting post with ID:", postId); // log post ID
+      await deletePostById(postId); // No dispatch
+    }
+  };
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
+    const userId = post.userId;
     if (userId) {
       dispatch(getUserByIdThunk({ userId }));
     }
-  }, [dispatch]);
-  const handleLike = async () => {
-    if (!user) return;
+  }, [dispatch, post.user.userId]);
 
-    // Optimistic UI update
-    setIsLiked((prev) => !prev);
-    setLikesCount((prev) => (isLiked ? prev - 1 : prev + 1));
-
-    try {
-      await toggleLike(user.userId, post.id);
-      console.log(
-        "Like toggled successfully with+",
-        user.userId,
-        "and post.id",
-        post.id
-      );
-    } catch (error) {
-      console.error("Failed to toggle like:", error);
-      // Rollback UI
-      setIsLiked((prev) => !prev);
-      setLikesCount((prev) => (isLiked ? prev + 1 : prev - 1));
-    }
-  };
   return (
     <div className="post-container">
       <div className="post-header">
@@ -53,7 +42,7 @@ const Post = ({ post }: PostProps) => {
           className="author-avatar"
         />
         <div className="author-info">
-          <span className="author-name">{user?.userName}</span>
+          <span className="author-name">{post?.user.userName}</span>
           <span className="post-timestamp">
             {new Date(post.createdAt).toLocaleString()}
           </span>
@@ -67,26 +56,16 @@ const Post = ({ post }: PostProps) => {
         )}
       </div>
 
-      {/* <div className="post-stats">
-        <span>{likesCount} Likes</span>
-        <span>{post?.comments?.length} Comments</span>
-        <span>{post?.shares?.length} Shares</span>
-      </div> */}
-
-      {/* <div className="post-actions">
-        <button
-          onClick={handleLike}
-          className={`action-button ${isLiked ? "liked" : ""}`}
-        >
-          <FaThumbsUp /> Like
-        </button>
-        <button className="action-button">
-          <FaCommentAlt /> Comment
-        </button>
-        <button className="action-button">
-          <FaShare /> Share
-        </button>
-      </div> */}
+      {loggedInUserId === post.userId && (
+        <div className="post-controls">
+          <button
+            className="delete-button"
+            onClick={() => handleDelete(post.id)}
+          >
+            Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };
