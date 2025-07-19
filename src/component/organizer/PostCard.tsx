@@ -29,7 +29,6 @@ interface PostCardProps {
   isApproved?: boolean;
   activityDate?: string;
   participants?: {
-
     id: number;
     name: string;
     role: string;
@@ -37,8 +36,8 @@ interface PostCardProps {
     phone: string;
     avatar: string;
   }[];
-  status: 'published' | 'completed'; // Trạng thái bài đăng
-  eventDate: string; // Ngày diễn ra sự kiện (để xác định trạng thái 'completed' đã qua)
+  status: 'Finished' | 'Today' | 'Upcoming'; // Đã sửa
+  eventDate: string; // Ngày diễn ra sự kiện
 }
 
 

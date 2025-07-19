@@ -1,9 +1,7 @@
-
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Col, Alert } from "react-bootstrap";
 import { AppSidebar } from "../../component/organizer/AppSidebar";
-import { PageHeader } from "../../component/organizer/PageHeader";
 import { CategorySearch } from "../../component/organizer/CategorySearch";
 import { PostCard } from "../../component/organizer/PostCard";
 import { useRequireCompanyRole, useAuth } from "../../hooks/useAuth";
@@ -59,7 +57,7 @@ export default function OrganizationPage() {
     );
   }
 
-  // Convert activities to PostCard format
+  // ✅ Convert activities to PostCard format with new status logic
   const convertActivityToPostCard = (activity: any) => {
     const formatDate = (dateString: string) => {
       const date = new Date(dateString);
@@ -75,6 +73,29 @@ export default function OrganizationPage() {
         day: "numeric",
       });
     };
+
+    const today = new Date();
+    const activityDate = activity.date ? new Date(activity.date) : new Date();
+
+    const activityDateOnly = new Date(
+      activityDate.getFullYear(),
+      activityDate.getMonth(),
+      activityDate.getDate()
+    );
+    const todayOnly = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    let status: 'Finished' | 'Today' | 'Upcoming';
+    if (activityDateOnly < todayOnly) {
+      status = 'Finished';
+    } else if (activityDateOnly.getTime() === todayOnly.getTime()) {
+      status = 'Today';
+    } else {
+      status = 'Upcoming';
+    }
 
     return {
       organizationName:
@@ -96,24 +117,24 @@ export default function OrganizationPage() {
       activityId: activity.activityId,
       isApproved: activity.isApproved,
       activityDate: activity.date,
+
+      // ✅ NEW STATUS + eventDate
+      status: status,
+      eventDate: activity.date || new Date().toISOString(),
     };
   };
-
 
   return (
     <Container fluid className="p-0 d-flex min-vh-100 bg-gray-50">
       <AppSidebar />
 
-      {/* Leave ms-16 for Col to create spacing with sidebar */}
-      <Col className="d-flex flex-column ms-16 flex-grow-1"> {/* Add flex-grow-1 for Col to take remaining space */}
-        
+      <Col className="d-flex flex-column ms-16 flex-grow-1">
         <main className="flex-grow-1 p-4 p-md-6 p-lg-8 overflow-auto">
-          {/* Wrap h3 and CategorySearch in a div for alignment */}
-          <div className="content-header-area"> {/* Add new class for styling */}
-            <h3 className="page-title mb-4">Manage Post</h3> {/* Add class and mb-4 */}
+          <div className="content-header-area">
+            <h3 className="page-title mb-4">Manage Post</h3>
             <CategorySearch userId={user?.userId} />
           </div>
-          
+
           {error && (
             <Alert variant="danger" className="mb-4">
               {error}
@@ -144,8 +165,6 @@ export default function OrganizationPage() {
               })}
             </div>
           )}
-          
-
         </main>
       </Col>
     </Container>

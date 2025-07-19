@@ -1,3 +1,14 @@
+/* Center the modal vertically and horizontally */
+.up-post-modal-centered .modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.up-post-modal-centered .modal-content {
+  margin: auto;
+}
 .custom-modal {
   border: 2px solid #20c997; /* xanh lá Bootstrap */
   border-radius: 12px;
