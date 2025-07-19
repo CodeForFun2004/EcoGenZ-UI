@@ -26,6 +26,34 @@ export const createPost = async (formData: FormData) => {
   const result = await res.json();
   return result.result;
 };
+export const updatePost = async (postInfo: {
+   id: string;
+  content: string;
+  mediaUrl: string;
+  userid:string;
+}) => {
+  const res = await fetch(`${ACTIVITY_URL}/update-post`, {
+    method: "PUT",
+    body: JSON.stringify(postInfo),
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to update post");
+  }
+  const result = await res.json();
+  return result.result;
+};
+
+export const deletePostById = async (postId: string) => {
+  const res = await fetch(`${ACTIVITY_URL}/delete-post/${postId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) throw new Error("Delete post by postId failed");
+  const json = await res.json();
+  return json.result;
+};
 
 export const toggleLike = async (userId: string, postId: string) => {
   const res = await fetch(`${LIKE_URL}`, {

@@ -22,13 +22,14 @@ import OrganizationPage from "./pages/organizer/OrganizerPage";
 
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
+import ApproveParticipantPage from "./pages/organizer/ApproveParticipantPage";
 
 import CreateActivity from "./component/activity/CreateActivity";
 import ActivityMapPage from "./pages/map/ActivityMapPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DashBoardPage from "./pages/organizer/DashBoardPage";
-
+import UserProfilePage from "./pages/user-profile/UserProfilePage";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <Route path="/media-text-page" element={<MediaTextPage />} />
           <Route path="/create-activity" element={<CreateActivity />} />
           <Route path="/activity-map" element={<ActivityMapPage />} />
+          <Route path="/user-profile" element={<UserProfilePage />} />"
           {/* Thêm các trang public khác vào đây */}
         </Route>
 
@@ -56,6 +58,10 @@ function App() {
           <Route path="/organizer-dashboard" element={<DashBoardPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
           <Route path="/approve-participant" element={<ParticipantPage />} />
+          <Route
+            path="/approve-participant/:activityId"
+            element={<ApproveParticipantPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

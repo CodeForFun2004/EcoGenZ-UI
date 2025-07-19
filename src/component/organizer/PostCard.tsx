@@ -1,10 +1,15 @@
-// src/component/organizer/PostCard.tsx
-import { Heart, MessageCircle, Upload, Users } from "lucide-react"
-import { Card, Image, Dropdown } from "react-bootstrap"
-import { FaEdit, FaTrash } from "react-icons/fa"
-import { DeleteConfirmModal } from './modal/DeleteConfirmModal' // Đảm bảo đường dẫn đúng đến file modal
-import { ParticipantModal } from './modal/ParticipantModal'; // Import ParticipantModal
-import { useState } from "react"
+
+// PostCard.tsx
+import { Heart, MessageCircle, Upload, Users } from "lucide-react";
+import { Card, Image, Dropdown } from "react-bootstrap";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { DeleteConfirmModal } from "./modal/DeleteConfirmModal";
+import { ParticipantModal } from "./modal/ParticipantModal";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteActivity } from "../../redux/features/organizerActivities/organizerActivitiesThunk";
+import type { AppDispatch } from "../../redux/store";
+
 
 // Định nghĩa props cho PostCard
 interface PostCardProps {
@@ -19,7 +24,12 @@ interface PostCardProps {
   comments: number;
   shares: number;
   members: number;
-  participants?: { // Danh sách người tham gia (tùy chọn)
+
+  activityId?: string;
+  isApproved?: boolean;
+  activityDate?: string;
+  participants?: {
+
     id: number;
     name: string;
     role: string;
@@ -31,23 +41,23 @@ interface PostCardProps {
   eventDate: string; // Ngày diễn ra sự kiện (để xác định trạng thái 'completed' đã qua)
 }
 
-export function PostCard(
-  {
-    organizationName,
-    organizationAvatar,
-    timeAgo,
-    postImage,
-    title,
-    hashtag,
-    description,
-    likes,
-    comments,
-    shares,
-    members,
-    participants,
-    status,
-    eventDate,
-  }: PostCardProps) {
+
+export function PostCard({
+  organizationName,
+  organizationAvatar,
+  timeAgo,
+  postImage,
+  title,
+  hashtag,
+  description,
+  likes,
+  comments,
+  shares,
+  members,
+  activityId,
+  activityDate,
+}: PostCardProps) {
+  const dispatch = useDispatch<AppDispatch>();
 
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -60,11 +70,18 @@ export function PostCard(
     setShowDeleteConfirmModal(true); // Mở modal xác nhận xóa
   };
 
-  // Hàm xử lý khi người dùng xác nhận xóa trong modal
-  const handleConfirmDelete = () => {
-    console.log("Đã xác nhận xóa bài viết!");
-    // TODO: Thực hiện logic xóa bài viết ở đây (ví dụ: gọi API)
-    setShowDeleteConfirmModal(false); // Đóng modal sau khi xóa thành công
+
+  const handleConfirmDelete = async () => {
+    if (activityId) {
+      try {
+        await dispatch(deleteActivity(activityId)).unwrap();
+        console.log("Activity deleted successfully!");
+      } catch (error) {
+        console.error("Failed to delete activity:", error);
+      }
+    }
+    setShowDeleteConfirmModal(false);
+
   };
 
   // Hàm xử lý khi người dùng đóng modal xác nhận xóa
@@ -72,53 +89,65 @@ export function PostCard(
     setShowDeleteConfirmModal(false);
   };
 
-  // Hàm xử lý hiển thị ParticipantModal
+
   const handleShowParticipantModal = () => {
     setShowParticipantModal(true);
   };
 
-  // Hàm xử lý đóng ParticipantModal
+
   const handleCloseParticipantModal = () => {
     setShowParticipantModal(false);
   };
 
-  // Kiểm tra xem mô tả có cần cắt bớt hay không và hiển thị phần mô tả
+
+  const handleEditClick = () => {
+    // TODO: Implement edit functionality
+    console.log("Edit activity:", activityId);
+  };
+
+  // Helper function để xác định trạng thái hoạt động
+  const getActivityStatus = () => {
+    if (!activityDate) return null;
+
+    const activityDateTime = new Date(activityDate);
+    const now = new Date();
+
+    // So sánh ngày (bỏ qua giờ phút giây)
+    const activityDateOnly = new Date(
+      activityDateTime.getFullYear(),
+      activityDateTime.getMonth(),
+      activityDateTime.getDate()
+    );
+    const todayOnly = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+    if (activityDateOnly < todayOnly) {
+      return { status: "Finished", className: "bg-secondary" };
+    } else if (activityDateOnly.getTime() === todayOnly.getTime()) {
+      return { status: "Today", className: "bg-warning text-dark" };
+    } else {
+      return { status: "Upcoming", className: "bg-info text-dark" };
+    }
+  };
+
+
   const isDescriptionTooLong = description.length > DESCRIPTION_LIMIT;
   const displayedDescription = showFullDescription
     ? description
     : description.substring(0, DESCRIPTION_LIMIT);
 
-  // Dữ liệu mock cho participants nếu không có từ props
-  const defaultParticipants = participants || [
-    { id: 1, name: "Nicholas Gordon", role: "Developer", email: "ernest.mason@gmail.com", phone: "561-303-6106", avatar: "https://api.dicebear.com/9.x/adventurer/svg?seed=Brians" },
-    { id: 2, name: "Bradley Malone", role: "Manager", email: "bradley.m@gmail.com", phone: "242-576-7666", avatar: "https://randomuser.me/api/portraits/men/32.jpg" },
-    { id: 3, name: "Janie Todd", role: "Designer", email: "stroman.hanna@yahoo.com", phone: "467-624-8505", avatar: "https://randomuser.me/api/portraits/women/44.jpg" },
-    { id: 4, name: "Marvin Lambert", role: "Developer", email: "micaela.okuneva@zemlak.biz", phone: "716-937-5782", avatar: "https://randomuser.me/api/portraits/men/76.jpg" },
-    { id: 5, name: "Teresa Lloyd", role: "Designer", email: "carlee_erdman@gmail.com", phone: "496-144-8261", avatar: "https://randomuser.me/api/portraits/women/68.jpg" },
-  ];
-
-  // Logic để xác định nếu bài đăng đã hoàn thành và ngày sự kiện đã qua
-  const isCompletedAndPast = status === 'completed' && new Date(eventDate) < new Date();
 
   return (
-    <Card 
-      // Áp dụng class 'post-completed' nếu bài đăng đã hoàn thành và ngày sự kiện đã qua
-      className={`w-100 mx-auto shadow-sm rounded-lg overflow-hidden border-0 mb-5 ${isCompletedAndPast ? 'post-completed' : ''}`} 
-      style={{ maxWidth: '800px' }}
+    <Card
+      className="w-100 mx-auto shadow-sm rounded-lg overflow-hidden border-0 mb-5"
+      style={{ maxWidth: "800px" }}
     >
-      <Card.Body className="px-4 pt-3 pb-4 position-relative"> {/* Thêm position-relative để position badge */}
-        {/* Status Badge ở góc trên bên phải của card */}
-        <div className="post-status-badge">
-          <span className={`badge bg-${
-            status === 'published' ? 'success' : // Màu xanh lá cây cho Published
-            status === 'completed' ? 'info' : // Màu xanh nhạt cho Completed
-            ''
-          }`}>
-            {status.charAt(0).toUpperCase() + status.slice(1)} {/* Hiển thị trạng thái với chữ cái đầu viết hoa */}
-          </span>
-        </div>
+      <Card.Body className="px-4 pt-3 pb-4">
+        {/* Avatar, Name, and Time Ago */}
 
-        {/* Avatar tổ chức, Tên tổ chức và Thời gian đăng */}
         <div className="d-flex align-items-center mb-3">
           <Image
             src={organizationAvatar}
@@ -132,11 +161,35 @@ export function PostCard(
             <h6 className="mb-0">{organizationName}</h6>
             <small className="text-muted">{timeAgo}</small>
           </div>
+          {/* {isApproved !== undefined && (
+            <div className="ms-auto">
+              <span
+              className={`badge ${
+                isApproved ? "bg-success" : "bg-warning text-dark"
+              }`}
+              >
+              {isApproved ? "Approved" : "Pending"}
+              </span>
+            </div>
+            )} */}
+          {/* Hiển thị trạng thái hoạt động */}
+          {activityId &&
+            (() => {
+              const status = getActivityStatus();
+              return status ? (
+                <div className="ms-auto">
+                  <span className={`badge ${status.className}`}>
+                    {status.status}
+                  </span>
+                </div>
+              ) : null;
+            })()}
         </div>
 
         {/* Hình ảnh bài đăng */}
         <Image
-          src={postImage} style={{ width: '800px' }}
+          src={postImage}
+          style={{ width: "800px" }}
           fluid
           className="mb-3 rounded"
         />
@@ -151,7 +204,7 @@ export function PostCard(
           {isDescriptionTooLong && !showFullDescription && (
             <span
               className="text-primary"
-              style={{ cursor: 'pointer', marginLeft: '5px' }}
+              style={{ cursor: "pointer", marginLeft: "5px" }}
               onClick={() => setShowFullDescription(true)}
             >
               ...See more
@@ -161,7 +214,7 @@ export function PostCard(
         {isDescriptionTooLong && showFullDescription && (
           <small
             className="text-primary d-block mt-1"
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: "pointer" }}
             onClick={() => setShowFullDescription(false)}
           >
             Hide
@@ -182,8 +235,13 @@ export function PostCard(
             <Upload size={16} className="me-1" />
             <span>{shares}</span>
           </div>
-          {/* Icon Users để mở ParticipantModal */}
-          <div className="d-flex align-items-center me-2" style={{ cursor: 'pointer' }} onClick={handleShowParticipantModal}>
+
+          <div
+            className="d-flex align-items-center me-2"
+            style={{ cursor: "pointer" }}
+            onClick={handleShowParticipantModal}
+          >
+
             <Users size={16} className="me-1" />
             <span>{members}</span>
           </div>
@@ -199,7 +257,10 @@ export function PostCard(
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item className="d-flex align-items-center">
+              <Dropdown.Item
+                className="d-flex align-items-center"
+                onClick={handleEditClick}
+              >
                 <FaEdit className="me-2" />
                 Edit
               </Dropdown.Item>
@@ -224,12 +285,15 @@ export function PostCard(
         message={`Are you sure you want to delete "${title}"? This action cannot be undone.`}
       />
 
-      {/* Modal hiển thị danh sách người tham gia */}
+
+      {/* Tích hợp ParticipantModal */}
       <ParticipantModal
         show={showParticipantModal}
         onHide={handleCloseParticipantModal}
-        participants={defaultParticipants}
+        activityId={activityId}
+        activityDate={activityDate}
       />
     </Card>
-  )
+  );
+
 }
