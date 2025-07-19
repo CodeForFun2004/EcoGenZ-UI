@@ -53,7 +53,7 @@ const Post = ({ post }: PostProps) => {
           className="author-avatar"
         />
         <div className="author-info">
-          <span className="author-name">{user?.userName}</span>
+          <span className="author-name">{post?.user?.userName}</span>
           <span className="post-timestamp">
             {new Date(post.createdAt).toLocaleString()}
           </span>
