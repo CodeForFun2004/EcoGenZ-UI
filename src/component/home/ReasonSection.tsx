@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+
 import imgHelp1 from '../../assets/img/help/1.png';
 import imgHelp2 from '../../assets/img/help/2.png';
 import imgHelp3 from '../../assets/img/help/3.png';

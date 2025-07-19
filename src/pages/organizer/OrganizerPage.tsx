@@ -1,8 +1,9 @@
 import { AppSidebar } from "../../component/organizer/AppSidebar"
-import { PageHeader } from "../../component/organizer/PageHeader"
+//import { PageHeader }m from "../../component/organizer/PageHeader"
 import { CategorySearch } from "../../component/organizer/CategorySearch"
 import { PostCard } from "../../component/organizer/PostCard"
 import { Container, Col } from "react-bootstrap"
+import './OrganizationPage.css'; // <--- Thêm import CSS nếu bạn tạo file này
 
 export default function OrganizationPage() {
   const posts = [
@@ -51,18 +52,22 @@ export default function OrganizationPage() {
       shares: 2,
       members: 10
     },
-  ]
+  ];
 
   return (
     <Container fluid className="p-0 d-flex min-vh-100 bg-gray-50">
       <AppSidebar />
-      <Col className="d-flex flex-column ms-16">
-        {" "}
-        {/* ms-16 for sidebar width */}
-        <PageHeader />
+      {/* Để lại ms-16 cho Col để tạo khoảng cách với sidebar */}
+      <Col className="d-flex flex-column ms-16 flex-grow-1"> {/* Thêm flex-grow-1 để Col chiếm hết không gian còn lại */}
+        
         <main className="flex-grow-1 p-4 p-md-6 p-lg-8 overflow-auto">
-          <CategorySearch />
-          <div className="d-flex flex-column gap-6 w-100">
+          {/* Bọc h3 và CategorySearch trong một div để căn chỉnh */}
+          <div className="content-header-area"> {/* Thêm class mới để style */}
+            <h2 className="page-title mb-4">Manage Post</h2> {/* Thêm class và mb-4 */}
+            <CategorySearch />
+          </div>
+          
+          <div className="d-flex flex-column gap-6 w-100 mt-5"> {/* Thêm mt-5 để tạo khoảng cách với search */}
             {posts.map((post) => (
               <PostCard
                 key={post.id}
@@ -83,5 +88,5 @@ export default function OrganizationPage() {
         </main>
       </Col>
     </Container>
-  )
+  );
 }

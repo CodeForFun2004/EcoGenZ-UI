@@ -24,6 +24,7 @@ import ParticipantPage from "./pages/organizer/ParticipantPage";
 import CreateActivity from "./component/activity/CreateActivity";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DashBoardPage from "./pages/organizer/DashBoardPage";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         <Route element={<MinimalLayout />}>
           <Route path="/login-page" element={<LoginPage />} />
           <Route path="/signup-page" element={<SignupPage />} />
+          <Route path="/organizer-dashboard" element={<DashBoardPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
           <Route path="/approve-participant" element={<ParticipantPage />} />
           <Route path="*" element={<NotFound />} />
