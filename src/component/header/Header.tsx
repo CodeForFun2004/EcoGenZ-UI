@@ -106,6 +106,9 @@ const Header = () => {
                         </li>
                       )}
                       <li>
+                        <Link to="/organizer-post">Activities Management</Link>
+                      </li>
+                      <li>
                         <Link to="/social-feed-page">Community</Link>
                       </li>
                       <li>
