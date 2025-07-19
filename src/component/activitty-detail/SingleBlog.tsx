@@ -92,7 +92,7 @@ const SingleBlog = () => {
             </li>
             <li>
               <a>
-                <i className="fas fa-map-marker-alt"></i> {activity.location}
+                <i className="fa fa-map-marker"></i> {activity.location}
               </a>
             </li>
           </ul>

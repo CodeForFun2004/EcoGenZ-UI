@@ -2,23 +2,15 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import "./Header.css";
+import UserDropdown from "../user-dropdown/UserDropdown";
 
 import { useAppDispatch } from "../../redux/hook";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
-import { logout } from "../../redux/features/auth/authSlice";
 import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
-import { truncateUsername } from "../../utils/textUtils";
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-
-  const handleLogout = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    dispatch(logout());
-  };
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -121,39 +113,7 @@ const Header = () => {
                   </nav>
                   <div className="Appointment d-flex align-items-center gap-1">
                     {user ? (
-                      (console.log("User found:", user),
-                      (
-                        <>
-                          <div className="d-flex align-items-center gap-2 mb-3">
-                            <img
-                              src={
-                                user.profilePhotoUrl &&
-                                user.profilePhotoUrl.trim() !== ""
-                                  ? user.profilePhotoUrl
-                                  : "https://i.pravatar.cc/40"
-                              }
-                              alt="avatar"
-                              style={{
-                                width: 36,
-                                height: 36,
-                                borderRadius: "50%",
-                              }}
-                            />
-                            <span 
-                              className="user-name" 
-                              title={user.userName}
-                            >
-                              {truncateUsername(user.userName, 12)}
-                            </span>
-                          </div>
-                          <button
-                            onClick={handleLogout}
-                            className="book_btn d-none d-lg-block mb-3"
-                          >
-                            Logout
-                          </button>
-                        </>
-                      ))
+                      <UserDropdown user={user} />
                     ) : (
                       <>
                         <div className="book_btn d-none d-lg-block mb-3">

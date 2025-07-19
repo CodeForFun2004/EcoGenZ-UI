@@ -53,30 +53,33 @@
   margin-top: 2rem;
 }
 
-.stat-card {
-  background: linear-gradient(135deg, #2e8a69, #3da58a);
-  color: white;
+.activity-map-container .stat-card {
+  background: linear-gradient(135deg, #2e8a69, #3da58a) !important;
+  color: white !important;
   padding: 1.5rem;
   border-radius: 10px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(46, 138, 105, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none !important;
 }
 
-.stat-card:hover {
+.activity-map-container .stat-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(46, 138, 105, 0.4);
 }
 
-.stat-number {
+.activity-map-container .stat-number {
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
+  color: white !important;
 }
 
-.stat-label {
+.activity-map-container .stat-label {
   font-size: 1rem;
   opacity: 0.9;
+  color: white !important;
 }
 
 .loading-spinner {
@@ -177,11 +180,11 @@
     gap: 1rem;
   }
   
-  .stat-card {
+  .activity-map-container .stat-card {
     padding: 1rem;
   }
   
-  .stat-number {
+  .activity-map-container .stat-number {
     font-size: 2rem;
   }
 }
