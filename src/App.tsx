@@ -18,10 +18,13 @@ import RankingPage from "./pages/ranking/RankingPage";
 import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
+// import { StagewiseToolbar } from "@stagewise/toolbar-react";
+import ReactPlugin from "@stagewise-plugins/react";
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
 
 import CreateActivity from "./component/activity/CreateActivity";
+import ActivityMapPage from "./pages/map/ActivityMapPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -41,6 +44,7 @@ function App() {
           <Route path="/ranking-page" element={<RankingPage />} />
           <Route path="/media-text-page" element={<MediaTextPage />} />
           <Route path="/create-activity" element={<CreateActivity />} />
+          <Route path="/activity-map" element={<ActivityMapPage />} />
           {/* Thêm các trang public khác vào đây */}
         </Route>
 
@@ -55,6 +59,7 @@ function App() {
       </Routes>
       <FloatingChatButton />
       <ToastContainer />
+      {/* <StagewiseToolbar config={{ plugins: [ReactPlugin] }} /> */}
     </>
   );
 }
