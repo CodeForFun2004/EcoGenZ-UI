@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreatePost from "../../component/social-feed/CreatePost";
-import Post from "../../component/social-feed/PostInfo";
+import Post from "../../component/social-feed/PostInfo"; 
 import { fetchAllPosts } from "../../redux/features/social_posts/postThunk";
 import type { RootState } from "../../redux/store";
 import "./SocialFeedPage.css";
@@ -16,6 +16,9 @@ const SocialFeedPage = () => {
     dispatch(fetchAllPosts() as any);
   }, [dispatch]);
 
+  const displayedPosts = [...posts]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
   return (
     <div className="social-feed-wrapper">
       <div className="feed-column">
@@ -23,8 +26,8 @@ const SocialFeedPage = () => {
 
         {loading && <p>Loading posts...</p>}
         {error && <p className="error"> {error}</p>}
-
-        {posts?.map((post) => (
+     
+        {displayedPosts.map((post) => (
           <Post key={post.id} post={post} />
         ))}
       </div>
@@ -56,7 +59,7 @@ const SocialFeedPage = () => {
             <li>Switch to energy-efficient appliances</li>
           </ul>
         </div>
-
+        
         <div className="widget">
           <h4>Join Our Community</h4>
           <p>Connect with like-minded individuals and make a difference!</p>

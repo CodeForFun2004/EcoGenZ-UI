@@ -1,6 +1,7 @@
-import { useState, useRef } from "react"; 
+import { useState, useRef, useEffect } from "react"; 
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-import { createPost } from "../../redux/features/social_posts/postThunk";
+import { createPost, fetchAllPosts } from "../../redux/features/social_posts/postThunk";
+import { toast } from "react-toastify";
 import "./CreatePost.css";
 
 const CreatePost = () => {
@@ -12,16 +13,43 @@ const CreatePost = () => {
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // Auto-resize textarea
+  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = e.target;
+    setContent(textarea.value);
+    
+    // Auto-resize
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 200) + 'px';
+  };
+
+  // Handle Enter key to ensure line breaks work properly
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      // Allow natural Enter behavior (don't prevent default)
+      // The textarea will automatically add \n and go to next line
+    }
+  };
+
+  // Set initial height when component mounts
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 200) + 'px';
+    }
+  }, [content]);
 
   const storedUserId = localStorage.getItem("userId");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!content && !imageFile) {
-      alert("Please enter content or select an image.");
+      toast.error("Please enter content or select an image.");
       return;
     }
     if (!storedUserId) {
-      alert("User not logged in.");
+      toast.error("User not logged in.");
       return;
     }
 
@@ -32,11 +60,20 @@ const CreatePost = () => {
       formData.append("imageFile", imageFile);
     }
 
-    dispatch(createPost(formData));
-    setContent("");
-    setImageFile(null);
-    if (fileInputRef.current) {
-        fileInputRef.current.value = ""; 
+    try {
+      await dispatch(createPost(formData)).unwrap();
+      // Reset form after successful creation
+      setContent("");
+      setImageFile(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      // Refresh the posts list
+      await dispatch(fetchAllPosts());
+      toast.success("Post created successfully!");
+    } catch (error) {
+      toast.error("Failed to create post. Please try again.");
+      console.error("Failed to create post:", error);
     }
   };
 
@@ -53,9 +90,11 @@ const CreatePost = () => {
           className="user-avatar"
         />
         <textarea
+          ref={textareaRef}
           placeholder="What's on your mind?"
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={handleContentChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
 

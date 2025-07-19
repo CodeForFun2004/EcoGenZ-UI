@@ -62,8 +62,17 @@ const Post = ({ post }: PostProps) => {
 
       <div className="post-content">
         <p>{post.content}</p>
-        {post.mediaUrl && (
-          <img src={post.mediaUrl} alt="Post content" className="post-image" />
+        {post.mediaUrl && 
+         post.mediaUrl.trim() !== '' && 
+         !post.mediaUrl.includes('/Helpers/profile_base.jpg') && (
+          <img 
+            src={post.mediaUrl} 
+            alt="Post content" 
+            className="post-image"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
         )}
       </div>
 
