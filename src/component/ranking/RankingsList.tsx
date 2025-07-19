@@ -1,5 +1,6 @@
 import type { RankingItem } from "../../redux/features/achivements/achivementTypes";
 import { TrendingUpIcon, TrendingDownIcon } from "./IconComponents";
+import { truncateUsername } from "../../utils/textUtils";
 
 interface RankingsListProps {
   rankings: RankingItem[];
@@ -18,7 +19,9 @@ export default function RankingsList({ rankings }: RankingsListProps) {
               className="ranking-avatar"
             />
             <div className="ranking-info">
-              <div className="ranking-name">{person.name}</div>
+              <div className="ranking-name" title={person.name}>
+                {truncateUsername(person.name, 18)}
+              </div>
               <div className="ranking-level"> {person.level} Points</div>
             </div>
           </div>

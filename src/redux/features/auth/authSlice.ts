@@ -6,6 +6,7 @@ import {
   googleLoginThunk,
   getUserByIdThunk,
   getuserWithPoint,
+  updateUserThunk,
 } from "./authThunk";
 
 // Lấy lại user từ localStorage nếu có
@@ -117,6 +118,20 @@ const authSlice = createSlice({
       .addCase(getuserWithPoint.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Failed to load list user";
+      })
+      // Update user
+      .addCase(updateUserThunk.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(updateUserThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message ?? "Failed to update user";
       });
   },
 });

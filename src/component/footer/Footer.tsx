@@ -39,10 +39,10 @@ const Footer = () => {
               <div className="footer_widget">
                 <h3 className="footer_title">Services</h3>
                 <ul className="links">
-                  <li><a href="#ranking-page">Ranking</a></li>
-                  <li><a href="#blog-page">Activities</a></li>
-                  <li><a href="#social-feed-page">Community</a></li>
-                  <li><a href="#media-text-page">Media</a></li>
+                  <li><a href="ranking-page">Ranking</a></li>
+                  <li><a href="blog-page">Activities</a></li>
+                  <li><a href="social-feed-page">Community</a></li>
+                  <li><a href="media-text-page">Media</a></li>
                 </ul>
               </div>
             </div>

@@ -31,9 +31,9 @@ const postSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(createPost.fulfilled, (state, action) => {
+      .addCase(createPost.fulfilled, (state) => {
         state.loading = false;
-        state.posts.unshift(action.payload); // Add the new post on top
+        // Don't add to posts here, let fetchAllPosts handle the refresh
       })
       .addCase(createPost.rejected, (state, action) => {
         state.loading = false;

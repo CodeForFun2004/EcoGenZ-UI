@@ -3,7 +3,7 @@ import type { User } from "../auth/authTypes";
 export interface Post {
   id: string;
   content: string;
-  mediaUrl: string;
+  mediaUrl?: string;
   createdAt: string;
   userId: string;
   user: User;

@@ -18,12 +18,17 @@ import RankingPage from "./pages/ranking/RankingPage";
 import MediaTextPage from "./pages/media-text/MediaTextPage";
 import FloatingChatButton from "./component/chatbot/FloatingChatButton";
 import OrganizationPage from "./pages/organizer/OrganizerPage";
+// import { StagewiseToolbar } from "@stagewise/toolbar-react";
+import ReactPlugin from "@stagewise-plugins/react";
 
 import ParticipantPage from "./pages/organizer/ParticipantPage";
 
 import CreateActivity from "./component/activity/CreateActivity";
+import ActivityMapPage from "./pages/map/ActivityMapPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import DashBoardPage from "./pages/organizer/DashBoardPage";
+import UserProfilePage from "./pages/user-profile/UserProfilePage";
 
 
 function App() {
@@ -41,6 +46,8 @@ function App() {
           <Route path="/ranking-page" element={<RankingPage />} />
           <Route path="/media-text-page" element={<MediaTextPage />} />
           <Route path="/create-activity" element={<CreateActivity />} />
+          <Route path="/activity-map" element={<ActivityMapPage />} />
+          <Route path="/user-profile" element={<UserProfilePage />} />"
           {/* Thêm các trang public khác vào đây */}
         </Route>
 
@@ -48,6 +55,7 @@ function App() {
         <Route element={<MinimalLayout />}>
           <Route path="/login-page" element={<LoginPage />} />
           <Route path="/signup-page" element={<SignupPage />} />
+          <Route path="/organizer-dashboard" element={<DashBoardPage />} />
           <Route path="/organizer-post" element={<OrganizationPage />} />
           <Route path="/approve-participant" element={<ParticipantPage />} />
           <Route path="*" element={<NotFound />} />
@@ -55,6 +63,7 @@ function App() {
       </Routes>
       <FloatingChatButton />
       <ToastContainer />
+      {/* <StagewiseToolbar config={{ plugins: [ReactPlugin] }} /> */}
     </>
   );
 }

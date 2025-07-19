@@ -1,4 +1,31 @@
 /* Base layout for the entire page */
+/* src/styles/pages/OrganizationPage.css */
+
+.content-header-area {
+  /* Để căn giữa nội dung và giới hạn chiều rộng */
+  display: flex;
+  flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+  align-items: center;   /* Căn giữa theo chiều ngang */
+  max-width: 780px;      /* Giới hạn chiều rộng giống CategorySearch */
+  margin-left: auto;     /* Tự động căn giữa */
+  margin-right: auto;    /* Tự động căn giữa */
+  padding: 0 15px; /* Thêm padding ngang để không bị sát lề trên màn hình nhỏ */
+}
+
+.page-title {
+  font-weight: 700; /* Đậm hơn */
+  text-align: center; /* Căn giữa tiêu đề */
+ 
+  /* Điều chỉnh letter-spacing hoặc text-transform nếu muốn */
+  /* text-transform: uppercase; */
+  /* letter-spacing: 1px; */
+}
+
+/* Điều chỉnh khoảng cách cho PageHeader nếu bạn muốn sử dụng nó sau này */
+/* .page-header-spacing {
+  margin-left: 80px;
+} */
+
 .organization-page-container {
     display: flex;
     min-height: 100vh;
