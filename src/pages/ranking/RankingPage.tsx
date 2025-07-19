@@ -315,7 +315,7 @@ export default function RankingPage() {
             <Achievements />
 
             {/* Level Progress */}
-            <LevelProgress />
+            {/* <LevelProgress /> */}
           </div>
         </div>
       </div>

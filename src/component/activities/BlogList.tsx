@@ -1,42 +1,53 @@
+// src/components/BlogList.tsx
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllActivities } from "../../redux/features/activities/activitiesThunk";
 import type { RootState } from "../../redux/store";
 import type { Activity } from "../../redux/features/activities/activitiesTypes";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import Pagination from "../common/Pagination";
 
 const BlogList = () => {
   const dispatch = useDispatch();
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
-  const {
-    activities = [],
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.activities);
+  const { activities = [] } = useSelector(
+    (state: RootState) => state.activities
+  );
 
   useEffect(() => {
     dispatch(fetchAllActivities() as any);
   }, [dispatch]);
 
+  const totalPages = Math.ceil(activities.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = activities.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const handleImageError = (activityId: string) => {
-    setImageErrors(prev => new Set([...prev, activityId]));
+    setImageErrors((prev) => new Set([...prev, activityId]));
   };
 
   const shouldShowImage = (activity: Activity) => {
     return (
-      activity.mediaUrl && 
-      activity.mediaUrl.trim() !== "" && 
+      activity.mediaUrl &&
+      activity.mediaUrl.trim() !== "" &&
       !imageErrors.has(activity.activityId) &&
-      (activity.mediaUrl.startsWith('http') || activity.mediaUrl.startsWith('/') || activity.mediaUrl.startsWith('data:'))
+      (activity.mediaUrl.startsWith("http") ||
+        activity.mediaUrl.startsWith("/") ||
+        activity.mediaUrl.startsWith("data:"))
     );
   };
+
   return (
     <div className="col-lg-8 mb-5 mb-lg-0">
       <div className="blog_left_sidebar">
-        {activities.map((activity: Activity, index: number) => (
+        {currentItems.map((activity: Activity, index: number) => (
           <article key={activity.activityId} className="blog_item">
             {shouldShowImage(activity) && (
               <div className="blog_item_img">
@@ -46,8 +57,7 @@ const BlogList = () => {
                   alt={`Blog ${index + 1}`}
                   onError={() => handleImageError(activity.activityId)}
                   onLoad={() => {
-                    // Remove from error set if image loads successfully
-                    setImageErrors(prev => {
+                    setImageErrors((prev) => {
                       const newSet = new Set(prev);
                       newSet.delete(activity.activityId);
                       return newSet;
@@ -76,7 +86,7 @@ const BlogList = () => {
                   </li>
                   <li>
                     <a href="#">
-                      <i className="fa-regular fa-location-dot"></i>
+                      <i className="fa-regular fa-location-dot"></i>{" "}
                       {activity.location}
                     </a>
                   </li>
@@ -102,30 +112,13 @@ const BlogList = () => {
           </article>
         ))}
 
-        <nav className="blog-pagination justify-content-center d-flex">
-          <ul className="pagination flex">
-            <li className="page-item">
-              <a href="#" className="page-link group" aria-label="Previous">
-                <ChevronLeftIcon className="w-5 h-5 mb-1 text-gray-500 group-hover:text-[#3CC78F]" />
-              </a>
-            </li>
-            <li className="page-item">
-              <a href="#" className="page-link">
-                1
-              </a>
-            </li>
-            <li className="page-item active">
-              <a href="#" className="page-link">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a href="#" className="page-link group" aria-label="Next">
-                <ChevronRightIcon className="w-5 h-5 mb-1 text-gray-500 group-hover:text-[#3CC78F] transition-colors duration-200" />
-              </a>
-            </li>
-          </ul>
-        </nav>
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        )}
       </div>
     </div>
   );

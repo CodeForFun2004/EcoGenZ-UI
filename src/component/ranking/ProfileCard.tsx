@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useMemo } from "react";
 import { truncateUsername } from "../../utils/textUtils";
+import { InfoIcon } from "./IconComponents";
+import LevelProgress from "./LevelProgress";
 
 export default function ProfileCard() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -11,17 +13,31 @@ export default function ProfileCard() {
   );
 
   const displayAchievements = user?.userId ? userAchievements : achievements;
+  const totalCount = displayAchievements.length;
 
-  const level = useMemo(() => {
-    const count = displayAchievements.length;
+  const { level, percentage } = useMemo(() => {
+    let level = 0;
+    let percentage = 0;
 
-    if (count >= 20) return 5;
-    if (count >= 15) return 4;
-    if (count >= 10) return 3;
-    if (count >= 5) return 2;
-    if (count >= 1) return 1;
-    return 0;
-  }, [displayAchievements]);
+    if (totalCount >= 20) {
+      level = 5;
+      percentage = 100;
+    } else if (totalCount >= 15) {
+      level = 4;
+      percentage = ((totalCount - 15) / 5) * 100;
+    } else if (totalCount >= 10) {
+      level = 3;
+      percentage = ((totalCount - 10) / 5) * 100;
+    } else if (totalCount >= 5) {
+      level = 2;
+      percentage = ((totalCount - 5) / 5) * 100;
+    } else if (totalCount >= 1) {
+      level = 1;
+      percentage = (totalCount / 5) * 100;
+    }
+
+    return { level, percentage: Math.min(percentage, 100) };
+  }, [totalCount]);
 
   const renderStars = (level: number) =>
     Array.from({ length: level }, (_, i) => <span key={i}>★</span>);
@@ -39,8 +55,14 @@ export default function ProfileCard() {
       <h3 className="profile-name" title={user?.userName ?? "Guest"}>
         {truncateUsername(user?.userName ?? "Guest", 20)}
       </h3>
-      <div className="level-badge">Level {level}</div>
+
+      <div className="level-badge">
+        Level {level} <InfoIcon />
+      </div>
+
       <div className="stars">{renderStars(level)}</div>
+
+      <LevelProgress />
     </div>
   );
 }
