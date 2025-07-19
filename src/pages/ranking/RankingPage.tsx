@@ -281,7 +281,6 @@ import RankingsList from "../../component/ranking/RankingsList";
 import ProfileCard from "../../component/ranking/ProfileCard";
 import Categories from "../../component/ranking/Categories";
 import Achievements from "../../component/ranking/Achievements";
-import LevelProgress from "../../component/ranking/LevelProgress";
 
 import { topThreeData, allRankingsData, achievementsData } from "../../data";
 import RankingsListContainer from "../../component/ranking/RankingListContainer";

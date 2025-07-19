@@ -32,6 +32,14 @@
   line-height: 1.6;
 }
 
+.map-restriction-note {
+  display: block;
+  font-size: 0.85rem;
+  color: #2e8a69;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
 .map-wrapper {
   position: relative;
   height: 500px;
@@ -41,9 +49,86 @@
   margin-bottom: 2rem;
 }
 
+.map-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    /* Top fade */
+    linear-gradient(180deg, 
+      rgba(255, 255, 255, 0.8) 0%, 
+      rgba(255, 255, 255, 0.4) 8%, 
+      transparent 15%
+    ),
+    /* Bottom fade */
+    linear-gradient(0deg, 
+      rgba(255, 255, 255, 0.8) 0%, 
+      rgba(255, 255, 255, 0.4) 8%, 
+      transparent 15%
+    ),
+    /* Left fade */
+    linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.7) 0%, 
+      rgba(255, 255, 255, 0.3) 10%, 
+      transparent 20%
+    ),
+    /* Right fade */
+    linear-gradient(270deg, 
+      rgba(255, 255, 255, 0.7) 0%, 
+      rgba(255, 255, 255, 0.3) 10%, 
+      transparent 20%
+    );
+  pointer-events: none;
+  z-index: 400;
+}
+
 .leaflet-container {
   height: 100%;
   width: 100%;
+}
+
+/* Enhance map interaction and restrict view */
+.leaflet-container .leaflet-control-zoom {
+  margin: 10px;
+}
+
+.leaflet-container .leaflet-control-zoom a {
+  background-color: #2e8a69;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.leaflet-container .leaflet-control-zoom a:hover {
+  background-color: #1a5d4a;
+}
+
+/* Add visual feedback when reaching bounds */
+.leaflet-container.leaflet-drag-target {
+  cursor: grab;
+}
+
+.leaflet-container.leaflet-drag-target:active {
+  cursor: grabbing;
+}
+
+/* Smooth transition when map bounds are enforced */
+.leaflet-container .leaflet-map-pane {
+  transition: transform 0.2s ease-out;
+}
+
+/* Style for the dimmed overlay polygon */
+.leaflet-overlay-pane svg path {
+  pointer-events: none;
+}
+
+/* Disable tile loading animation to improve performance */
+.leaflet-tile-container {
+  filter: contrast(1.05) brightness(0.98);
+  transition: opacity 0.2s;
 }
 
 .activity-stats {
@@ -143,7 +228,8 @@
   color: #2e8a69;
 }
 
-.province-item.clickable:hover .view-details-arrow {
+.province-item.clickable:hover .view-details-arrow,
+.province-item.clickable:hover .dropdown-arrow {
   color: white !important;
 }
 
@@ -227,6 +313,77 @@
 .popup-activities-list::-webkit-scrollbar-thumb {
   background: #2e8a69;
   border-radius: 2px;
+}
+
+/* Province dropdown styles */
+.province-dropdown-container {
+  margin: 0.25rem 0;
+}
+
+.dropdown-arrow {
+  color: #2e8a69;
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.province-activities-dropdown {
+  background: white;
+  border: 2px solid #2e8a69;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(46, 138, 105, 0.2);
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.activity-dropdown-item {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.activity-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.activity-dropdown-item:hover {
+  background-color: #f0f8f5;
+}
+
+.activity-title {
+  font-weight: 600;
+  color: #2e8a69;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.activity-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.activity-description {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
 }
 
 /* Responsive design */

@@ -1,3 +1,4 @@
+
 // PostCard.tsx
 import { Heart, MessageCircle, Upload, Users } from "lucide-react";
 import { Card, Image, Dropdown } from "react-bootstrap";
@@ -9,6 +10,8 @@ import { useDispatch } from "react-redux";
 import { deleteActivity } from "../../redux/features/organizerActivities/organizerActivitiesThunk";
 import type { AppDispatch } from "../../redux/store";
 
+
+// Định nghĩa props cho PostCard
 interface PostCardProps {
   organizationName: string;
   organizationAvatar: string;
@@ -21,10 +24,12 @@ interface PostCardProps {
   comments: number;
   shares: number;
   members: number;
+
   activityId?: string;
   isApproved?: boolean;
   activityDate?: string;
   participants?: {
+
     id: number;
     name: string;
     role: string;
@@ -32,7 +37,10 @@ interface PostCardProps {
     phone: string;
     avatar: string;
   }[];
+  status: 'published' | 'completed'; // Trạng thái bài đăng
+  eventDate: string; // Ngày diễn ra sự kiện (để xác định trạng thái 'completed' đã qua)
 }
+
 
 export function PostCard({
   organizationName,
@@ -50,15 +58,18 @@ export function PostCard({
   activityDate,
 }: PostCardProps) {
   const dispatch = useDispatch<AppDispatch>();
+
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [showParticipantModal, setShowParticipantModal] = useState(false);
 
-  const DESCRIPTION_LIMIT = 150;
+  const DESCRIPTION_LIMIT = 150; // Giới hạn số ký tự hiển thị ban đầu cho mô tả
 
+  // Hàm xử lý khi người dùng click vào "Delete" trong dropdown
   const handleDeleteClick = () => {
-    setShowDeleteConfirmModal(true);
+    setShowDeleteConfirmModal(true); // Mở modal xác nhận xóa
   };
+
 
   const handleConfirmDelete = async () => {
     if (activityId) {
@@ -70,19 +81,24 @@ export function PostCard({
       }
     }
     setShowDeleteConfirmModal(false);
+
   };
 
+  // Hàm xử lý khi người dùng đóng modal xác nhận xóa
   const handleCloseDeleteConfirmModal = () => {
     setShowDeleteConfirmModal(false);
   };
+
 
   const handleShowParticipantModal = () => {
     setShowParticipantModal(true);
   };
 
+
   const handleCloseParticipantModal = () => {
     setShowParticipantModal(false);
   };
+
 
   const handleEditClick = () => {
     // TODO: Implement edit functionality
@@ -117,10 +133,12 @@ export function PostCard({
     }
   };
 
+
   const isDescriptionTooLong = description.length > DESCRIPTION_LIMIT;
   const displayedDescription = showFullDescription
     ? description
     : description.substring(0, DESCRIPTION_LIMIT);
+
 
   return (
     <Card
@@ -129,6 +147,7 @@ export function PostCard({
     >
       <Card.Body className="px-4 pt-3 pb-4">
         {/* Avatar, Name, and Time Ago */}
+
         <div className="d-flex align-items-center mb-3">
           <Image
             src={organizationAvatar}
@@ -167,15 +186,19 @@ export function PostCard({
             })()}
         </div>
 
+        {/* Hình ảnh bài đăng */}
         <Image
           src={postImage}
           style={{ width: "800px" }}
           fluid
           className="mb-3 rounded"
         />
+        {/* Tiêu đề bài đăng */}
         <h3>{title}</h3>
+        {/* Hashtag */}
         <p className="text-muted">{hashtag}</p>
 
+        {/* Mô tả bài đăng với logic "See more"/"Hide" */}
         <p className="mb-2">
           {displayedDescription}
           {isDescriptionTooLong && !showFullDescription && (
@@ -198,6 +221,7 @@ export function PostCard({
           </small>
         )}
 
+        {/* Các thống kê tương tác (Likes, Comments, Shares, Members) */}
         <div className="d-flex justify-content-around text-muted mt-2 align-items-center">
           <div className="d-flex align-items-center me-2">
             <Heart size={16} className="me-1" />
@@ -211,16 +235,18 @@ export function PostCard({
             <Upload size={16} className="me-1" />
             <span>{shares}</span>
           </div>
+
           <div
             className="d-flex align-items-center me-2"
             style={{ cursor: "pointer" }}
             onClick={handleShowParticipantModal}
           >
+
             <Users size={16} className="me-1" />
             <span>{members}</span>
           </div>
 
-          {/* Dropdown 3 dots */}
+          {/* Dropdown "Other" với tùy chọn Edit/Delete */}
           <Dropdown>
             <Dropdown.Toggle
               variant="light"
@@ -250,7 +276,7 @@ export function PostCard({
         </div>
       </Card.Body>
 
-      {/* Tích hợp DeleteConfirmModal */}
+      {/* Modal xác nhận xóa bài đăng */}
       <DeleteConfirmModal
         show={showDeleteConfirmModal}
         onHide={handleCloseDeleteConfirmModal}
@@ -258,6 +284,7 @@ export function PostCard({
         title="Confirm Deletion"
         message={`Are you sure you want to delete "${title}"? This action cannot be undone.`}
       />
+
 
       {/* Tích hợp ParticipantModal */}
       <ParticipantModal
@@ -268,4 +295,5 @@ export function PostCard({
       />
     </Card>
   );
+
 }

@@ -1,4 +1,3 @@
-// src/components/ProfileCard.tsx
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useMemo } from "react";
@@ -16,6 +15,7 @@ export default function ProfileCard() {
   const totalCount = displayAchievements.length;
 
   const { level, percentage } = useMemo(() => {
+    const totalCount = displayAchievements.length;
     let level = 0;
     let percentage = 0;
 
@@ -37,7 +37,7 @@ export default function ProfileCard() {
     }
 
     return { level, percentage: Math.min(percentage, 100) };
-  }, [totalCount]);
+  }, [displayAchievements]);
 
   const renderStars = (level: number) =>
     Array.from({ length: level }, (_, i) => <span key={i}>★</span>);
@@ -61,8 +61,25 @@ export default function ProfileCard() {
       </div>
 
       <div className="stars">{renderStars(level)}</div>
-
-      <LevelProgress />
+      
+      {/* Level Progress */}
+      <div className="progress-section">
+        <div className="progress-header">
+          <h4 className="card-title">
+            Level {level} <InfoIcon />
+          </h4>
+        </div>
+        <div className="progress-bar">
+          <div
+            className="progress-fill"
+            style={{ width: `${percentage}%` }}
+          ></div>
+        </div>
+        <div className="progress-text">
+          <span className="progress-percentage">{Math.round(percentage)}%</span>{" "}
+          completed to next level
+        </div>
+      </div>
     </div>
   );
 }
