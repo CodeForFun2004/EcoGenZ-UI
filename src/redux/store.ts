@@ -7,6 +7,8 @@ import commentReducer from "./features/comment/commentSlice";
 import organizerActivitiesReducer from "./features/organizerActivities/organizerActivitiesSlice";
 import participantsReducer from "./features/participants/participantsSlice";
 import achievementsReducer from "./features/achivements/achivementSlice";
+import aiReducer from "./features/aichat/aiSlice";
+import voiceChatReducer from "./features/aichat/voiceChatSlice";
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -17,6 +19,8 @@ export const store = configureStore({
     organizerActivities: organizerActivitiesReducer,
     participants: participantsReducer,
     achievements: achievementsReducer,
+    ai: aiReducer,
+    voiceChat: voiceChatReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
