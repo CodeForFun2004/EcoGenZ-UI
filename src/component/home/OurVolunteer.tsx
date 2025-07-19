@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { getuserWithPoint } from "../../redux/features/auth/authThunk";
+import { truncateUsername } from "../../utils/textUtils";
 
 const OurVolunteer = () => {
   const dispatch = useAppDispatch();
@@ -58,7 +59,7 @@ const OurVolunteer = () => {
                       </ul>
                     </div>
                     <div className="info_inner">
-                      <h4>{user.userName}</h4>
+                      <h4 title={user.userName}>{truncateUsername(user.userName, 16)}</h4>
                       <p>{user.email}</p>
                     </div>
                   </div>

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { logout } from "../../redux/features/auth/authSlice";
 import { getUserByIdThunk } from "../../redux/features/auth/authThunk";
+import { truncateUsername } from "../../utils/textUtils";
 const Header = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -138,7 +139,12 @@ const Header = () => {
                                 borderRadius: "50%",
                               }}
                             />
-                            <span>{user.userName}</span>
+                            <span 
+                              className="user-name" 
+                              title={user.userName}
+                            >
+                              {truncateUsername(user.userName, 12)}
+                            </span>
                           </div>
                           <button
                             onClick={handleLogout}

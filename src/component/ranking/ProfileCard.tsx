@@ -2,6 +2,7 @@
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { useMemo } from "react";
+import { truncateUsername } from "../../utils/textUtils";
 
 export default function ProfileCard() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -35,7 +36,9 @@ export default function ProfileCard() {
         alt={user?.userName ?? "Guest"}
         className="profile-avatar"
       />
-      <h3 className="profile-name">{user?.userName ?? "Guest"}</h3>
+      <h3 className="profile-name" title={user?.userName ?? "Guest"}>
+        {truncateUsername(user?.userName ?? "Guest", 20)}
+      </h3>
       <div className="level-badge">Level {level}</div>
       <div className="stars">{renderStars(level)}</div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { getuserWithPoint } from "../../redux/features/auth/authThunk";
+import { truncateUsername } from "../../utils/textUtils";
 
 export default function Podium() {
   const dispatch = useAppDispatch();
@@ -38,7 +39,9 @@ export default function Podium() {
                 className="podium-avatar"
                 style={{ width: 64, height: 64, borderRadius: "50%" }}
               />
-              <div className="podium-name">{u.userName}</div>
+              <div className="podium-name" title={u.userName}>
+                {truncateUsername(u.userName, 15)}
+              </div>
               <div className="podium-points">{u.impactPoints} pts</div>
             </div>
           ))}

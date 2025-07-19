@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllActivities } from "../../redux/features/activities/activitiesThunk";
 import type { RootState } from "../../redux/store";
@@ -9,6 +9,7 @@ import type { Activity } from "../../redux/features/activities/activitiesTypes";
 
 const PopularCauses = () => {
   const dispatch = useDispatch();
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const {
     activities = [],
@@ -19,6 +20,19 @@ const PopularCauses = () => {
   useEffect(() => {
     dispatch(fetchAllActivities() as any);
   }, [dispatch]);
+
+  const handleImageError = (activityId: string) => {
+    setImageErrors(prev => new Set([...prev, activityId]));
+  };
+
+  const shouldShowImage = (activity: Activity) => {
+    return (
+      activity.mediaUrl && 
+      activity.mediaUrl.trim() !== "" && 
+      !imageErrors.has(activity.activityId) &&
+      (activity.mediaUrl.startsWith('http') || activity.mediaUrl.startsWith('/') || activity.mediaUrl.startsWith('data:'))
+    );
+  };
 
   return (
     <div className="popular_causes_area section_padding">
@@ -38,18 +52,29 @@ const PopularCauses = () => {
           {activities.map((activity: Activity, index: number) => (
             <div key={activity.activityId || index} className="col-lg-4">
               <div className="single_cause">
-                <div className="thumb">
-                  <img
-                    src={activity.mediaUrl}
-                    alt={`Cause ${index + 1}`}
-                    style={{
-                      width: "100%",
-                      height: "250px",
-                      objectFit: "cover",
-                      borderRadius: "8px",
-                    }}
-                  />
-                </div>
+                {shouldShowImage(activity) && (
+                  <div className="thumb">
+                    <img
+                      src={activity.mediaUrl}
+                      alt={`Cause ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        height: "250px",
+                        objectFit: "cover",
+                        borderRadius: "8px",
+                      }}
+                      onError={() => handleImageError(activity.activityId)}
+                      onLoad={() => {
+                        // Remove from error set if image loads successfully
+                        setImageErrors(prev => {
+                          const newSet = new Set(prev);
+                          newSet.delete(activity.activityId);
+                          return newSet;
+                        });
+                      }}
+                    />
+                  </div>
+                )}
                 <div className="causes_content">
                   <div className="custom_progress_bar">
                     <div className="progress">
