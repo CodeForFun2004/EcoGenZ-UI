@@ -3,6 +3,7 @@ import type { RootState } from "../../redux/store";
 import { useMemo } from "react";
 import { truncateUsername } from "../../utils/textUtils";
 import { InfoIcon } from "./IconComponents";
+import LevelProgress from "./LevelProgress";
 
 export default function ProfileCard() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -11,6 +12,7 @@ export default function ProfileCard() {
   );
 
   const displayAchievements = user?.userId ? userAchievements : achievements;
+  const totalCount = displayAchievements.length;
 
   const { level, percentage } = useMemo(() => {
     const totalCount = displayAchievements.length;
@@ -53,7 +55,11 @@ export default function ProfileCard() {
       <h3 className="profile-name" title={user?.userName ?? "Guest"}>
         {truncateUsername(user?.userName ?? "Guest", 20)}
       </h3>
-      <div className="level-badge">Level {level}</div>
+
+      <div className="level-badge">
+        Level {level} <InfoIcon />
+      </div>
+
       <div className="stars">{renderStars(level)}</div>
       
       {/* Level Progress */}
