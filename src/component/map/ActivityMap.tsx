@@ -15,7 +15,7 @@ Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
-// Coordinates cho các tỉnh thành Việt Nam (một số tỉnh chính)
+// Coordinates for Vietnam provinces (some main provinces)
 const vietnamProvinces: Record<string, { lat: number; lng: number; name: string }> = {
   'Hà Nội': { lat: 21.0285, lng: 105.8542, name: 'Hà Nội' },
   'Hồ Chí Minh': { lat: 10.8231, lng: 106.6297, name: 'TP. Hồ Chí Minh' },
@@ -94,36 +94,25 @@ const ActivityMap: React.FC = () => {
   const navigate = useNavigate();
   const { activities, loading, error } = useAppSelector((state) => state.activities);
   const [mapCenter] = useState<[number, number]>([16.0583, 108.2772]); // Trung tâm Việt Nam
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   useEffect(() => {
     dispatch(fetchAllActivities());
   }, [dispatch]);
 
-  // Hàm để chuyển hướng đến trang chi tiết hoạt động của tỉnh
+  // Function to toggle dropdown for province
   const handleProvinceClick = (provinceName: string) => {
-    // Tìm hoạt động đầu tiên của tỉnh đó để lấy ID
-    const provinceActivity = activities?.find((activity: Activity) => 
-      activity.location && activity.location.trim() === provinceName
-    );
-    
-    if (provinceActivity && provinceActivity.activityId) {
-      navigate(`/activities/${provinceActivity.activityId}?province=${encodeURIComponent(provinceName)}`);
-    } else {
-      // Fallback: chuyển đến trang blog với filter theo tỉnh
-      navigate(`/blog-page?location=${encodeURIComponent(provinceName)}`);
-    }
-    // Scroll to top after navigation
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setOpenDropdown(openDropdown === provinceName ? null : provinceName);
   };
 
-  // Hàm để chuyển hướng đến trang chi tiết activity cụ thể
+  // Function to navigate to specific activity detail page
   const handleActivityClick = (activityId: string) => {
     navigate(`/activities/${activityId}`);
     // Scroll to top after navigation
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Tính toán số lượng activities theo từng tỉnh và lấy danh sách activities
+  // Calculate number of activities by each province and get activities list
   const provinceStats = useMemo(() => {
     if (!activities || activities.length === 0) return [];
 
@@ -202,14 +191,14 @@ const ActivityMap: React.FC = () => {
           />
           
           {provinceStats.map((province: ProvinceCount) => {
-            const radius = Math.max(20, Math.min(100, province.count * 10)); // Tính bán kính dựa trên số lượng
-            const fillOpacity = Math.max(0.3, Math.min(0.8, province.count / 10)); // Độ trong suốt
+            const radius = Math.max(20, Math.min(100, province.count * 10)); // Calculate radius based on count
+            const fillOpacity = Math.max(0.3, Math.min(0.8, province.count / 10)); // Transparency
             
             return (
               <Circle
                 key={province.name}
                 center={[province.coordinates.lat, province.coordinates.lng]}
-                radius={radius * 1000} // Chuyển đổi sang meters
+                radius={radius * 1000} // Convert to meters
                 fillColor="#2e8a69"
                 color="#1a5d4a"
                 weight={2}
@@ -220,10 +209,10 @@ const ActivityMap: React.FC = () => {
                   <div className="province-popup">
                     <div className="popup-title">{province.name}</div>
                     <div className="popup-activity-count">
-                      <strong className="popup-count">{province.count}</strong> hoạt động
+                      <strong className="popup-count">{province.count}</strong> {province.count === 1 ? 'activity' : 'activities'}
                     </div>
                     
-                    {/* Danh sách activities */}
+                    {/* Activities list */}
                     <div className="popup-activities-list" style={{ margin: '10px 0', fontSize: '12px' }}>
                       {province.activities.map((activity) => (
                         <div 
@@ -251,7 +240,7 @@ const ActivityMap: React.FC = () => {
                       ))}
                       {province.count > 5 && (
                         <div style={{ fontSize: '10px', color: '#666', fontStyle: 'italic' }}>
-                          và {province.count - 5} hoạt động khác...
+                          and {province.count - 5} other activities...
                         </div>
                       )}
                     </div>
@@ -289,18 +278,49 @@ const ActivityMap: React.FC = () => {
       {provinceStats.length > 0 && (
         <div className="province-list">
           <h3 style={{ marginBottom: '1rem', color: '#2e8a69' }}>
-            Chi tiết theo Tỉnh/Thành phố
+            Details by Province/City
           </h3>
           {provinceStats.map((province: ProvinceCount) => (
-            <div 
-              key={province.name} 
-              className="province-item clickable"
-              onClick={() => handleProvinceClick(province.name)}
-              style={{ cursor: 'pointer' }}
-            >
-              <span className="province-name">{province.name}</span>
-              <span className="activity-count">{province.count} hoạt động</span>
-              <span className="view-details-arrow" style={{ color: '#2e8a69', marginLeft: '10px' }}>→</span>
+            <div key={province.name} className="province-dropdown-container">
+              <div 
+                className="province-item clickable"
+                onClick={() => handleProvinceClick(province.name)}
+                style={{ cursor: 'pointer' }}
+              >
+                <span className="province-name">{province.name}</span>
+                <span className="activity-count">{province.count} {province.count === 1 ? 'activity' : 'activities'}</span>
+                <span className={`dropdown-arrow ${openDropdown === province.name ? 'open' : ''}`}>▼</span>
+              </div>
+              
+              {/* Dropdown Content */}
+              {openDropdown === province.name && (
+                <div className="province-activities-dropdown">
+                  {province.activities.map((activity) => (
+                    <div 
+                      key={activity.activityId}
+                      className="activity-dropdown-item"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleActivityClick(activity.activityId);
+                      }}
+                    >
+                      <div className="activity-title">
+                        {activity.title}
+                      </div>
+                      <div className="activity-date">
+                        {new Date(activity.date).toLocaleDateString('vi-VN')}
+                      </div>
+                      {activity.description && (
+                        <div className="activity-description">
+                          {activity.description.length > 100 
+                            ? `${activity.description.substring(0, 100)}...` 
+                            : activity.description}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

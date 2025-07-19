@@ -143,7 +143,8 @@
   color: #2e8a69;
 }
 
-.province-item.clickable:hover .view-details-arrow {
+.province-item.clickable:hover .view-details-arrow,
+.province-item.clickable:hover .dropdown-arrow {
   color: white !important;
 }
 
@@ -227,6 +228,77 @@
 .popup-activities-list::-webkit-scrollbar-thumb {
   background: #2e8a69;
   border-radius: 2px;
+}
+
+/* Province dropdown styles */
+.province-dropdown-container {
+  margin: 0.25rem 0;
+}
+
+.dropdown-arrow {
+  color: #2e8a69;
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.province-activities-dropdown {
+  background: white;
+  border: 2px solid #2e8a69;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(46, 138, 105, 0.2);
+  overflow: hidden;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.activity-dropdown-item {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.activity-dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.activity-dropdown-item:hover {
+  background-color: #f0f8f5;
+}
+
+.activity-title {
+  font-weight: 600;
+  color: #2e8a69;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.activity-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.activity-description {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.4;
 }
 
 /* Responsive design */
