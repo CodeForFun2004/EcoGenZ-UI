@@ -1,7 +1,7 @@
 import { AppSidebar } from "../../component/organizer/AppSidebar"
 import { PageHeader } from "../../component/organizer/PageHeader"
 import { Container, Col } from "react-bootstrap"
-import ParticipantList from "./ParticipantList"
+import ParticipantList from "../../component/organizer/participant/ParticipantList"
 
 const ParticipantPage= () => {
   return (
