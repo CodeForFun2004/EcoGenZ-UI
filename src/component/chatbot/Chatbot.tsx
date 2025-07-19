@@ -10,11 +10,12 @@ import React, {
 import { Input, Button, Avatar, message } from "antd";
 import { SendOutlined, RobotOutlined, UserOutlined, AudioOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
-import {
-  aichatAPI,
-  type ChatMessage as APIChatMessage,
-  type VoiceChatResponse,
-} from "../../redux/features/aichat/aichataskAPI";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../redux/store";
+import { voiceChatThunk } from "../../redux/features/aichat/voiceChatThunk";
+import { addToChatHistory } from "../../redux/features/aichat/voiceChatSlice";
+import type { ChatMessage as APIChatMessage } from "../../redux/features/aichat/voiceChatTypes";
+import { aichatAPI } from "../../redux/features/aichat/aichataskAPI";
 import VoiceRecorder from "./VoiceRecorder";
 import { convertAudioToWav, createAudioFile, getAudioDuration, formatDuration, processAIAudioResponse } from "./audioUtils";
 import "./Chatbot.css";
@@ -28,6 +29,9 @@ interface ChatMessage {
 }
 
 const Chatbot: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading: voiceChatLoading, error: voiceChatError } = useSelector((state: RootState) => state.voiceChat);
+
   const [inputValue, setInputValue] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([
     {
@@ -35,7 +39,8 @@ const Chatbot: FC = () => {
       text: "Hi, I'm EcoGenZ Bot, how can I help you?",
     },
   ]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // Use Redux loading state for voice chat, local state for text chat
+  const [isTextLoading, setIsTextLoading] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [showVoiceRecorder, setShowVoiceRecorder] = useState<boolean>(false);
 
@@ -49,20 +54,27 @@ const Chatbot: FC = () => {
     scrollToBottom();
   }, [chatHistory, scrollToBottom]);
 
+  // Handle voice chat errors
+  useEffect(() => {
+    if (voiceChatError) {
+      message.error(`Voice chat error: ${voiceChatError}`);
+    }
+  }, [voiceChatError]);
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
   };
 
   const handleSendMessage = useCallback(async () => {
     const userMessageText = inputValue.trim();
-    if (!userMessageText || isLoading) return;
+    if (!userMessageText || isTextLoading) return;
 
     const newUserMessage: ChatMessage = { role: "user", text: userMessageText };
 
     // Add user message immediately
     setChatHistory((prevHistory) => [...prevHistory, newUserMessage]);
     setInputValue("");
-    setIsLoading(true);
+    setIsTextLoading(true);
 
     try {
       // Convert chat history to API format
@@ -71,6 +83,7 @@ const Chatbot: FC = () => {
         content: msg.text,
       }));
 
+      // Use existing aichatAPI for text chat
       const response = await aichatAPI.chatAsk({
         message: userMessageText,
         previousMessages,
@@ -93,9 +106,9 @@ const Chatbot: FC = () => {
       };
       setChatHistory((prevHistory) => [...prevHistory, errorBotMessage]);
     } finally {
-      setIsLoading(false);
+      setIsTextLoading(false);
     }
-  }, [inputValue, isLoading, chatHistory]);
+  }, [inputValue, isTextLoading, chatHistory]);
 
   const handlePressEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -124,7 +137,7 @@ const Chatbot: FC = () => {
       };
 
       setChatHistory((prevHistory) => [...prevHistory, voiceMessage]);
-      setIsLoading(true);
+      // Voice chat loading is handled by Redux
 
       // Convert chat history to API format
       const previousMessages: APIChatMessage[] = chatHistory.map((msg) => ({
@@ -132,33 +145,39 @@ const Chatbot: FC = () => {
         content: msg.text,
       }));
 
-      // Send voice message to backend
-      const response: VoiceChatResponse = await aichatAPI.voiceChat({
+      // Send voice message to backend using Redux
+      const result = await dispatch(voiceChatThunk({
         audioFile,
         previousMessages,
-      });
+      }));
 
-      let botMessage: ChatMessage;
+      if (voiceChatThunk.fulfilled.match(result)) {
+        const response = result.payload;
 
-      if (response.audioUrl && response.audioBlob) {
-        // AI returned audio response
-        const audioInfo = await processAIAudioResponse(response.audioBlob);
-        botMessage = {
-          role: "model",
-          text: response.text || "🎵 Voice response from AI",
-          audioUrl: response.audioUrl,
-          isVoiceMessage: true,
-          duration: audioInfo.duration,
-        };
+        let botMessage: ChatMessage;
+
+        if (response.audioUrl && response.audioBlob) {
+          // AI returned audio response
+          const audioInfo = await processAIAudioResponse(response.audioBlob);
+          botMessage = {
+            role: "model",
+            text: response.text || "🎵 Voice response from AI",
+            audioUrl: response.audioUrl,
+            isVoiceMessage: true,
+            duration: audioInfo.duration,
+          };
+        } else {
+          // AI returned text response only
+          botMessage = {
+            role: "model",
+            text: response.text || "No response received",
+          };
+        }
+
+        setChatHistory((prevHistory) => [...prevHistory, botMessage]);
       } else {
-        // AI returned text response only
-        botMessage = {
-          role: "model",
-          text: response.text || "No response received",
-        };
+        throw new Error("Voice chat failed");
       }
-
-      setChatHistory((prevHistory) => [...prevHistory, botMessage]);
     } catch (error) {
       console.error("Error processing voice message:", error);
       const errorMessage = error instanceof Error ? error.message : "Lỗi xử lý voice message";
@@ -167,10 +186,9 @@ const Chatbot: FC = () => {
       // Remove the voice message if there was an error
       setChatHistory((prevHistory) => prevHistory.slice(0, -1));
     } finally {
-      setIsLoading(false);
       setIsRecording(false);
     }
-  }, [chatHistory]);
+  }, [chatHistory, dispatch]);
 
   const toggleVoiceRecorder = () => {
     setShowVoiceRecorder(!showVoiceRecorder);
@@ -258,7 +276,7 @@ const Chatbot: FC = () => {
           shape="circle"
           icon={<AudioOutlined />}
           onClick={toggleVoiceRecorder}
-          disabled={isLoading || isRecording}
+          disabled={voiceChatLoading || isRecording}
           className="voice-button"
           title="Voice message"
         />
@@ -267,7 +285,7 @@ const Chatbot: FC = () => {
           shape="circle"
           icon={<SendOutlined />}
           onClick={handleSendMessage}
-          disabled={!inputValue.trim() || isLoading}
+          disabled={!inputValue.trim() || isTextLoading}
           className="send-button"
         />
       </div>
