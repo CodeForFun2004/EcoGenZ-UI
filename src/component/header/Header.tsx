@@ -100,9 +100,11 @@ const Header = () => {
                       <li>
                         <Link to="/blog-page">Activities</Link>
                       </li>
-                      <li>
-                        <Link to="/create-activity">Create Activities</Link>
-                      </li>
+                      {user?.role === "Company" && (
+                        <li>
+                          <Link to="/create-activity">Create Activities</Link>
+                        </li>
+                      )}
                       <li>
                         <Link to="/organizer-post">Activities Management</Link>
                       </li>
