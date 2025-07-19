@@ -36,17 +36,27 @@ const Post = ({ post }: PostProps) => {
 
   return (
     <div className="post-container">
-      <div className="post-header">
-        <img
-          src={post?.user.profilePhotoUrl || "default-avatar.png"}
-          className="author-avatar"
-        />
-        <div className="author-info">
-          <span className="author-name">{post?.user?.userName}</span>
-          <span className="post-timestamp">
-            {new Date(post.createdAt).toLocaleString()}
-          </span>
+      <div className="post-header d-flex justify-content-between align-items-center">
+        <div className="d-flex align-items-center">
+          <img
+            src={post?.user.profilePhotoUrl || "default-avatar.png"}
+            className="author-avatar"
+          />
+          <div className="author-info ms-2">
+            <span className="author-name">{post?.user?.userName}</span>
+            <span className="post-timestamp">
+              {new Date(post.createdAt).toLocaleString()}
+            </span>
+          </div>
         </div>
+        {loggedInUserId === post.userId && (
+          <button
+            className="btn btn-danger ms-2"
+            onClick={() => handleDelete(post.id)}
+          >
+            Delete
+          </button>
+        )}
       </div>
 
       <div className="post-content">
@@ -64,17 +74,6 @@ const Post = ({ post }: PostProps) => {
             />
           )}
       </div>
-
-      {loggedInUserId === post.userId && (
-        <div className="post-controls">
-          <button
-            className="delete-button"
-            onClick={() => handleDelete(post.id)}
-          >
-            Delete
-          </button>
-        </div>
-      )}
     </div>
   );
 };
