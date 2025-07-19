@@ -1,0 +1,47 @@
+/* src/styles/components/CategorySearch.css */
+
+/* Custom styles for the search input group */
+.custom-search-input-group .form-control.custom-search-input {
+  border: 1px solid #ced4da; /* Màu border mặc định của Bootstrap */
+  border-right: none; /* Xóa border giữa input và button */
+  box-shadow: none !important; /* Loại bỏ box-shadow mặc định của Bootstrap khi focus */
+}
+
+.custom-search-input-group .form-control.custom-search-input:focus {
+  /* ĐỔI MÀU BORDER VÀ SHADOW SANG XANH LÁ CÂY */
+  border-color: #218838; /* Màu xanh lá cây đậm hơn cho border khi input focus */
+  box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25) !important; /* Box-shadow màu xanh của button */
+}
+
+/* Custom styles for the search button */
+.custom-search-button {
+  background-color: #28a745 !important; /* Nền xanh lá cây (primary) của button */
+  /* ĐỔI MÀU BORDER SANG XANH LÁ CÂY */
+  border-color: #28a745 !important; /* Border màu xanh lá cây trùng màu nền của button */
+  
+  color: white !important; /* Đảm bảo màu chữ trắng */
+  
+  /* Các thuộc tính kích thước, padding, border-radius đã được đặt trong inline style (JSX) để ưu tiên cao hơn. */
+  
+  /* Đảm bảo flexbox properties vẫn hoạt động */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  /* Giữ transition cho hiệu ứng mượt mà */
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-search-button:hover {
+  background-color: #218838 !important; /* Màu xanh đậm hơn khi hover */
+  /* ĐỔI MÀU BORDER KHI HOVER SANG XANH LÁ CÂY ĐẬM HƠN */
+  border-color: #218838 !important; /* Border màu xanh đậm hơn khi hover */
+}
+
+.custom-search-button:active,
+.custom-search-button:focus {
+  background-color: #1e7e34 !important; /* Màu xanh lá cây đậm hơn khi active/focus */
+  /* ĐỔI MÀU BORDER KHI ACTIVE/FOCUS SANG XANH LÁ CÂY RẤT ĐẬM */
+  border-color: #1e7e34 !important; /* Border màu xanh rất đậm khi active/focus */
+  box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25) !important; /* Box-shadow màu xanh */
+}
