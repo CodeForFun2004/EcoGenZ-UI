@@ -76,6 +76,7 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+
 .message-text p {
   margin: 0;
 }
@@ -91,6 +92,32 @@
   background-color: #fff;
   border-top: 1px solid #e5e5e5;
   flex-shrink: 0;
+  gap: 8px;
+}
+
+.voice-recorder-container {
+  padding: 12px;
+  border-top: 1px solid #e8e8e8;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+}
+
+.voice-button {
+  color: #1890ff;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  border: none;
+}
+
+.voice-button:hover {
+  color: #40a9ff;
+  transform: scale(1.1);
+}
+
+.voice-button:disabled {
+  color: #d9d9d9;
+  cursor: not-allowed;
 }
 
 .chat-input-field {
@@ -101,6 +128,7 @@
   padding: 8px 16px;
   font-size: 0.95rem;
 }
+
 .chat-input-field:focus {
   box-shadow: none;
 }
@@ -133,13 +161,15 @@
 .send-button .ant-spin {
   color: white;
 }
+
 .send-button:disabled .ant-spin {
   color: #a0a0a0;
 }
 
 /* Style cho các link trong tin nhắn của bot */
 .bot-row .message-text a {
-  color: #0084ff; /* Màu xanh giống nút gửi */
+  color: #0084ff;
+  /* Màu xanh giống nút gửi */
   text-decoration: underline;
   font-weight: 500;
 }
@@ -147,4 +177,46 @@
 .bot-row .message-text a:hover {
   text-decoration: none;
   opacity: 0.8;
+}
+
+/* Voice message styles */
+.voice-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: #f0f8ff;
+  border-radius: 8px;
+  border: 1px solid #d6e4ff;
+  margin: 4px 0;
+}
+
+.voice-message-icon {
+  color: #1890ff;
+  font-size: 16px;
+}
+
+.voice-message-text {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+.voice-message audio {
+  max-width: 200px;
+  height: 32px;
+}
+
+.ai-text-response {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #1890ff;
+}
+
+.ai-text-response p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
 }

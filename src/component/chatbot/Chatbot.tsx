@@ -7,18 +7,24 @@ import React, {
   type ChangeEvent,
   type KeyboardEvent,
 } from "react";
-import { Input, Button, Avatar } from "antd";
-import { SendOutlined, RobotOutlined, UserOutlined } from "@ant-design/icons";
+import { Input, Button, Avatar, message } from "antd";
+import { SendOutlined, RobotOutlined, UserOutlined, AudioOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import {
   aichatAPI,
   type ChatMessage as APIChatMessage,
+  type VoiceChatResponse,
 } from "../../redux/features/aichat/aichataskAPI";
+import VoiceRecorder from "./VoiceRecorder";
+import { convertAudioToWav, createAudioFile, getAudioDuration, formatDuration, processAIAudioResponse } from "./audioUtils";
 import "./Chatbot.css";
 
 interface ChatMessage {
   role: "user" | "model";
   text: string;
+  audioUrl?: string;
+  isVoiceMessage?: boolean;
+  duration?: string;
 }
 
 const Chatbot: FC = () => {
@@ -30,6 +36,8 @@ const Chatbot: FC = () => {
     },
   ]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [showVoiceRecorder, setShowVoiceRecorder] = useState<boolean>(false);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -96,15 +104,86 @@ const Chatbot: FC = () => {
     }
   };
 
+  const handleVoiceMessage = useCallback(async (audioBlob: Blob) => {
+    try {
+      // Convert audio to WAV format
+      const wavBlob = await convertAudioToWav(audioBlob);
+      const audioFile = createAudioFile(wavBlob);
+      const duration = await getAudioDuration(audioBlob);
+
+      // Create audio URL for playback
+      const audioUrl = URL.createObjectURL(audioBlob);
+
+      // Add voice message to chat
+      const voiceMessage: ChatMessage = {
+        role: "user",
+        text: "🎤 Voice message",
+        audioUrl,
+        isVoiceMessage: true,
+        duration: formatDuration(duration),
+      };
+
+      setChatHistory((prevHistory) => [...prevHistory, voiceMessage]);
+      setIsLoading(true);
+
+      // Convert chat history to API format
+      const previousMessages: APIChatMessage[] = chatHistory.map((msg) => ({
+        role: msg.role === "model" ? "assistant" : msg.role,
+        content: msg.text,
+      }));
+
+      // Send voice message to backend
+      const response: VoiceChatResponse = await aichatAPI.voiceChat({
+        audioFile,
+        previousMessages,
+      });
+
+      let botMessage: ChatMessage;
+
+      if (response.audioUrl && response.audioBlob) {
+        // AI returned audio response
+        const audioInfo = await processAIAudioResponse(response.audioBlob);
+        botMessage = {
+          role: "model",
+          text: response.text || "🎵 Voice response from AI",
+          audioUrl: response.audioUrl,
+          isVoiceMessage: true,
+          duration: audioInfo.duration,
+        };
+      } else {
+        // AI returned text response only
+        botMessage = {
+          role: "model",
+          text: response.text || "No response received",
+        };
+      }
+
+      setChatHistory((prevHistory) => [...prevHistory, botMessage]);
+    } catch (error) {
+      console.error("Error processing voice message:", error);
+      const errorMessage = error instanceof Error ? error.message : "Lỗi xử lý voice message";
+      message.error(`Lỗi: ${errorMessage}`);
+
+      // Remove the voice message if there was an error
+      setChatHistory((prevHistory) => prevHistory.slice(0, -1));
+    } finally {
+      setIsLoading(false);
+      setIsRecording(false);
+    }
+  }, [chatHistory]);
+
+  const toggleVoiceRecorder = () => {
+    setShowVoiceRecorder(!showVoiceRecorder);
+  };
+
   return (
     <div className="gemini-chatbox-container">
       <div className="chat-display-area">
         {chatHistory.map((item, index) => (
           <div
             key={index}
-            className={`message-row ${
-              item.role === "user" ? "user-row" : "bot-row"
-            }`}
+            className={`message-row ${item.role === "user" ? "user-row" : "bot-row"
+              }`}
           >
             {item.role === "model" && (
               <Avatar
@@ -119,15 +198,39 @@ const Chatbot: FC = () => {
                 {item.role === "user" ? "Bạn" : "EcoGenZ Bot"}
               </div>
               <div className="message-text">
-                <ReactMarkdown
-                  components={{
-                    a: ({ ...props }) => (
-                      <a {...props} target="_blank" rel="noopener noreferrer" />
-                    ),
-                  }}
-                >
-                  {item.text}
-                </ReactMarkdown>
+                {item.isVoiceMessage && item.audioUrl ? (
+                  <div className="voice-message">
+                    <AudioOutlined className="voice-message-icon" />
+                    <audio controls src={item.audioUrl} style={{ maxWidth: '200px' }} />
+                    <span className="voice-message-text">
+                      {item.duration || "AI Voice Response"}
+                    </span>
+                  </div>
+                ) : (
+                  <ReactMarkdown
+                    components={{
+                      a: ({ ...props }) => (
+                        <a {...props} target="_blank" rel="noopener noreferrer" />
+                      ),
+                    }}
+                  >
+                    {item.text}
+                  </ReactMarkdown>
+                )}
+                {/* Show both text and audio if both exist */}
+                {item.isVoiceMessage && item.audioUrl && item.text && item.text !== "🎵 Voice response from AI" && (
+                  <div className="ai-text-response">
+                    <ReactMarkdown
+                      components={{
+                        a: ({ ...props }) => (
+                          <a {...props} target="_blank" rel="noopener noreferrer" />
+                        ),
+                      }}
+                    >
+                      {item.text}
+                    </ReactMarkdown>
+                  </div>
+                )}
               </div>
             </div>
             {item.role === "user" && (
@@ -153,12 +256,31 @@ const Chatbot: FC = () => {
         <Button
           type="text"
           shape="circle"
+          icon={<AudioOutlined />}
+          onClick={toggleVoiceRecorder}
+          disabled={isLoading || isRecording}
+          className="voice-button"
+          title="Voice message"
+        />
+        <Button
+          type="text"
+          shape="circle"
           icon={<SendOutlined />}
           onClick={handleSendMessage}
-          disabled={!inputValue.trim()}
+          disabled={!inputValue.trim() || isLoading}
           className="send-button"
         />
       </div>
+
+      {showVoiceRecorder && (
+        <div className="voice-recorder-container">
+          <VoiceRecorder
+            onAudioRecorded={handleVoiceMessage}
+            isRecording={isRecording}
+            setIsRecording={setIsRecording}
+          />
+        </div>
+      )}
     </div>
   );
 };
