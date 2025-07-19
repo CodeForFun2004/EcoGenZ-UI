@@ -21,7 +21,7 @@ const SingleBlogPage = () => {
             <div className="col-lg-8 posts-list">
               <SingleBlog />
               {/* <NavPost /> */}
-              <BlogAuthor />
+              {/* <BlogAuthor /> */}
               <CommentsArea />
               <CommentsForm />
             </div>
