@@ -5,6 +5,7 @@ export interface User {
   profilePhotoUrl?: string;
   token: string;
   role?: string;
+  impactPoints?: number;
 }
 
 export interface AuthState {
@@ -12,6 +13,7 @@ export interface AuthState {
   loading: boolean;
   error: string | null;
   usersById: { [userId: string]: User };
+  userList: User[];
 }
 
 export interface FormSignupValues {

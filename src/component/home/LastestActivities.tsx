@@ -1,6 +1,5 @@
 import { useState } from "react";
 import ModalVideo from "react-modal-video";
-import { Link } from "react-router-dom";
 import "react-modal-video/css/modal-video.min.css";
 import { FaPlay } from "react-icons/fa"; // ⬅️ Thêm dòng này
 
@@ -52,9 +51,16 @@ const LastestActivities = () => {
               <p>
                Press play to see the difference we're making together.
               </p>
-              <Link to="#" className="boxed-btn4">
+              <a 
+                href="#!" 
+                className="boxed-btn4"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsOpen(true);
+                }}
+              >
                 Watch Now
-              </Link>
+              </a>
             </div>
           </div>
         </div>
@@ -64,7 +70,7 @@ const LastestActivities = () => {
       <ModalVideo
         channel="youtube"
         isOpen={isOpen}
-        videoId="MG3jGHnBVQs"
+        videoId="gf-bFVGRsek"
         onClose={() => setIsOpen(false)}
       />
     </div>

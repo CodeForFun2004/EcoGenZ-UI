@@ -1,60 +1,52 @@
-import type { TopPlayer } from "../../interfaces";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { getuserWithPoint } from "../../redux/features/auth/authThunk";
+import { truncateUsername } from "../../utils/textUtils";
 
-interface PodiumProps {
-  topThree: TopPlayer[];
-}
+export default function Podium() {
+  const dispatch = useAppDispatch();
+  const { userList, loading } = useAppSelector((state) => state.auth);
 
-export default function Podium({ topThree }: PodiumProps) {
-  // Assuming topThree is always sorted as 2nd, 1st, 3rd as per original data
-  const secondPlace = topThree[0];
-  const firstPlace = topThree[1];
-  const thirdPlace = topThree[2];
+  useEffect(() => {
+    dispatch(getuserWithPoint());
+  }, [dispatch]);
+
+  const sortedTopThree = [...userList]
+    .sort((a, b) => b.impactPoints - a.impactPoints)
+    .slice(0, 3);
+
+  // Rearrange to [second, first, third] if there are 3 players
+  const podiumOrder =
+    sortedTopThree.length === 3
+      ? [sortedTopThree[1], sortedTopThree[0], sortedTopThree[2]]
+      : sortedTopThree;
 
   return (
-    <div className="podium-card">
-      <div className="podium">
-        {/* 2nd Place */}
-        {secondPlace && (
-          <div className="podium-person second">
-            <img
-              src={secondPlace.avatar || "/placeholder.svg"}
-              alt={secondPlace.name}
-              className="podium-avatar"
-            />
-            <div className="podium-name">{secondPlace.name}</div>
-            <div className="podium-level">Level {secondPlace.level}</div>
-            <div className="podium-number">2</div>
-          </div>
-        )}
-
-        {/* 1st Place */}
-        {firstPlace && (
-          <div className="podium-person first">
-            <img
-              src={firstPlace.avatar || "/placeholder.svg"}
-              alt={firstPlace.name}
-              className="podium-avatar large"
-            />
-            <div className="podium-name large">{firstPlace.name}</div>
-            <div className="podium-level">Level {firstPlace.level}</div>
-            <div className="podium-number gold">1</div>
-          </div>
-        )}
-
-        {/* 3rd Place */}
-        {thirdPlace && (
-          <div className="podium-person third">
-            <img
-              src={thirdPlace.avatar || "/placeholder.svg"}
-              alt={thirdPlace.name}
-              className="podium-avatar"
-            />
-            <div className="podium-name">{thirdPlace.name}</div>
-            <div className="podium-level">Level {thirdPlace.level}</div>
-            <div className="podium-number">3</div>
-          </div>
-        )}
-      </div>
+    <div>
+      <h2 className="text-xl font-bold mb-4">Top 3 Players</h2>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="podium">
+          {podiumOrder.map((u, idx) => (
+            <div
+              key={u.userId || idx}
+              className={`podium-place place-${idx + 1}`}
+            >
+              <img
+                src={u.profilePhotoUrl}
+                alt={u.userName}
+                className="podium-avatar"
+                style={{ width: 64, height: 64, borderRadius: "50%" }}
+              />
+              <div className="podium-name" title={u.userName}>
+                {truncateUsername(u.userName, 15)}
+              </div>
+              <div className="podium-points">{u.impactPoints} pts</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

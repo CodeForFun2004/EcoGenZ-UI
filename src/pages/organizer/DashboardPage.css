@@ -1,0 +1,99 @@
+/* src/styles/pages/DashboardPage.css */
+
+/* Custom colors for dashboard cards */
+.bg-success-light {
+  background-color: rgba(40, 167, 69, 0.1); /* Light green */
+}
+.bg-info-light {
+  background-color: rgba(23, 162, 184, 0.1); /* Light info blue */
+}
+.bg-warning-light {
+  background-color: rgba(255, 193, 7, 0.1); /* Light warning yellow */
+}
+.bg-primary-light {
+  background-color: rgba(0, 123, 255, 0.1); /* Light primary blue */
+}
+
+/* Updated dashboard-card and general Card shadow/hover effects */
+.dashboard-card,
+.card.shadow-sm { /* Target both dashboard summary cards and general content cards */
+  /* Tăng bóng rõ nét hơn */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Tăng độ mờ và spread */
+  transition: all 0.3s ease-in-out; /* Thêm transition cho hiệu ứng mượt mà */
+  height: 100%; /* Đảm bảo các card có chiều cao đồng nhất nếu nội dung khác nhau */
+  cursor: pointer; /* Thêm con trỏ tay để gợi ý tương tác */
+}
+
+.dashboard-card:hover,
+.card.shadow-sm:hover { /* Hiệu ứng khi hover */
+  transform: translateY(-5px); /* Di chuyển lên 5px */
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.25) !important; /* Bóng đậm hơn khi hover */
+}
+
+
+.dashboard-card .dashboard-icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Ngăn chặn wrapper icon bị co lại */
+}
+
+/* Đảm bảo màu text của Bootstrap được áp dụng đúng */
+.text-success { color: #28a745 !important; }
+.text-info { color: #17a2b8 !important; }
+.text-warning { color: #ffc107 !important; }
+.text-primary { color: #007bff !important; }
+.text-muted { color: #6c757d !important; } /* Đảm bảo text-muted có màu xám */
+.text-dark { color: #343a40 !important; } /* Đảm bảo text-dark có màu đen */
+
+
+/* Style cho các nút hành động nhanh */
+.dashboard-action-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  display: flex; /* Để căn giữa icon và text */
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-action-btn.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+.dashboard-action-btn.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.dashboard-action-btn.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+.dashboard-action-btn.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.dashboard-action-btn.btn-outline-info {
+  color: #17a2b8;
+  border-color: #17a2b8;
+}
+.dashboard-action-btn.btn-outline-info:hover {
+  background-color: #17a2b8;
+  color: white;
+}
+
+/* Responsive adjustments for dashboard cards */
+@media (max-width: 767.98px) {
+  .dashboard-cards-row .col-md-6 {
+    flex: 0 0 100%; /* Make cards full width on small screens */
+    max-width: 100%;
+  }
+}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllActivities } from "../../redux/features/activities/activitiesThunk";
 import type { RootState } from "../../redux/store";
@@ -9,6 +9,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const BlogList = () => {
   const dispatch = useDispatch();
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const {
     activities = [],
@@ -19,26 +20,50 @@ const BlogList = () => {
   useEffect(() => {
     dispatch(fetchAllActivities() as any);
   }, [dispatch]);
+
+  const handleImageError = (activityId: string) => {
+    setImageErrors(prev => new Set([...prev, activityId]));
+  };
+
+  const shouldShowImage = (activity: Activity) => {
+    return (
+      activity.mediaUrl && 
+      activity.mediaUrl.trim() !== "" && 
+      !imageErrors.has(activity.activityId) &&
+      (activity.mediaUrl.startsWith('http') || activity.mediaUrl.startsWith('/') || activity.mediaUrl.startsWith('data:'))
+    );
+  };
   return (
     <div className="col-lg-8 mb-5 mb-lg-0">
       <div className="blog_left_sidebar">
         {activities.map((activity: Activity, index: number) => (
           <article key={activity.activityId} className="blog_item">
-            <div className="blog_item_img">
-              <img
-                className="card-img rounded-0"
-                src={activity.mediaUrl}
-                alt={`Blog ${index + 1}`}
-              />
-              <a className="blog_item_date">
-                <h3>{new Date(activity.date).getDate()}</h3>
-                <p>
-                  {new Date(activity.date).toLocaleString("en-US", {
-                    month: "short",
-                  })}
-                </p>
-              </a>
-            </div>
+            {shouldShowImage(activity) && (
+              <div className="blog_item_img">
+                <img
+                  className="card-img rounded-0"
+                  src={activity.mediaUrl}
+                  alt={`Blog ${index + 1}`}
+                  onError={() => handleImageError(activity.activityId)}
+                  onLoad={() => {
+                    // Remove from error set if image loads successfully
+                    setImageErrors(prev => {
+                      const newSet = new Set(prev);
+                      newSet.delete(activity.activityId);
+                      return newSet;
+                    });
+                  }}
+                />
+                <a className="blog_item_date">
+                  <h3>{new Date(activity.date).getDate()}</h3>
+                  <p>
+                    {new Date(activity.date).toLocaleString("en-US", {
+                      month: "short",
+                    })}
+                  </p>
+                </a>
+              </div>
+            )}
             <div className="blog_details d-flex justify-content-between align-items-start">
               <div style={{ flex: 1 }}>
                 <h2>{activity.title}</h2>

@@ -37,3 +37,19 @@ export const getUserByIdThunk = createAsyncThunk<User, { userId: string }>(
     return response;
   }
 );
+
+export const getuserWithPoint = createAsyncThunk(
+  "auth/fetchUserWithPoint",
+  async () => {
+    const response = await authAPI.getuserWithPoint();
+    return response;
+  }
+);
+
+export const updateUserThunk = createAsyncThunk<
+  User,
+  { userId: string; userData: { userName?: string; email?: string; profilePhotoUrl?: string; } }
+>("auth/updateUser", async ({ userId, userData }) => {
+  const response = await authAPI.updateUser(userId, userData);
+  return response;
+});

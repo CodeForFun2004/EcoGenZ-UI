@@ -77,3 +77,37 @@ export const getUserById = async (id: string) => {
   const data = await res.json();
   return data.result;
 };
+
+export const getuserWithPoint = async () => {
+  const res = await fetch(`${AUTH_URL}/userWithPoint`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!res.ok) {
+    throw new Error("Failed to fetch user with point");
+  }
+  const data = await res.json();
+  return data.result;
+};
+
+export const updateUser = async (userId: string, userData: {
+  userName?: string;
+  email?: string;
+  profilePhotoUrl?: string;
+}) => {
+  const res = await fetch(`${AUTH_URL}/user/${userId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(userData),
+  });
+  if (!res.ok) {
+    throw new Error("Failed to update user");
+  }
+  const data = await res.json();
+  return data.result;
+};

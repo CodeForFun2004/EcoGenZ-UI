@@ -1,0 +1,80 @@
+/* src/styles/components/AppSidebar.css */
+
+aside {
+  height: 100vh;
+  /* Đảm bảo sidebar là một flex container để các phần tử con có thể tự căn chỉnh */
+  display: flex;
+  flex-direction: column; /* Xếp các mục theo cột */
+  justify-content: space-between; /* Để Nav và Logout button được phân bổ không gian */
+  /* Các thuộc tính khác như position, top, start, bg-white, border-end, shadow-sm, width, py-4 đã có */
+}
+
+/* Style chung cho tất cả các icon trong Nav */
+.nav-icon-item {
+  color: #6c757d; /* Màu xám mặc định */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  padding: 8px; /* Thêm padding để có không gian cho hiệu ứng highlight */
+  border-radius: 8px; /* Bo tròn nhẹ nhàng */
+  width: 100%; /* Đảm bảo item chiếm toàn bộ chiều rộng có thể click */
+  justify-content: center; /* Căn giữa icon và text nếu có */
+  display: flex; /* Đảm bảo các thuộc tính flex hoạt động */
+  flex-direction: column; /* Xếp icon và text theo cột */
+  align-items: center; /* Căn giữa theo chiều ngang */
+}
+
+.nav-icon-item:hover {
+  color: #007bff; /* Màu xanh primary khi hover */
+  background-color: #e9ecef; /* Nền xám nhạt khi hover */
+}
+
+/* Style cho icon đang active */
+.nav-icon-item.active {
+  color: #007bff !important; /* Màu xanh primary cho icon active */
+  background-color: #e9ecef; /* Nền xám nhạt cho highlight */
+  /* Nếu bạn muốn highlight màu xanh đậm hơn hoặc khác: */
+  /* color: #28a745 !important; */ /* Màu xanh lá cây */
+  /* background-color: rgba(40, 167, 69, 0.1); */ /* Nền xanh nhạt */
+}
+
+/* Style cho nút Plus (đã có từ trước, giữ nguyên) */
+.plus-icon-button {
+  cursor: pointer;
+  background-color: #28a745;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 24px; /* Đảm bảo có khoảng cách với icon phía trên nếu cần */
+}
+
+.plus-icon-button:hover {
+  background-color: #218838;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Style cho icon Logout */
+.logout-icon-button {
+  color: #dc3545; /* Màu đỏ của Bootstrap (danger) */
+  text-decoration: none;
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-radius 0.2s ease-in-out;
+  padding: 8px; /* Padding để có không gian cho hiệu ứng highlight */
+  border-radius: 8px;
+  width: 100%; /* Đảm bảo item chiếm toàn bộ chiều rộng có thể click */
+  justify-content: center; /* Căn giữa icon và text nếu có */
+  display: flex; /* Đảm bảo các thuộc tính flex hoạt động */
+  flex-direction: column; /* Xếp icon và text theo cột */
+  align-items: center; /* Căn giữa theo chiều ngang */
+}
+
+.logout-icon-button:hover {
+  color: #c82333; /* Màu đỏ đậm hơn khi hover */
+  background-color: #f8d7da; /* Nền đỏ nhạt khi hover */
+}

@@ -1,3 +1,19 @@
+/* User name styling */
+.user-name {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .user-name {
+    max-width: 100px;
+  }
+}
+
 /* Mobile menu */
 @media (max-width: 991px) {
   .main-menu {

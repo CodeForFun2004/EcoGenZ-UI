@@ -5,10 +5,10 @@ export default function RankingHeader() {
     <div className="header">
       <div className="header-left">
         <h1 className="title">Leaderboard</h1>
-        <p className="subtitle">All representatives &gt; Compare</p>
+        <p className="subtitle">All representatives</p>
       </div>
 
-      <div className="header-right">
+      {/* <div className="header-right">
         <div className="search-container">
           <SearchIcon />
           <input type="text" placeholder="Search" className="search-input" />
@@ -23,7 +23,7 @@ export default function RankingHeader() {
           <button className="toggle-btn active">This Month</button>
           <button className="toggle-btn">All Time</button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

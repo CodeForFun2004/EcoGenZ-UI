@@ -6,8 +6,8 @@ import {
   fetchActivityById,
   registerActivities,
 } from "../../redux/features/activities/activitiesThunk";
-import singleBlog1 from "../../assets/img/blog/single_blog_1.png";
 import ConfirmModal from "../ConfirmModal/ConfirmModalProps";
+
 const SingleBlog = () => {
   const { id } = useParams();
   console.log("SingleBlog id:", id);
@@ -21,6 +21,16 @@ const SingleBlog = () => {
   const [applied, setApplied] = useState(false);
   const [showThanks, setShowThanks] = useState(false);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
+  const shouldShowImage = (activity: any) => {
+    return (
+      activity?.mediaUrl && 
+      activity.mediaUrl.trim() !== "" && 
+      !imageError &&
+      (activity.mediaUrl.startsWith('http') || activity.mediaUrl.startsWith('/') || activity.mediaUrl.startsWith('data:'))
+    );
+  };
 
   const handleApplyClick = () => {
     setShowModal(true);
@@ -60,13 +70,17 @@ const SingleBlog = () => {
 
   return (
     <div className="single-post">
-      <div className="feature-img">
-        <img
-          className="img-fluid"
-          src={activity.mediaUrl || singleBlog1}
-          alt=""
-        />
-      </div>
+      {shouldShowImage(activity) && (
+        <div className="feature-img">
+          <img
+            className="img-fluid"
+            src={activity.mediaUrl}
+            alt=""
+            onError={() => setImageError(true)}
+            onLoad={() => setImageError(false)}
+          />
+        </div>
+      )}
       <div className="blog_details d-flex justify-content-between align-items-start">
         <div style={{ flex: 1 }}>
           <h2>{activity.title}</h2>
@@ -78,7 +92,7 @@ const SingleBlog = () => {
             </li>
             <li>
               <a>
-                <i className="fas fa-map-marker-alt"></i> {activity.location}
+                <i className="fa fa-map-marker"></i> {activity.location}
               </a>
             </li>
           </ul>

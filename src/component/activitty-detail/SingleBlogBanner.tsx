@@ -7,7 +7,7 @@ const SingleBlogBanner = () => {
           <div className="row">
             <div className="col-xl-12">
               <div className="bradcam_text text-center">
-                <h3>Single Blog</h3>
+                <h3>Activities</h3>
               </div>
             </div>
           </div>
